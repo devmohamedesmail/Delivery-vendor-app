@@ -1,15 +1,16 @@
 import React from 'react'
-import { ThemeProvider } from '../context/theme-provider'
 import { Stack } from 'expo-router'
 import AppProviders from '@/providers'
+import '../i18n/i18n'
+import '../global.css'
 
 export default function RootLayout() {
     return (
 
         <AppProviders>
-            <Stack>
-                <Stack.Screen name="index" options={{ headerShown: false }} />
-                <Stack.Screen name="(store)" options={{ headerShown: false }} />
+            <Stack initialRouteName="index" screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen name="(store)" />
             </Stack>
         </AppProviders>
     )

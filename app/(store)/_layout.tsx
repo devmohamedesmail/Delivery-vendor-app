@@ -1,10 +1,70 @@
-import React from 'react'
-import { Stack } from 'expo-router'
+import { Tabs } from 'expo-router'
+import { Ionicons } from '@expo/vector-icons'
 
 export default function Layout() {
   return (
-    <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
+    <Tabs screenOptions={{ headerShown: false }}>
+      
+      <Tabs.Screen
+        name="index"
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? 'home' : 'home-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="orders/index"
+        options={{
+          tabBarLabel: 'Orders',
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? 'receipt' : 'receipt-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="categories/index"
+        options={{
+          tabBarLabel: 'Categories',
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? 'grid' : 'grid-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="products/index"
+        options={{
+          tabBarLabel: 'Products',
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? 'cube' : 'cube-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      {/* Hidden screens */}
+      <Tabs.Screen name="create/index" options={{ href: null }} />
+      <Tabs.Screen name="update/index" options={{ href: null }} />
+
+    </Tabs>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import Logo from '@/components/ui/logo'
 // import Logo from '@/components/common/logo'
 
 export default function AuthHeader({ title, description }: { title?: string, description?: string }) {
@@ -12,7 +13,7 @@ export default function AuthHeader({ title, description }: { title?: string, des
             <View className="items-center mb-8 pt-10">
 
                 <View className="bg-white p-4 rounded-full overflow-hidden">
-                    {/* <Logo /> */}
+                    <Logo />
                 </View>
                 <Text className="text-3xl  text-white font-extrabold mt-4 mb-2" >
                     {title}

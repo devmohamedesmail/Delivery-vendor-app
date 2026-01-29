@@ -13,6 +13,7 @@ import AuthHeader from '@/components/screens/auth/auth-header'
 import Fontisto from '@expo/vector-icons/Fontisto';
 import Entypo from '@expo/vector-icons/Entypo';
 import Toast from 'react-native-toast-message'
+import colors from '@/constants/colors'
 
 
 
@@ -61,7 +62,7 @@ export default function Login() {
         const role = result.data.user.role.role;
 
         if (role === 'store_owner') {
-          router.replace('/(store)/index')
+          router.replace('/(store)')
         } else if (role === 'driver') {
         //   router.replace('/driver/dashboard')
         } else {
@@ -98,7 +99,7 @@ export default function Login() {
             className={`flex-1 flex-row items-center justify-center pb-3 ${loginMethod === 'email' ? 'border-b-2 border-primary' : ''}`}
             onPress={() => setLoginMethod('email')}
           >
-            <Fontisto name="email" size={20} color={`${loginMethod === 'email' ? Colors.light.tabIconSelected : 'text-gray-500'}`} />
+            <Fontisto name="email" size={20} color={`${loginMethod === 'email' ? colors.light.tabIconSelected : 'text-gray-500'}`} />
             <Text className={`text-center mx-2 font-medium ${loginMethod === 'email' ? 'text-primary' : 'text-gray-500'}`}>
               {t('auth.email')}  
             </Text>
@@ -110,7 +111,7 @@ export default function Login() {
             className={`flex-1 flex-row items-center justify-center pb-3 ${loginMethod === 'phone' ? 'border-b-2 border-primary' : ''}`}
             onPress={() => setLoginMethod('phone')}
           >
-            <Entypo name="mobile" size={20} color={`${loginMethod === 'phone' ? Colors.light.tabIconSelected : 'text-gray-500'}`} />
+            <Entypo name="mobile" size={20} color={`${loginMethod === 'phone' ? colors.light.tabIconSelected : 'text-gray-500'}`} />
             <Text className={`text-center mx-2 font-medium ${loginMethod === 'phone' ? 'text-primary' : 'text-gray-500'}`}>
               {t('auth.phone')}
             </Text>

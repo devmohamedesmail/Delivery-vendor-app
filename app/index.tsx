@@ -1,20 +1,20 @@
-import { AuthContext } from "@/context/auth-provider";
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import { Link, Redirect, router } from "expo-router";
 import Loading from "@/components/ui/loading";
 import { useTranslation } from "react-i18next";
 import Layout from "@/components/ui/layout";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
-  const { auth, isLoading } = useContext(AuthContext);
+  const { auth, isLoading } = useAuth()
   const { t } = useTranslation();
 
 
   useEffect(() => {
     if (!auth) return;
     if (auth?.user?.role?.role === "store_owner") {
-      router.replace("/(store)/index");
+      router.replace("/(store)");
     }
   }, [auth]);
 
@@ -45,3 +45,4 @@ export default function Home() {
     </Layout>
   );
 }
+
