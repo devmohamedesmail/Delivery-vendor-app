@@ -64,6 +64,9 @@ export default function Layout() {
       {/* Hidden screens */}
       <Tabs.Screen name="create/index" options={{ href: null }} />
       <Tabs.Screen name="update/index" options={{ href: null }} />
+      <Tabs.Screen name="categories/update" options={{ href: null }} />
+      <Tabs.Screen name="categories/show" options={{ href: null }} />
+      <Tabs.Screen name="categories/add" options={{ href: null }} />
 
     </Tabs>
   )
