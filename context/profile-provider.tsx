@@ -15,12 +15,11 @@ export const ProfileContext = createContext<ProfileContextType | null>(null);
 
 
 export default function ProfileProvider({ children }: { children: React.ReactNode }) {
-  
-  const { auth } = useAuth();
 
+  const { auth } = useAuth();
   const { data, loading, error, refetch } = useFetch(`/users/profile/${auth?.user?.id}`);
-  // const profile = auth?.user || null;
   const profile = data?.data || null;
+
   return (
     <ProfileContext.Provider value={{ profile, loading, error, refetch }}>
       {children}

@@ -15,8 +15,8 @@ module.exports = {
           dark: "#F8FAFC",
         },
         primary: {
-          DEFAULT: "#2563EB",
-          dark: "#3B82F6",
+          DEFAULT: "#fd4a12",
+          dark: "#fd4a12",
         },
         card: {
           DEFAULT: "#F1F5F9",

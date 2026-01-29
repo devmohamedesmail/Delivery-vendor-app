@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     <SafeAreaView edges={["bottom"]} className={`flex-1 bg-white dark:bg-black `}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle="light-content"
         backgroundColor="black"
 
       />
