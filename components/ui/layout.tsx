@@ -1,0 +1,21 @@
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "react-native";
+
+
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+
+  return (
+
+    <SafeAreaView edges={["bottom"]} className={`flex-1 bg-white dark:bg-black `}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="black"
+
+      />
+      {children}
+    </SafeAreaView>
+
+  );
+}
