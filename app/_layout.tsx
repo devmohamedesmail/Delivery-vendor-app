@@ -9,6 +9,7 @@ export default function RootLayout() {
         <AppProviders>
             <Stack>
                 <Stack.Screen name="index" options={{ headerShown: false }} />
+                <Stack.Screen name="(store)" options={{ headerShown: false }} />
             </Stack>
         </AppProviders>
     )
