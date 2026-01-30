@@ -67,6 +67,8 @@ export default function Layout() {
       <Tabs.Screen name="categories/update" options={{ href: null }} />
       <Tabs.Screen name="categories/show" options={{ href: null }} />
       <Tabs.Screen name="categories/add" options={{ href: null }} />
+      <Tabs.Screen name="products/add" options={{ href: null }} />
+      <Tabs.Screen name="products/update" options={{ href: null }} />
 
     </Tabs>
   )

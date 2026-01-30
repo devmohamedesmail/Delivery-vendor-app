@@ -93,8 +93,5 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-// Custom hook to use auth context
-
-
 export { AuthProvider };
 export default AuthProvider;
