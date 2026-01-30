@@ -1,8 +1,8 @@
 import React from 'react'
-import { View, Modal } from 'react-native'
+import { View, Modal as RNModal } from 'react-native'
 
 
-export default function CustomModal(
+export default function Modal(
     {
         visible,
         onClose,
@@ -14,7 +14,7 @@ export default function CustomModal(
    
 
     return (
-        <Modal
+        <RNModal
             animationType={animation}
             transparent={true}
             visible={visible}
@@ -39,6 +39,6 @@ export default function CustomModal(
 
                 </View>
             </View>
-        </Modal>
+        </RNModal>
     )
 }
