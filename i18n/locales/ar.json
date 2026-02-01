@@ -29,7 +29,10 @@
     "retry": "إعادة المحاولة",
     "home": "الرئيسية",
     "close": " إغلاق",
-    "noauthvarified": "حسابك غير موثق. يرجى تسجيل الدخول للمتابعة."
+    "noauthvarified": "حسابك غير موثق. يرجى تسجيل الدخول للمتابعة.",
+    "active": "نشط",
+    "inactive": "غير نشط"
+
   },
   "auth": {
     "email": "البريد الإلكتروني",
@@ -82,7 +85,15 @@
     "enterEmail": "أدخل البريد الإلكتروني",
     "enterPhone": "أدخل رقم الهاتف",
     "loginDescription": "يرجى إدخال البريد الإلكتروني أو رقم الهاتف للاستمرار",
-    "noauthvarified": "  حسابك غير موثق. يرجى تسجيل الدخول للمتابعة. "
+    "noauthvarified": "  حسابك غير موثق. يرجى تسجيل الدخول للمتابعة. ",
+    "email_required": "البريد الإلكتروني مطلوب",
+    "phone_required": "الهاتف مطلوب",
+    "password_required": "كلمة المرور مطلوبة",
+    "name_required": "الاسم مطلوب",
+    "role_required": "الدور مطلوب",
+    "password_mismatch": "كلمات المرور غير متطابقة",
+    "password_changed_success": "تم تغيير كلمة المرور بنجاح",
+    "password_changed_failed": "فشل تغيير كلمة المرور"
   },
   "orders": {
     "orders": "الطلبات",
@@ -422,7 +433,12 @@
     "nameRequired": "اسم المتجر مطلوب",
     "addressRequired": "العنوان مطلوب",
     "phoneRequired": "رقم الهاتف مطلوب",
-    "startTimeRequired": "وقت البدء مطلوب"
+    "startTimeRequired": "وقت البدء مطلوب",
+    "contactInformation": "معلومات الاتصال",
+    "storeId": "معرف المتجر",
+    "createdAt": "تاريخ الانشاء",
+    "lastUpdated": "تاريخ التحديث",
+    "reviews": "التقييمات"
   },
   "account": {
     "theme": "المظهر",
@@ -478,6 +494,13 @@
     "logout_successful": " تم تسجيل الخروج بنجاح",
     "logout_failed": "فشل تسجيل الخروج",
     "whatsup_support": " دعم الواتساب ",
-    "phone_support": "دعم الهاتف"
+    "phone_support": "دعم الهاتف",
+    "delete_warning": "هذا الإجراء لا يمكن التراجع عنه. يرجى إدخال كلمة المرور الخاصة بك للتأكيد.",
+    "delete_account_success": "تم حذف الحساب بنجاح",
+    "delete_account_failed": "فشل حذف الحساب",
+    "password_required": "كلمة المرور مطلوبة",
+    "password_mismatch": "كلمات المرور غير متطابقة",
+    "password_changed_success": "تم تغيير كلمة المرور بنجاح",
+    "password_changed_failed": "فشل تغيير كلمة المرور"
   }
 }

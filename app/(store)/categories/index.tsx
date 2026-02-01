@@ -15,6 +15,8 @@ import CategoryController from '@/controllers/categories/contoller';
 import CategoryItem from '@/components/ui/category-item';
 import Loading from '@/components/ui/loading';
 import NoCategories from '@/components/ui/no-categories';
+import FloatButton from '@/components/ui/float-button';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function Categories() {
   const { t } = useTranslation();
@@ -85,6 +87,9 @@ export default function Categories() {
           {categories?.data?.length}
         </Text>
         <Button
+          variant="danger"
+          size="sm"
+          icon={<AntDesign name="plus" size={20} color="white" />}
           title={t("categories.add_category")}
           onPress={() => router.push("/categories/add")}
         />
@@ -119,6 +124,7 @@ export default function Categories() {
           </>
         }
       />
+      <FloatButton onPress={() => router.push("/categories/add")} />
     </Layout>
   )
 }

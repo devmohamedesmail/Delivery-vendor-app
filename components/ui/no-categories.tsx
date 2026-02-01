@@ -7,7 +7,7 @@ export default function NoCategories() {
   const { t } = useTranslation();
   return (
     <View
-      className="bg-white rounded-xl p-8 items-center justify-center"
+      className="bg-white dark:bg-card-dark border border-gray-200 dark:border-gray-800 rounded-xl p-8 items-center justify-center"
       style={{ minHeight: 200 }}
     >
       <Ionicons name="folder-open-outline" size={64} color="#D1D5DB" />

@@ -1,3 +1,4 @@
+import Button from '@/components/ui/button'
 import Header from '@/components/ui/header'
 import Layout from '@/components/ui/layout'
 import { useAuth } from '@/hooks/useAuth'
@@ -6,11 +7,13 @@ import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, Text, View } from 'react-native'
+import { useRouter } from 'expo-router'
 
 export default function Home() {
   const { t } = useTranslation();
   const { store, loading } = useStore();
   const { auth, isLoading: authLoading } = useAuth();
+  const router = useRouter();
 
   if (loading || authLoading) {
     return (
@@ -36,7 +39,9 @@ export default function Home() {
           <Text className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">
             {t('store.noStoreMessage')}
           </Text>
+           <Button title={t('store.createStore')} onPress={() => router.push('/(store)/create')} />
         </View>
+       
       </Layout>
     );
   }
@@ -78,7 +83,7 @@ export default function Home() {
                   <View className="flex-row items-center">
                     <Ionicons name="star" size={16} color="#fbbf24" />
                     <Text className="text-sm text-gray-600 dark:text-gray-400 ml-1">
-                      {store.rating || 0} ({store.reviews?.length || 0} reviews)
+                      {store.rating || 0} ({store.reviews?.length || 0} {t('store.reviews')})
                     </Text>
                   </View>
                 </View>
@@ -97,7 +102,7 @@ export default function Home() {
                   />
                   <Text className={`text-xs font-semibold ml-1 ${store.is_active ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'
                     }`}>
-                    {store.is_active ? 'Active' : 'Inactive'}
+                    {store.is_active ? t('common.active') : t('common.inactive')}
                   </Text>
                 </View>
 
@@ -125,7 +130,7 @@ export default function Home() {
           {/* Contact Information Card */}
           <View className="bg-white dark:bg-gray-800 rounded-2xl shadow-md mb-4 p-6">
             <Text className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Contact Information
+              {t('store.contactInformation')}
             </Text>
 
             {/* Address */}
@@ -170,9 +175,6 @@ export default function Home() {
                 <Ionicons name="time" size={20} color="#f97316" />
               </View>
               <View className="flex-1">
-                <Text className="text-xs text-gray-500 dark:text-gray-400 mb-1 font-medium">
-                  Business Hours
-                </Text>
                 <Text className="text-base text-gray-900 dark:text-gray-100 font-semibold">
                   {store.start_time} - {store.end_time}
                 </Text>
@@ -199,13 +201,13 @@ export default function Home() {
           {/* Store Details Card */}
           <View className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
             <Text className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Store Details
+              {t('store.storeDetails')}
             </Text>
 
             {/* Store ID */}
             <View className="flex-row justify-between items-center py-3 border-b border-gray-100 dark:border-gray-700">
               <Text className="text-sm text-gray-600 dark:text-gray-400 font-medium">
-                Store ID
+                {t('store.storeId')}
               </Text>
               <Text className="text-sm text-gray-900 dark:text-gray-100 font-semibold">
                 #{store.id}
@@ -215,7 +217,7 @@ export default function Home() {
             {/* Created At */}
             <View className="flex-row justify-between items-center py-3 border-b border-gray-100 dark:border-gray-700">
               <Text className="text-sm text-gray-600 dark:text-gray-400 font-medium">
-                Created At
+                {t('store.createdAt')}
               </Text>
               <Text className="text-sm text-gray-900 dark:text-gray-100 font-semibold">
                 {new Date(store.createdAt).toLocaleDateString()}
@@ -225,7 +227,7 @@ export default function Home() {
             {/* Last Updated */}
             <View className="flex-row justify-between items-center py-3">
               <Text className="text-sm text-gray-600 dark:text-gray-400 font-medium">
-                Last Updated
+                {t('store.lastUpdated')}
               </Text>
               <Text className="text-sm text-gray-900 dark:text-gray-100 font-semibold">
                 {new Date(store.updatedAt).toLocaleDateString()}

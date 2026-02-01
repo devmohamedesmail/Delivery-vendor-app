@@ -1,14 +1,26 @@
 import { Tabs } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
+import { useTranslation } from 'react-i18next'
+import colors from '@/constants/colors'
 
 export default function Layout() {
+  const { t } = useTranslation()
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs screenOptions={{ 
+      headerShown: false,
+      tabBarActiveTintColor: colors.light.tabIconSelected,
+      tabBarInactiveTintColor: colors.light.tabIconDefault,
+      tabBarStyle: {
+        backgroundColor: '#ffffff',
+        borderTopWidth: 1,
+        borderTopColor: '#e5e7eb',
+      },
+    }}>
       
       <Tabs.Screen
         name="index"
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: t('common.home'),
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
@@ -22,7 +34,7 @@ export default function Layout() {
       <Tabs.Screen
         name="orders/index"
         options={{
-          tabBarLabel: 'Orders',
+          tabBarLabel: t('orders.orders'),
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? 'receipt' : 'receipt-outline'}
@@ -36,7 +48,7 @@ export default function Layout() {
       <Tabs.Screen
         name="categories/index"
         options={{
-          tabBarLabel: 'Categories',
+          tabBarLabel: t('categories.categories'),
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? 'grid' : 'grid-outline'}
@@ -50,7 +62,7 @@ export default function Layout() {
       <Tabs.Screen
         name="products/index"
         options={{
-          tabBarLabel: 'Products',
+          tabBarLabel: t('products.products'),
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? 'cube' : 'cube-outline'}

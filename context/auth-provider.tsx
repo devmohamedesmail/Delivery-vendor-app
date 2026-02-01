@@ -26,7 +26,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         loadUser();
     }, []);
 
-    const login = async (identifier: string, password: string,method: 'email' | 'phone') => {
+    const login = async (identifier: string, password: string, method: 'email' | 'phone') => {
         try {
             const response = await axios.post(`${config.URL}/auth/login`, {
                 email: identifier,
@@ -35,30 +35,36 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const user = response.data;
             await AsyncStorage.setItem('user', JSON.stringify(user));
             setAuth(user);
-            return { 
-                success: true, 
-                data: user 
+            return {
+                success: true,
+                data: user
             };
         } catch (error: any) {
             console.log(error);
-            return { 
-                success: false, 
+            return {
+                success: false,
                 message: error.response?.data?.message || 'Login failed'
-             };
+            };
         }
     };
 
     // handle register user
-    const register = async (name: string, identifier: string, password: string, role_id: string) => {
+    const register = async (name: string, identifier: string, password: string, role_id: string, method: 'email' | 'phone') => {
         try {
-            console.log(name, identifier, password, role_id);
-            const response = await axios.post(`${config.URL}/auth/register`, {
+            const payload: any = {
                 name,
-                email:identifier,
                 password,
-                role_id
-            });
+                role_id,
+            };
+
+            if (method === 'email') {
+                payload.email = identifier;
+            } else {
+                payload.phone = identifier;
+            }
             
+            const response = await axios.post(`${config.URL}/auth/register`, payload);
+
             const user = response.data;
             await AsyncStorage.setItem('user', JSON.stringify(user));
             setAuth(user);

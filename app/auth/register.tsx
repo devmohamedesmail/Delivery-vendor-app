@@ -29,23 +29,56 @@ export default function Register() {
     const [registerMethod, setRegisterMethod] = useState<'email' | 'phone'>('email')
 
 
+    // const validationSchema = Yup.object({
+    //     name: Yup.string()
+    //         .min(2, t('auth.name_required'))
+    //         .required(t('auth.name_required')),
+    //     email: registerMethod === 'email'
+    //         ? Yup.string().email(t('auth.email_invalid')).required(t('auth.email_required'))
+    //         : Yup.string().notRequired(),
+    //     phone: registerMethod === 'phone'
+    //         ? Yup.string().matches(/^[0-9]{10,15}$/, t('auth.phone_invalid')).required(t('auth.phone_required'))
+    //         : Yup.string().notRequired(),
+    //     password: Yup.string()
+    //         .min(6, t('auth.password_min'))
+    //         .required(t('auth.password_required')),
+    //     role_id: Yup.number()
+    //         .oneOf([3, 5], t('auth.role_required'))
+    //         .required(t('auth.role_required'))
+    // })
+
     const validationSchema = Yup.object({
         name: Yup.string()
             .min(2, t('auth.name_required'))
             .required(t('auth.name_required')),
-        email: registerMethod === 'email'
-            ? Yup.string().email(t('auth.email_invalid')).required(t('auth.email_required'))
-            : Yup.string().notRequired(),
-        phone: registerMethod === 'phone'
-            ? Yup.string().matches(/^[0-9]{10,15}$/, t('auth.phone_invalid')).required(t('auth.phone_required'))
-            : Yup.string().notRequired(),
+
+        email: Yup.string().when('registerMethod', {
+            is: 'email',
+            then: (schema) =>
+                schema
+                    .email(t('auth.email_invalid'))
+                    .required(t('auth.email_required')),
+            otherwise: (schema) => schema.notRequired().nullable(),
+        }),
+
+        phone: Yup.string().when('registerMethod', {
+            is: 'phone',
+            then: (schema) =>
+                schema
+                    .matches(/^[0-9]{10,15}$/, t('auth.phone_invalid'))
+                    .required(t('auth.phone_required')),
+            otherwise: (schema) => schema.notRequired().nullable(),
+        }),
+
         password: Yup.string()
             .min(6, t('auth.password_min'))
             .required(t('auth.password_required')),
+
         role_id: Yup.number()
             .oneOf([3, 5], t('auth.role_required'))
-            .required(t('auth.role_required'))
+            .required(t('auth.role_required')),
     })
+
 
     const formik = useFormik<RegisterFormValues>({
         initialValues: {
@@ -74,12 +107,12 @@ export default function Register() {
                     });
 
                     if (values.role_id === 3) {
-                        router.push('/(store)/stores/create')
+                        router.push('/(store)/create')
                     } else if (values.role_id === 5) {
                         // router.push('/(driver)/driver/create')
                     }
                 } else {
-
+                   console.log(result)
                     Toast.show({
                         type: 'error',
                         text1: t('auth.registration_failed'),
@@ -105,17 +138,17 @@ export default function Register() {
 
 
     return (
-    
+
         <AuthLayout>
             <AuthHeader title={t('auth.createAccount')} description={t('auth.registerDescription')} />
 
-            <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white pt-10">
+            <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white dark:bg-card-dark pt-10">
 
                 {/* Tabs for Email/Phone */}
-                <View className="flex-row mb-6 border-b border-gray-200">
+                <View className="flex-row mb-6 ">
                     <TouchableOpacity
                         activeOpacity={1}
-                        className={`flex-1 pb-3 ${registerMethod === 'email' ? 'border-b-2 border-primary' : ''}`}
+                        className={`flex-1 pb-3 ${registerMethod === 'email' ? 'border-b-2 border-primary' : 'border-b-2 border-gray-200'}`}
                         onPress={() => setRegisterMethod('email')}
                     >
                         <Text className={`text-center font-medium ${registerMethod === 'email' ? 'text-primary' : 'text-gray-500'}`}>

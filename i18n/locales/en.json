@@ -29,7 +29,10 @@
     "retry": "Retry",
     "home": "Home",
     "close": " Close",
-    "noauthvarified": "Your account is not verified. Please login to continue."
+    "noauthvarified": "Your account is not verified. Please login to continue.",
+    "active": "Active",
+    "inactive": "Inactive"
+    
   },
   "auth": {
     "email": "Email",
@@ -81,7 +84,15 @@
     "enterEmail": "Enter your email",
     "enterPhone": "Enter your phone",
     "loginDescription": "Please enter your email or phone number to continue",
-    "noauthvarified": "Your account is not verified. Please login to continue."
+    "noauthvarified": "Your account is not verified. Please login to continue.",
+    "email_required": "Email is required",
+    "phone_required": "Phone is required",
+    "password_required": "Password is required",
+    "name_required": "Name is required",
+    "role_required": "Role is required",
+    "password_mismatch": "Passwords do not match",
+    "password_changed_success": "Password changed successfully",
+    "password_changed_failed": "Failed to change password"
   },
   "orders": {
     "orders": "Orders",
@@ -421,7 +432,16 @@
     "nameRequired": "Store name is required",
     "addressRequired": "Address is required",
     "phoneRequired": "Phone is required",
-    "startTimeRequired": "Start time is required"
+    "startTimeRequired": "Start time is required",
+    "contactInformation": "Contact Information",
+    "storeId": "Store ID",
+    "createdAt": "Created At",
+    "lastUpdated": "Last Updated",
+    "reviews": "Reviews"
+   
+   
+   
+    
   },
   "account": {
     "theme": "Theme",
@@ -477,6 +497,13 @@
     "logout_successful": "Logout Successful",
     "logout_failed": "Logout Failed",
     "whatsup_support": "WhatsApp Support",
-    "phone_support": "Phone Support"
+    "phone_support": "Phone Support",
+    "delete_warning": "This action cannot be undone. Please enter your password to confirm.",
+    "delete_account_success": "Account deleted successfully",
+    "delete_account_failed": "Failed to delete account",
+    "password_required": "Password is required",
+    "password_mismatch": "Passwords do not match",
+    "password_changed_success": "Password changed successfully",
+    "password_changed_failed": "Failed to change password"
   }
 }

@@ -16,39 +16,14 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {Linking} from 'react-native';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
+import AccountActionSection from '@/components/screens/account/account-action-section'
 
 export default function Account() {
     const { t } = useTranslation()
-    const { auth, logout } = useAuth()
-    const router = useRouter()
-    const [loadding, setLoading] = useState(false)
-    const bottomSheetRef = useRef<BottomSheet>(null);
+    const { auth } = useAuth()
     const { colorScheme , toggleColorScheme } = useColorScheme()
 
-    const handleLogout = async () => {
-
-        try {
-            setLoading(true)
-            await logout()
-
-            Toast.show({
-                type: 'success',
-                text1: t('account.logout_successful'),
-            })
-            setTimeout(() => {
-                setLoading(false)
-                router.replace('/auth/login')
-            }, 3000);
-        } catch (error) {
-            Toast.show({
-                type: 'error',
-                text1: t('account.logout_failed'),
-            })
-            setLoading(false)
-        } finally {
-            setLoading(false)
-        }
-    }
+ 
     return (
         <Layout>
             <Header title={t('account.account')} />
@@ -97,17 +72,8 @@ export default function Account() {
                         icon={<AntDesign name="phone" size={20} color='red' />}
                     />
 
-                    <View className='mt-2'>
-                        <OptionButton
-                            title={t('account.logout')}
-                            onPress={() => bottomSheetRef.current?.expand()}
-                            icon={<SimpleLineIcons name="logout" size={16} color='red' />}
-                        />
-                    </View>
-
-
-
-
+            
+                 <AccountActionSection />
 
 
 
@@ -124,37 +90,6 @@ export default function Account() {
 
 
             </ScrollView>
-
-
-            <BottomPaper ref={bottomSheetRef} snapPoints={['40%']}>
-                <View className="p-5 mt-5">
-                    <Text
-                        className='text-center font-bold mb-4 text-xl'
-                        style={{ fontFamily: 'Cairo_600SemiBold', color: colorScheme === 'dark' ? '#fff' : '#000' }}
-                    >
-                        {t('account.logout_confirmation')}
-                    </Text>
-                    <View className='flex flex-row justify-center gap-4 mt-6'>
-                        <Button
-                            title={loadding ? t('account.logging_out') : t('account.logout')}
-                            onPress={handleLogout}
-                            className='bg-red-500 px-4 py-3 w-44'
-                            textClassName='text-white'
-                            style={{ backgroundColor: 'red' }}
-                        />
-                        <Button
-                            title={t('auth.cancel')}
-                            onPress={() => bottomSheetRef.current?.close()}
-                            className='px-4 py-3 w-44'
-                            textClassName={colorScheme === 'dark' ? 'text-white' : 'text-gray-800'}
-                            style={{ backgroundColor: colorScheme === 'dark' ? '#333' : colors.light.tabIconSelected }}
-
-                        />
-                    </View>
-
-                </View>
-            </BottomPaper>
-
         </Layout>
     )
 }

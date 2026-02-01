@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import Entypo from '@expo/vector-icons/Entypo';
+import colors from '@/constants/colors';
 
 
 
@@ -30,13 +31,11 @@ export default function Input({ label, placeholder, value, onChangeText, keyboar
 
   return (
     <View className='mb-3 '>
-      <Text
-        className={`mb-2 mx-4 ${i18n.language === "ar" ? 'text-right' : 'text-left'}`}>{label}
-      </Text>
+      <Text className={`mb-2 mx-4 text-black dark:text-white ${i18n.language === "ar" ? 'text-right' : 'text-left'}`}>{label}</Text>
 
-      <View className={`flex-row items-center border border-gray-500 rounded-full px-2 ${inputFocused ? 'bg-gray-100 border-primary' : ''} ${i18n.language === "ar" ? 'flex-row-reverse' : ''} `}>
+      <View className={`flex-row items-center border border-gray-500 rounded-md px-2 ${inputFocused ? 'bg-gray-100 border-primary' : ''} ${i18n.language === "ar" ? 'flex-row-reverse' : ''} `}>
         <TextInput
-          className={`  ${i18n.language === "ar" ? 'text-right' : ''}  border-gray-300 p-2 rounded-md  flex-1 focus:border-primary py-4  focus:outline-none`}
+          className={`${i18n.language === "ar" ? 'text-right' : ''}  border-gray-300 p-2 rounded-md  flex-1  py-4 placeholder:text-gray-400 dark:text-black`}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
@@ -44,6 +43,7 @@ export default function Input({ label, placeholder, value, onChangeText, keyboar
           secureTextEntry={isPassword && !isPasswordVisible}
           onFocus={() => setInputFocused(true)}
           onBlur={() => setInputFocused(false)}
+          cursorColor={colors.light.tabIconSelected}
 
 
         />

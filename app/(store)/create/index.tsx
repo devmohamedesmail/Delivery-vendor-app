@@ -210,7 +210,7 @@ export default function Create() {
             <Header title={t('store.createStore')} />
             <ScrollView className="flex-1 px-6 pt-4" showsVerticalScrollIndicator={false}>
                 {/* Subtitle */}
-                <Text className={`text-gray-600 text-center mb-6 `} >
+                <Text className={`text-black dark:text-white text-center mb-6 `} >
                     {t('store.createStoreSubtitle')}
                 </Text>
 

@@ -12,7 +12,7 @@ interface DeleteProductParams {
 }
 
 export default class ProductController {
-    // 🔹 Fetch products by store
+    
     static async fetchProductsByStore(storeId: number, token: string) {
         const response = await axios.get(
             `${config.URL}/stores/${storeId}/products`,
