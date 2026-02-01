@@ -12,7 +12,7 @@ export default function OptionButton({ onPress, title, icon }: { title: string, 
     return (
         <TouchableOpacity
             activeOpacity={1}
-            className='py-7 border-b border-gray-200 dark:border-gray-800 rounded-xl px-4 mb-1 flex-row justify-center items-center bg-white dark:bg-card-dark'
+            className='py-5 border-b border-gray-200 dark:border-gray-800 rounded-xl px-4 mb-1 flex-row justify-center items-center bg-white dark:bg-card-dark'
 
             onPress={onPress}>
             <View>

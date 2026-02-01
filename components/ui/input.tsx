@@ -35,7 +35,7 @@ export default function Input({ label, placeholder, value, onChangeText, keyboar
 
       <View className={`flex-row items-center border border-gray-500 rounded-md px-2 ${inputFocused ? 'bg-gray-100 border-primary' : ''} ${i18n.language === "ar" ? 'flex-row-reverse' : ''} `}>
         <TextInput
-          className={`${i18n.language === "ar" ? 'text-right' : ''}  border-gray-300 p-2 rounded-md  flex-1  py-4 placeholder:text-gray-400 dark:text-black`}
+          className={`${i18n.language === "ar" ? 'text-right' : ''}  border-gray-300 p-2 rounded-md  flex-1  py-4 placeholder:text-gray-400 dark:text-white`}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}

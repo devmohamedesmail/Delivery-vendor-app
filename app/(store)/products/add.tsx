@@ -63,10 +63,12 @@ export default function Add() {
       queryClient.invalidateQueries({
         queryKey: ["products", store.id],
       });
-      router.back();
+      formik.resetForm();
+      // router.back();
     },
 
-    onError: () => {
+    onError: (error) => {
+  
       Toast.show({
         type: "error",
         text1: t("products.failed_to_save_product"),
@@ -162,7 +164,7 @@ export default function Add() {
     <Layout>
       <Header title={t("products.add_product")} />
 
-      <ScrollView className="px-4 py-10 bg-white">
+      <ScrollView className="px-4 py-10 ">
         {/* Product Name */}
         <View className="pb-20">
           <View className="mb-4">
@@ -348,9 +350,7 @@ export default function Add() {
 
           {/* Submit Button */}
           <Button
-            title={
-              formik.isSubmitting ? t("products.saving") : t("products.save")
-            }
+            title={formik.isSubmitting ? t("products.saving") : t("products.save")}
             onPress={formik.handleSubmit}
             disabled={formik.isSubmitting}
           />

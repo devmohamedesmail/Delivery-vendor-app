@@ -14,6 +14,7 @@ import { Pressable, Text, View } from 'react-native';
 import Modal from 'react-native-modal';
 import Toast from 'react-native-toast-message';
 import * as Yup from 'yup';
+import AccountActionButton from './account-action-button';
 
 
 export default function AccountActionSection() {
@@ -77,23 +78,21 @@ export default function AccountActionSection() {
         <>
 
             <View className='mt-4'>
-                <Pressable
-                    onPress={() => setIsLogoutModalVisible(true)}
-                    className='flex flex-row items-center justify-center w-full bg-red-600 dark:bg-red-500 py-6 rounded-xl mb-2'>
-                    <View className='flex flex-row items-center space-x-2 justify-center' >
-                        <Text className='text-lg font-bold mx-2 text-black dark:text-white'>{t('account.logout')}</Text>
-                        <AntDesign name="logout" size={24} color={colorScheme === 'dark' ? '#fff' : '#000'} />
-                    </View>
-                </Pressable>
+               
+                <AccountActionButton 
+                title={t('account.logout')}
+                icon={<AntDesign name="logout" size={24} color='white' />}
+                onPress={() => setIsLogoutModalVisible(true)}
+                
+                />
 
-                <Pressable
-                    onPress={() => setIsDeleteModalVisible(true)}
-                    className='flex flex-row items-center justify-center w-full bg-red-600 dark:bg-red-500 py-6 rounded-xl mb-2'>
-                    <View className='flex flex-row items-center space-x-2 justify-center' >
-                        <Text className='text-lg font-bold mx-2 text-black dark:text-white'>{t('account.delete_account')}</Text>
-                        <Feather name="trash" size={24} color={colorScheme === 'dark' ? '#fff' : '#000'} />
-                    </View>
-                </Pressable>
+               
+                <AccountActionButton 
+                title={t('account.delete_account')}
+                icon={<Feather name="trash" size={24} color='white' />}
+                onPress={() => setIsDeleteModalVisible(true)}
+                
+                />
 
             </View>
 

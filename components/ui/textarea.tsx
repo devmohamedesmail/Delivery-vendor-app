@@ -45,7 +45,7 @@ export default function CustomTextArea({
         editable={editable}
         textAlignVertical="top"
         cursorColor={"#fd4a12"}
-        className={`border border-black text-right rounded-lg px-4 py-3 text-gray-800 ${
+        className={`border border-black text-right rounded-lg px-4 py-3 text-black dark:text-white ${
           touched && error ? 'border-red-500' : 'border-gray-300'
         }`}
         style={{ 
@@ -60,7 +60,6 @@ export default function CustomTextArea({
           {touched && error && (
             <Text
               className="text-red-500 text-sm"
-              style={{ fontFamily: 'Cairo_400Regular' }}
             >
               {error}
             </Text>
@@ -68,9 +67,7 @@ export default function CustomTextArea({
         </View>
         
         <Text
-          className="text-gray-400 text-sm"
-          style={{ fontFamily: 'Cairo_400Regular' }}
-        >
+          className="text-black dark:text-white text-sm">
           {value.length}/{maxLength}
         </Text>
       </View>

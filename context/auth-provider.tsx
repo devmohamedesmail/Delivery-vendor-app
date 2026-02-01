@@ -28,10 +28,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const login = async (identifier: string, password: string, method: 'email' | 'phone') => {
         try {
-            const response = await axios.post(`${config.URL}/auth/login`, {
-                email: identifier,
-                password: password
-            });
+            const payload: any = {
+                password,
+            };
+
+            if (method === 'email') {
+                payload.email = identifier;
+            } else {
+                payload.phone = identifier;
+            }
+            const response = await axios.post(`${config.URL}/auth/login`,payload);
             const user = response.data;
             await AsyncStorage.setItem('user', JSON.stringify(user));
             setAuth(user);
@@ -40,7 +46,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 data: user
             };
         } catch (error: any) {
-            console.log(error);
+
             return {
                 success: false,
                 message: error.response?.data?.message || 'Login failed'
@@ -62,7 +68,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             } else {
                 payload.phone = identifier;
             }
-            
+
             const response = await axios.post(`${config.URL}/auth/register`, payload);
 
             const user = response.data;

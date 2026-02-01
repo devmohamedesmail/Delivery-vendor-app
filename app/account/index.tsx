@@ -34,7 +34,7 @@ export default function Account() {
                 <View className="mx-4 mt-4 rounded-xl">
                     <View className="p-6 items-center border-b">
                         <View className="w-20 h-20 bg-primary rounded-full items-center justify-center mb-3">
-                            <Text className="text-white text-2xl font-bold" style={{ fontFamily: 'Cairo_700Bold' }}>
+                            <Text className="text-white text-2xl font-bold">
                                 {auth?.user?.name?.charAt(0).toUpperCase() || 'U'}
                             </Text>
                         </View>
@@ -42,7 +42,7 @@ export default function Account() {
                         <Text className="mt-1 text-black dark:text-white"> {auth?.user?.email || auth?.user?.phone}
                         </Text>
                         <View className="mt-2 bg-primary px-3 py-1 rounded-full">
-                            <Text className="text-black dark:text-white text-sm font-medium">
+                            <Text className="text-white text-sm font-medium">
                                 {auth?.user?.role?.role === "store_owner" ? t('account.store_owner') : ''}
                                 {auth?.user?.role?.role === "driver" ? t('account.driver') : ''}
                             </Text>
