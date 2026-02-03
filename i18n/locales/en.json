@@ -32,7 +32,6 @@
     "noauthvarified": "Your account is not verified. Please login to continue.",
     "active": "Active",
     "inactive": "Inactive"
-    
   },
   "auth": {
     "email": "Email",
@@ -92,7 +91,36 @@
     "role_required": "Role is required",
     "password_mismatch": "Passwords do not match",
     "password_changed_success": "Password changed successfully",
-    "password_changed_failed": "Failed to change password"
+    "password_changed_failed": "Failed to change password",
+    "resetPassword": "Reset Password",
+    "resetPasswordDescription": "Enter your email or phone to receive a verification code",
+    "sendOTP": "Send OTP",
+    "sendingOTP": "Sending OTP...",
+    "verifyOTP": "Verify OTP",
+    "verifyingOTP": "Verifying...",
+    "enterOTP": "Enter the 6-digit code",
+    "otpSent": "OTP sent successfully",
+    "otpSentTo": "We've sent a verification code to",
+    "otpVerified": "OTP verified successfully",
+    "otpInvalid": "Invalid OTP code",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "enterNewPassword": "Enter your new password",
+    "enterConfirmPassword": "Confirm your new password",
+    "passwordResetSuccess": "Password reset successfully",
+    "passwordResetFailed": "Failed to reset password",
+    "resendOTP": "Resend OTP",
+    "resendingOTP": "Resending...",
+    "otpResent": "OTP resent successfully",
+    "backToLogin": "Back to Login",
+    "didntReceiveOTP": "Didn't receive the code?",
+    "confirmNewPassword": "Confirm New Password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "passwordMinLength": "Password must be at least 6 characters",
+    "step": "Step",
+    "of": "of",
+    "email_invalid": "Invalid email address",
+    "phone_invalid": "Invalid phone number"
   },
   "orders": {
     "orders": "Orders",
@@ -438,10 +466,6 @@
     "createdAt": "Created At",
     "lastUpdated": "Last Updated",
     "reviews": "Reviews"
-   
-   
-   
-    
   },
   "account": {
     "theme": "Theme",

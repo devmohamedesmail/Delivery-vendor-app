@@ -6,6 +6,7 @@ import React from 'react'
 import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import SettingProvider from '@/context/setting-provider';
 
 
 export default function AppProviders({ children }: { children: React.ReactNode }) {
@@ -14,14 +15,17 @@ export default function AppProviders({ children }: { children: React.ReactNode }
         <GestureHandlerRootView style={{ flex: 1 }}>
             <QueryClientProvider client={queryClient}>
                 <ThemeProvider>
-                    <NetworkProvider>
-                        <AuthProvider>
-                            <ProfileProvider>
-                                {children}
-                            </ProfileProvider>
-                            <Toast />
-                        </AuthProvider>
-                    </NetworkProvider>
+                    <SettingProvider>
+                        <NetworkProvider>
+                            <AuthProvider>
+                                <ProfileProvider>
+                                    {children}
+                                </ProfileProvider>
+                                <Toast />
+                            </AuthProvider>
+                        </NetworkProvider>
+                    </SettingProvider>
+
                 </ThemeProvider>
             </QueryClientProvider>
         </GestureHandlerRootView>
