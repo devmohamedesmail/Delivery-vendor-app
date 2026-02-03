@@ -10,10 +10,8 @@ import Button from '@/components/ui/button'
 import { AuthContext } from '@/context/auth-provider'
 import AuthLayout from '@/components/screens/auth/auth-layout'
 import AuthHeader from '@/components/screens/auth/auth-header'
-import Fontisto from '@expo/vector-icons/Fontisto';
-import Entypo from '@expo/vector-icons/Entypo';
 import Toast from 'react-native-toast-message'
-import colors from '@/constants/colors'
+import TabButton from '@/components/ui/tab-button'
 
 
 
@@ -27,12 +25,29 @@ export default function Login() {
 
 
   const validationSchema = Yup.object({
-    email: loginMethod === 'email'
-      ? Yup.string().email(t('auth.email_invalid')).required(t('auth.email_required'))
-      : Yup.string().notRequired(),
-    phone: loginMethod === 'phone'
-      ? Yup.string().matches(/^[0-9]{10,15}$/, t('auth.phone_invalid')).required(t('auth.phone_required'))
-      : Yup.string().notRequired(),
+    // email: loginMethod === 'email'
+    //   ? Yup.string().email(t('auth.email_invalid')).required(t('auth.email_required'))
+    //   : Yup.string().notRequired(),
+    // phone: loginMethod === 'phone'
+    //   ? Yup.string().matches(/^[0-9]{10,15}$/, t('auth.phone_invalid')).required(t('auth.phone_required'))
+    //   : Yup.string().notRequired(),
+    email: Yup.string().when('loginMethod', {
+      is: 'email',
+      then: (schema) =>
+        schema
+          .email(t('auth.email_invalid'))
+          .required(t('auth.email_required')),
+      otherwise: (schema) => schema.notRequired().nullable(),
+    }),
+
+    phone: Yup.string().when('loginMethod', {
+      is: 'phone',
+      then: (schema) =>
+        schema
+          .matches(/^[0-9]{10,15}$/, t('auth.phone_invalid'))
+          .required(t('auth.phone_required')),
+      otherwise: (schema) => schema.notRequired().nullable(),
+    }),
     password: Yup.string()
       .required(t('auth.password_required'))
       .min(6, t('auth.password_min')),
@@ -51,20 +66,20 @@ export default function Login() {
       setIsLoading(true)
       try {
         const identifier = loginMethod === 'email' ? values.email : values.phone;
-        const result = await login(identifier, values.password)
+        const result = await login(identifier, values.password, loginMethod)
         Toast.show({
           text1: t('auth.login_success'),
           text2: t('auth.welcomeBack'),
           type: 'success',
         })
-    
+
 
         const role = result.data.user.role.role;
 
         if (role === 'store_owner') {
           router.replace('/(store)')
         } else if (role === 'driver') {
-        //   router.replace('/driver/dashboard')
+          //   router.replace('/driver/dashboard')
         } else {
           router.replace('/')
         }
@@ -94,7 +109,7 @@ export default function Login() {
 
         {/* Tabs for Email/Phone */}
         <View className="flex-row mb-6 border-b border-gray-200">
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={1}
             className={`flex-1 flex-row items-center justify-center pb-3 ${loginMethod === 'email' ? 'border-b-2 border-primary' : ''}`}
             onPress={() => setLoginMethod('email')}
@@ -104,9 +119,16 @@ export default function Login() {
               {t('auth.email')}  
             </Text>
 
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <TouchableOpacity
+
+          <TabButton
+            label={t('auth.email')}
+            onPress={() => setLoginMethod('email')}
+            active={loginMethod === 'email'}
+          />
+
+          {/* <TouchableOpacity
             activeOpacity={1}
             className={`flex-1 flex-row items-center justify-center pb-3 ${loginMethod === 'phone' ? 'border-b-2 border-primary' : ''}`}
             onPress={() => setLoginMethod('phone')}
@@ -116,7 +138,13 @@ export default function Login() {
               {t('auth.phone')}
             </Text>
            
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+
+          <TabButton
+            label={t('auth.phone')}
+            onPress={() => setLoginMethod('phone')}
+            active={loginMethod === 'phone'}
+          />
         </View>
 
         <View className="space-y-4">
@@ -177,6 +205,8 @@ export default function Login() {
           {/* Login Button */}
           <View className="mt-8">
             <Button
+              variant="primary"
+              size='lg'
               title={isLoading ? t('auth.signingIn') : t('auth.signIn')}
               onPress={() => formik.handleSubmit()}
               disabled={isLoading || !formik.isValid || !formik.dirty}

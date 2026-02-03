@@ -10,6 +10,7 @@ import { useRouter } from 'expo-router'
 import Toast from 'react-native-toast-message'
 import AuthLayout from '@/components/screens/auth/auth-layout'
 import AuthHeader from '@/components/screens/auth/auth-header'
+import TabButton from '@/components/ui/tab-button'
 
 
 
@@ -112,7 +113,6 @@ export default function Register() {
                         // router.push('/(driver)/driver/create')
                     }
                 } else {
-                   console.log(result)
                     Toast.show({
                         type: 'error',
                         text1: t('auth.registration_failed'),
@@ -142,11 +142,11 @@ export default function Register() {
         <AuthLayout>
             <AuthHeader title={t('auth.createAccount')} description={t('auth.registerDescription')} />
 
-            <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white dark:bg-card-dark pt-10">
+            <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white pt-10">
 
                 {/* Tabs for Email/Phone */}
                 <View className="flex-row mb-6 ">
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         activeOpacity={1}
                         className={`flex-1 pb-3 ${registerMethod === 'email' ? 'border-b-2 border-primary' : 'border-b-2 border-gray-200'}`}
                         onPress={() => setRegisterMethod('email')}
@@ -154,8 +154,18 @@ export default function Register() {
                         <Text className={`text-center font-medium ${registerMethod === 'email' ? 'text-primary' : 'text-gray-500'}`}>
                             {t('auth.email')}
                         </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
+                    </TouchableOpacity> */}
+                    <TabButton
+                        label={t('auth.email')}
+                        onPress={() => setRegisterMethod('email')}
+                        active={registerMethod === 'email'}
+                    />
+                    <TabButton
+                        label={t('auth.phone')}
+                        onPress={() => setRegisterMethod('phone')}
+                        active={registerMethod === 'phone'}
+                    />
+                    {/* <TouchableOpacity
                         activeOpacity={1}
                         className={`flex-1 pb-3 ${registerMethod === 'phone' ? 'border-b-2 border-primary' : ''}`}
                         onPress={() => setRegisterMethod('phone')}
@@ -163,7 +173,7 @@ export default function Register() {
                         <Text className={`text-center font-medium ${registerMethod === 'phone' ? 'text-primary' : 'text-gray-500'}`}>
                             {t('auth.phone')}
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
 
                 {/* Name Input */}
@@ -215,6 +225,8 @@ export default function Register() {
 
                 <View className='mt-10'>
                     <Button
+                        variant="primary"
+                        size='lg'
                         title={isLoading ? t('auth.wait') : t('auth.next')}
                         onPress={() => formik.handleSubmit()}
                         disabled={isLoading || !formik.isValid || !formik.dirty}
