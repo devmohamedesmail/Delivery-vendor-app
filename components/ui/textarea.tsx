@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text, View, TextInput } from 'react-native'
 
@@ -28,6 +28,8 @@ export default function TextArea({
   editable = true
 }: TextAreaProps) {
   const { t, i18n } = useTranslation()
+  const [isFocused, setIsFocused] = useState(false)
+
   return (
     <View className="mb-4">
       {label && (
@@ -45,12 +47,14 @@ export default function TextArea({
         editable={editable}
         textAlignVertical="top"
         cursorColor={"#fd4a12"}
-        className={`border border-black text-right rounded-lg px-4 py-3 text-black dark:text-white ${touched && error ? 'border-red-500' : 'border-gray-300'
+        className={`border border-black text-right rounded-lg px-4 py-3 ${isFocused ? 'bg-gray-100 border-primary' : ''} text-black dark:text-white ${touched && error ? 'border-red-500' : 'border-gray-300'
           }`}
         style={{
           height: height,
           fontSize: 16
         }}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
 
       {/* Character count */}

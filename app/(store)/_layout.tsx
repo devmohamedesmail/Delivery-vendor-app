@@ -31,19 +31,7 @@ export default function Layout() {
         }}
       />
 
-      <Tabs.Screen
-        name="orders/index"
-        options={{
-          tabBarLabel: t('orders.orders'),
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons
-              name={focused ? 'receipt' : 'receipt-outline'}
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
+     
 
       <Tabs.Screen
         name="categories/index"
@@ -66,6 +54,21 @@ export default function Layout() {
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? 'cube' : 'cube-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+
+       <Tabs.Screen
+        name="orders/index"
+        options={{
+          tabBarLabel: t('orders.orders'),
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? 'receipt' : 'receipt-outline'}
               size={size}
               color={color}
             />

@@ -311,6 +311,8 @@
     "title": "الإشعارات",
     "noNotifications": "لا توجد إشعارات حتى الآن",
     "noNotificationsDesc": "عندما تتلقى إشعارات، ستظهر هنا",
+    "no_notifications": "لا توجد إشعارات",
+    "no_notifications_description": "ليس لديك أي إشعارات في الوقت الحالي",
     "markAllRead": "تحديد الكل كمقروء",
     "orderReceived": "تم استلام طلب جديد",
     "orderAccepted": "تم قبول الطلب",
@@ -322,7 +324,15 @@
     "hourAgo": "س مضت",
     "dayAgo": "يوم مضى",
     "today": "اليوم",
-    "yesterday": "أمس"
+    "yesterday": "أمس",
+    "new_order": "طلب جديد",
+    "new_order_message": "لديك طلب جديد",
+    "order_completed": "اكتمل الطلب",
+    "order_completed_message": "تم إكمال طلبك بنجاح",
+    "order_cancelled": "تم إلغاء الطلب",
+    "order_cancelled_message": "تم إلغاء أحد الطلبات",
+    "system_update": "تحديث النظام",
+    "system_update_message": "ميزات وتحسينات جديدة متاحة"
   },
   "settings": {
     "title": "الإعدادات",

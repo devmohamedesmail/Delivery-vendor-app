@@ -310,6 +310,8 @@
     "title": "Notifications",
     "noNotifications": "No notifications yet",
     "noNotificationsDesc": "When you receive notifications, they'll appear here",
+    "no_notifications": "No Notifications",
+    "no_notifications_description": "You don't have any notifications at the moment",
     "markAllRead": "Mark all as read",
     "orderReceived": "New Order Received",
     "orderAccepted": "Order Accepted",
@@ -321,7 +323,15 @@
     "hourAgo": "h ago",
     "dayAgo": "d ago",
     "today": "Today",
-    "yesterday": "Yesterday"
+    "yesterday": "Yesterday",
+    "new_order": "New Order",
+    "new_order_message": "You have received a new order",
+    "order_completed": "Order Completed",
+    "order_completed_message": "Your order has been completed successfully",
+    "order_cancelled": "Order Cancelled",
+    "order_cancelled_message": "An order has been cancelled",
+    "system_update": "System Update",
+    "system_update_message": "New features and improvements are available"
   },
   "settings": {
     "title": "Settings",
