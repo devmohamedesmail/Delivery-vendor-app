@@ -31,7 +31,10 @@
     "close": " إغلاق",
     "noauthvarified": "حسابك غير موثق. يرجى تسجيل الدخول للمتابعة.",
     "active": "نشط",
-    "inactive": "غير نشط"
+    "inactive": "غير نشط",
+    "uploading": "جاري الرفع...",
+    "downloading": "جاري التحميل...",
+    "processing": "جاري المعالجة..."
   },
   "auth": {
     "email": "البريد الإلكتروني",
@@ -298,7 +301,11 @@
     "delete": "حذف",
     "products_count": " عدد المنتجات",
     "existing_attributes": "الخصائص الموجودة",
-    "add_new_attribute": "إضافة خاصية جديدة"
+    "add_new_attribute": "إضافة خاصية جديدة",
+    "simple_product": "منتج بسيط",
+    "variable_product": "منتج متغير",
+    "simple_product_description": "منتج بسعر واحد بدون خيارات متعددة",
+    "variable_product_description": "منتج بخيارات متعددة (الحجم، اللون، إلخ)"
   },
   "notifications": {
     "title": "الإشعارات",

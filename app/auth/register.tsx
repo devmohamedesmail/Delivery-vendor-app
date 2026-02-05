@@ -97,7 +97,7 @@ export default function Register() {
                 // Determine identifier based on active tab
                 const identifier = registerMethod === 'email' ? values.email : values.phone;
 
-                const result = await register(values.name, identifier, values.password, values.role_id)
+                const result = await register(values.name, identifier, values.password, values.role_id,registerMethod)
                 if (result.success) {
 
                     Toast.show({

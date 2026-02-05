@@ -68,7 +68,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             } else {
                 payload.phone = identifier;
             }
-
             const response = await axios.post(`${config.URL}/auth/register`, payload);
 
             const user = response.data;

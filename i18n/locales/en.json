@@ -31,7 +31,10 @@
     "close": " Close",
     "noauthvarified": "Your account is not verified. Please login to continue.",
     "active": "Active",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "uploading": "Uploading...",
+    "downloading": "Downloading...",
+    "processing": "Processing..."
   },
   "auth": {
     "email": "Email",
@@ -297,7 +300,11 @@
     "delete": "Delete",
     "products_count": " products count",
     "existing_attributes": "Existing Attributes",
-    "add_new_attribute": "Add New Attribute"
+    "add_new_attribute": "Add New Attribute",
+    "simple_product": "Simple Product",
+    "variable_product": "Variable Product",
+    "simple_product_description": "Product with a single price and no variations",
+    "variable_product_description": "Product with multiple variations (size, color, etc.)"
   },
   "notifications": {
     "title": "Notifications",

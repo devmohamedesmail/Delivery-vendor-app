@@ -4,7 +4,6 @@ import CustomImagePicker from "@/components/ui/image-picker";
 import Input from "@/components/ui/input";
 import Layout from "@/components/ui/layout";
 import Select from "@/components/ui/select";
-import TextArea from "@/components/ui/textarea";
 import ProductController from "@/controllers/products/controller";
 import { useAuth } from "@/hooks/useAuth";
 import useFetch from "@/hooks/useFetch";
@@ -91,6 +90,24 @@ export default function Add() {
     },
     validationSchema: Yup.object({
       name: Yup.string().required(t("products.name_required")),
+      // price: Yup.number().when("has_attributes", (hasAttributes, schema) => {
+      //   return hasAttributes
+      //     ? schema.nullable()
+      //     : schema
+      //       .required(t("products.price_required"))
+      //       .positive(t("products.price_positive"));
+      // }),
+      // price: Yup.number()
+      //   .transform((value, originalValue) =>
+      //     originalValue === "" ? undefined : value
+      //   )
+      //   .when("has_attributes", ([hasAttributes], schema) =>
+      //     hasAttributes
+      //       ? schema.optional()
+      //       : schema
+      //         .required(t("products.price_required"))
+      //         .positive(t("products.price_positive"))
+      //   ),
       price: Yup.number()
         .transform((value, originalValue) =>
           originalValue === "" ? undefined : value
@@ -105,50 +122,70 @@ export default function Add() {
       category_id: Yup.string().required(t("products.category_required")),
     }),
     onSubmit: async (values, { resetForm, setSubmitting }) => {
-      if (!store?.id) return;
+      try {
+        if (!store?.id) return;
 
-
-
-      // Create FormData for image upload
-      const formData = new FormData();
-      formData.append("store_id", store.id.toString());
-      formData.append("name", values.name);
-      formData.append("description", values.description);
-      if (values.is_simple) {
-        formData.append("price", values.price || "0");
-        if (values.sale_price) {
-          formData.append("sale_price", values.sale_price);
+        // Validate variable products have attributes
+        if (!values.is_simple && attributeValues.length === 0) {
+          Toast.show({
+            type: "error",
+            text1: t("products.variable_product_needs_attributes"),
+          });
+          return;
         }
-      }
-      formData.append("category_id", values.category_id);
 
-      // Add attributes and values
-      if (selectedAttributeId && attributeValues.length > 0) {
-        // Send as array notation for FormData
-        formData.append("attributes[]", selectedAttributeId);
+        // Create FormData for image upload
+        const formData = new FormData();
+        formData.append("store_id", store.id.toString());
+        formData.append("name", values.name);
+        formData.append("description", values.description);
 
-        // Send each value as separate entries
-        attributeValues.forEach((av, index) => {
-          formData.append(`values[${index}][attribute_id]`, av.attribute_id);
-          formData.append(`values[${index}][value]`, av.value);
-          formData.append(`values[${index}][price]`, av.price);
+        // Only add price for simple products
+        if (values.is_simple) {
+          formData.append("price", values.price || "0");
+          if (values.sale_price) {
+            formData.append("sale_price", values.sale_price);
+          }
+        }
+
+        formData.append("category_id", values.category_id);
+
+        // Add attributes and values
+        if (selectedAttributeId && attributeValues.length > 0) {
+          // Send as array notation for FormData
+          formData.append("attributes[]", selectedAttributeId);
+
+          // Send each value as separate entries
+          attributeValues.forEach((av, index) => {
+            formData.append(`values[${index}][attribute_id]`, av.attribute_id);
+            formData.append(`values[${index}][value]`, av.value);
+            formData.append(`values[${index}][price]`, av.price);
+          });
+        }
+
+        // Add image file if exists
+        if (values.image) {
+          const uriParts = values.image.split(".");
+          const fileType = uriParts[uriParts.length - 1];
+
+          formData.append("image", {
+            uri: values.image,
+            name: `product.${fileType}`,
+            type: `image/${fileType}`,
+          } as any);
+        }
+
+        createMutation.mutate(formData);
+
+      } catch (error) {
+        console.log("error add product", error);
+        Toast.show({
+
+          type: "error",
+          text1: t("products.failed_to_save_product"),
+          text2: `error`,
         });
       }
-
-      // Add image file if exists
-      if (values.image) {
-        const uriParts = values.image.split(".");
-        const fileType = uriParts[uriParts.length - 1];
-
-        formData.append("image", {
-          uri: values.image,
-          name: `product.${fileType}`,
-          type: `image/${fileType}`,
-        } as any);
-      }
-
-      createMutation.mutate(formData);
-
     },
   });
 
@@ -174,8 +211,6 @@ export default function Add() {
           <ScrollView className="px-4 py-10 ">
             {/* Product Name */}
             <View className="pb-20">
-
-
               <View className="mb-4">
                 <Input
                   label={t("products.product_name")}
@@ -191,21 +226,22 @@ export default function Add() {
               </View>
 
 
-              <View className="mb-4">
-              <TextArea 
-              label={t("products.product_description")}
-              placeholder={t("products.enter_product_description")}
-              value={formik.values.description}
-              onChangeText={formik.handleChange("description")}
-              error={
-                formik.touched.description && formik.errors.description
-                  ? formik.errors.description
-                  : ""
-              }
-              />
-              </View>
 
-
+              {/* Price */}
+              {/* <View className="mb-4">
+                <Input
+                  label={t("products.price")}
+                  placeholder={t("products.enter_price")}
+                  value={formik.values.price}
+                  onChangeText={formik.handleChange("price")}
+                  keyboardType="numeric"
+                  error={
+                    formik.touched.price && formik.errors.price
+                      ? formik.errors.price
+                      : ""
+                  }
+                />
+              </View> */}
 
 
               {/* Category Dropdown */}
@@ -242,42 +278,28 @@ export default function Add() {
               </View>
 
 
-              {/* Product Type Toggle */}
-              <View className="mb-6 p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
-                <View className="flex-row items-center justify-between">
-                  <View className="flex-1 pr-4">
-                    <Text
-                      className="text-base font-semibold text-gray-900 mb-1"
-                     
-                    >
-                      {t("products.simple_product")}
-                    </Text>
-                    <Text
-                      className="text-xs text-gray-500"
-                  
-                    >
-                      {formik.values.is_simple
-                        ? t("products.simple_product_description")
-                        : t("products.variable_product_description")}
-                    </Text>
-                  </View>
+              {/* Has Attributes */}
+              <View className="mb-4 flex-row items-center justify-between">
+                <Text
+                  className="text-sm text-gray-700"
 
-                  <Switch
-                    value={formik.values.is_simple}
-                    onValueChange={(value) => {
-                      formik.setFieldValue("is_simple", value);
+                >
+                  {t("products.simple_product")}
+                </Text>
 
-                      if (!value) {
-                        setSelectedAttributeId("");
-                        setAttributeValues([]);
-                      }
-                    }}
-                    trackColor={{ false: "#3b82f6", true: "#10b981" }}
-                    thumbColor="#ffffff"
-                    ios_backgroundColor="#d1d5db"
-                  />
-                </View>
+                <Switch
+                  value={formik.values.is_simple}
+                  onValueChange={(value) => {
+                    formik.setFieldValue("is_simple", value);
+
+                    if (!value) {
+                      setSelectedAttributeId("");
+                      setAttributeValues([]);
+                    }
+                  }}
+                />
               </View>
+              {formik.values.is_simple ? (<Text>simple</Text>) : (<Text>Has  Attributes</Text>)}
 
               {formik.values.is_simple ? (
                 <View className="mb-4">

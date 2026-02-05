@@ -115,7 +115,7 @@ export default function Products() {
 
       {!isLoading && products?.length === 0 ? <NoProducts /> : null}
 
-      <View className="mb-10 pb-20">
+      <View className="mb-10 pb-28">
         <FlatList
           key={"2-columns"}
           data={products}

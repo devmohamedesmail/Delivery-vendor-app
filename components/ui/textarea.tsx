@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text, View, TextInput } from 'react-native'
 
-interface CustomTextAreaProps {
+interface TextAreaProps {
   label?: string
   placeholder?: string
   value: string
@@ -15,7 +15,7 @@ interface CustomTextAreaProps {
   editable?: boolean
 }
 
-export default function CustomTextArea({ 
+export default function TextArea({
   label,
   placeholder,
   value,
@@ -26,14 +26,14 @@ export default function CustomTextArea({
   numberOfLines = 4,
   height = 100,
   editable = true
-}: CustomTextAreaProps) {
-  const {t, i18n}=useTranslation()
+}: TextAreaProps) {
+  const { t, i18n } = useTranslation()
   return (
     <View className="mb-4">
       {label && (
         <Text className={`text-black text-base font-medium mb-2 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}> {label} </Text>
       )}
-      
+
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -45,15 +45,14 @@ export default function CustomTextArea({
         editable={editable}
         textAlignVertical="top"
         cursorColor={"#fd4a12"}
-        className={`border border-black text-right rounded-lg px-4 py-3 text-black dark:text-white ${
-          touched && error ? 'border-red-500' : 'border-gray-300'
-        }`}
-        style={{ 
+        className={`border border-black text-right rounded-lg px-4 py-3 text-black dark:text-white ${touched && error ? 'border-red-500' : 'border-gray-300'
+          }`}
+        style={{
           height: height,
           fontSize: 16
         }}
       />
-      
+
       {/* Character count */}
       <View className="flex-row justify-between items-center mt-1">
         <View>
@@ -65,7 +64,7 @@ export default function CustomTextArea({
             </Text>
           )}
         </View>
-        
+
         <Text
           className="text-black dark:text-white text-sm">
           {value.length}/{maxLength}

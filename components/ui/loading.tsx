@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, Animated, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 interface LoadingProps {
   message?: string;
@@ -12,17 +13,18 @@ interface LoadingProps {
 
 
 
-export default function Loading({ 
-  message = 'Loading...', 
-  size = 'medium', 
+export default function Loading({
+  message = 'Loading...',
+  size = 'medium',
   type = 'default',
-  showText = true 
+  showText = true
 }: LoadingProps) {
   const spinValue = useRef(new Animated.Value(0)).current;
   const pulseValue = useRef(new Animated.Value(0)).current;
   const dotsValue = useRef(new Animated.Value(0)).current;
   const scaleValue = useRef(new Animated.Value(0.8)).current;
   const fadeValue = useRef(new Animated.Value(0)).current;
+  const {t}=useTranslation();
 
   // Size configurations
   const sizeConfig = {
@@ -46,12 +48,12 @@ export default function Loading({
   // Message mapping for different types
   const getMessage = () => {
     if (message !== 'Loading...') return message;
-    
+
     switch (type) {
-      case 'upload': return 'Uploading...';
-      case 'download': return 'Downloading...';
-      case 'processing': return 'Processing...';
-      default: return 'Loading...';
+      case 'upload': return t('common.uploading');
+      case 'download': return t('common.downloading');
+      case 'processing': return t('common.processing');
+      default: return t('common.loading');
     }
   };
 
@@ -146,7 +148,7 @@ export default function Loading({
   });
 
   return (
-    <Animated.View 
+    <Animated.View
       className="items-center justify-center mt-44"
       style={{
         transform: [{ scale: scaleValue }],
@@ -166,7 +168,7 @@ export default function Loading({
             opacity: pulseOpacity,
           }}
         />
-        
+
         <Animated.View
           className="absolute rounded-full border"
           style={{
@@ -194,10 +196,10 @@ export default function Loading({
               transform: [{ rotate: spin }],
             }}
           >
-            <Ionicons 
-              name={getIcon() as any} 
-              size={config.spinner * 0.4} 
-              color="white" 
+            <Ionicons
+              name={getIcon() as any}
+              size={config.spinner * 0.4}
+              color="white"
             />
           </Animated.View>
         </LinearGradient>
@@ -225,13 +227,13 @@ export default function Loading({
       {/* Loading Text */}
       {showText && (
         <View className="items-center">
-          <Text 
+          <Text
             className="font-semibold mb-2 arabic-font-bold"
             style={{ fontSize: config.text, color: '#1a1a1a' }}
           >
             {getMessage()}
           </Text>
-          
+
           {/* Animated Dots */}
           <View className="flex-row space-x-1">
             <Animated.View

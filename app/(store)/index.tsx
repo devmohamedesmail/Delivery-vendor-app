@@ -48,7 +48,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <Header title={t('common.home')} />
+      <Header backButton={false} title={t('common.home')} />
       <ScrollView className="flex-1 bg-gray-50 dark:bg-gray-900 ">
         {/* Store Banner */}
         {store.banner && (
