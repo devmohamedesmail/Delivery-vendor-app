@@ -551,5 +551,11 @@
     "password_mismatch": "كلمات المرور غير متطابقة",
     "password_changed_success": "تم تغيير كلمة المرور بنجاح",
     "password_changed_failed": "فشل تغيير كلمة المرور"
+  },
+  "profile": {
+    "permissionDenied": "تم رفض الإذن للوصول إلى المعرض",
+    "tapToChangeAvatar": "اضغط لتغيير صورة الملف الشخصي",
+    "updateSuccess": "تم تحديث الملف الشخصي بنجاح",
+    "updateFailed": "فشل تحديث الملف الشخصي"
   }
 }

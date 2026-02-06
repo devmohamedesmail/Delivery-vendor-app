@@ -1,27 +1,23 @@
 import Header from '@/components/ui/header'
 import Layout from '@/components/ui/layout'
-import React, { useState, useRef } from 'react'
+import React from 'react'
 import { View, ScrollView, Text } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'expo-router'
 import OptionButton from '@/components/screens/account/option-button'
-import BottomPaper from '@/components/ui/bottom-paper'
-import Button from '@/components/ui/button'
-import BottomSheet from '@gorhom/bottom-sheet';
-import Toast from 'react-native-toast-message'
 import { useColorScheme } from 'nativewind'
-import colors from '@/constants/colors'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {Linking} from 'react-native';
-import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import AccountActionSection from '@/components/screens/account/account-action-section'
+
 
 export default function Account() {
     const { t } = useTranslation()
     const { auth } = useAuth()
     const { colorScheme , toggleColorScheme } = useColorScheme()
+    const router = useRouter()
 
  
     return (
@@ -56,10 +52,18 @@ export default function Account() {
 
                 <View className='px-5'>
                     <OptionButton
+                        title={t('account.edit_profile')}
+                        onPress={() => router.push('/account/edit-profile')}
+                        icon={<Ionicons name="person" size={20} color='red' />}
+                    />
+
+                    <OptionButton
                         title={t('account.theme')}
                         onPress={toggleColorScheme}
                         icon={<Ionicons name={colorScheme === 'dark' ? "moon" : "sunny"} size={20} color='red' />}
                     />
+
+
                     <OptionButton
                         title={t('account.whatsup_support')}
                         onPress={() => Linking.openURL('https://wa.me/+971589107126')}

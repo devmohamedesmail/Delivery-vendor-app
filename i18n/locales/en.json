@@ -550,5 +550,11 @@
     "password_mismatch": "Passwords do not match",
     "password_changed_success": "Password changed successfully",
     "password_changed_failed": "Failed to change password"
+  },
+  "profile": {
+    "permissionDenied": "Permission to access gallery was denied",
+    "tapToChangeAvatar": "Tap to change profile picture",
+    "updateSuccess": "Profile updated successfully",
+    "updateFailed": "Failed to update profile"
   }
 }

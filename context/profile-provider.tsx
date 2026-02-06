@@ -9,7 +9,6 @@ interface ProfileContextType {
   error: any;
   refetch: () => Promise<void>;
 }
-// export const ProfileContext = createContext({});
 export const ProfileContext = createContext<ProfileContextType | null>(null);
 
 
