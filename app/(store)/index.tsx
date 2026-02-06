@@ -7,13 +7,13 @@ import { useTranslation } from 'react-i18next'
 import Loading from '@/components/ui/loading'
 import NoStore from '@/components/ui/no-store'
 import StoreInfo from '@/components/ui/store-info'
+import usePushNotifications from '@/hooks/usePushNotifications'
+import { Button, Text, View } from 'react-native'
 
 export default function Home() {
   const { t } = useTranslation();
   const { store, loading } = useStore();
   const { auth, isLoading: authLoading } = useAuth();
-
-
 
 
   return (
@@ -22,7 +22,7 @@ export default function Home() {
 
       {loading || authLoading ? <Loading /> : (
         <>{!store ? (<NoStore />) : (
-         <StoreInfo />
+          <StoreInfo />
         )}</>
 
 

@@ -32,7 +32,7 @@ export default function NotificationItem({ item }: any) {
   };
   return (
      <View
-      className={`mb-3 p-4 rounded-xl border ${item.is_read ? 'bg-white border-gray-200' : 'bg-blue-50 border-blue-200'
+      className={`mb-3 p-4 rounded-xl border ${item.is_read ? 'bg-white border-gray-200' : 'bg-primary-50 border-primary-200'
         }`}
     >
       <View className="flex-row items-start">
@@ -55,7 +55,7 @@ export default function NotificationItem({ item }: any) {
               {item.title}
             </Text>
             {!item.is_read && (
-              <View className="w-2 h-2 rounded-full bg-blue-500" />
+              <View className="w-2 h-2 rounded-full bg-primary" />
             )}
           </View>
 

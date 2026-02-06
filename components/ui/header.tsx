@@ -9,6 +9,8 @@ import { Text, View } from 'react-native'
 import { io, Socket } from "socket.io-client"
 import BackButton from './back-button'
 import ButtonIcon from './button-icon'
+import usePushNotifications from '@/hooks/usePushNotifications';
+import * as Notifications from 'expo-notifications';
 
 
 export default function Header({ title, backButton = true }: { title?: string, backButton?: boolean }) {
@@ -30,8 +32,18 @@ export default function Header({ title, backButton = true }: { title?: string, b
       setIsConnected(true);
       if (store?.id) {
         s.emit("join_store", store.id);
-        s.on("new_order", (data) => {
+        s.on("new_order", async (data) => {
           refetch();
+          // to send notification to all users in the store
+          await Notifications.scheduleNotificationAsync({
+          content: {
+            title: 'طلب جديد!',
+            body: `لديك طلب جديد برقم #${data.order_id}`,
+            sound: 'default',
+            data: { type: 'new_order', order: data },
+          },
+          trigger: null, // فوراً بدون تأخير
+        });
         });
       }
     });
