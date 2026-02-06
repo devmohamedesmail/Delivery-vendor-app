@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
-import { useTranslation } from 'react-i18next'
-import { Ionicons } from '@expo/vector-icons'
-import { Link, useRouter } from 'expo-router'
-import ButtonIcon from './button-icon'
-import BackButton from './back-button'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { io, Socket } from "socket.io-client";
+import useFetch from '@/hooks/useFetch'
 import { useStore } from '@/hooks/useStore'
+import { Ionicons } from '@expo/vector-icons'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { useRouter } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Text, View } from 'react-native'
+import { io, Socket } from "socket.io-client"
+import BackButton from './back-button'
+import ButtonIcon from './button-icon'
 
 
 export default function Header({ title, backButton = true }: { title?: string, backButton?: boolean }) {
@@ -15,30 +16,36 @@ export default function Header({ title, backButton = true }: { title?: string, b
   const [isConnected, setIsConnected] = useState(false);
   const [socket, setSocket] = useState<Socket | null>(null);
   const router = useRouter()
-  const {store}=useStore();
+  const { store } = useStore();
+  const { data, refetch } = useFetch(`/notifications/?notifiable_id=${store?.id}&notifiable_type=store`)
+  const notificationCount = data?.data?.length || 0;
+
 
   useEffect(() => {
-  const s = io("https://tawsila-app.onrender.com");
+    const s = io("https://tawsila-app.onrender.com");
 
-  setSocket(s);
+    setSocket(s);
 
-  s.on("connect", () => {
-    setIsConnected(true);
-    if (store?.id) {
-      s.emit("join_store", store.id);
-    }
-  });
+    s.on("connect", () => {
+      setIsConnected(true);
+      if (store?.id) {
+        s.emit("join_store", store.id);
+        s.on("new_order", (data) => {
+          refetch();
+        });
+      }
+    });
 
-  s.on("disconnect", () => {
-    setIsConnected(false);
-  });
+    s.on("disconnect", () => {
+      setIsConnected(false);
+    });
 
-  return () => {
-    s.disconnect();
-  };
-}, [store?.id]);
+    return () => {
+      s.disconnect();
+    };
+  }, [store?.id]);
 
-console.log(isConnected);
+
 
   return (
     <View className="bg-black px-6 py-7 shadow-sm pt-18 ">
@@ -54,7 +61,20 @@ console.log(isConnected);
         <View className="flex-row items-center gap-5">
           <ButtonIcon
             notificationIndicator={isConnected}
-            count={1} icon={<Ionicons name="notifications-outline" size={20} color="white" />} onPress={() => router.push('/notifications')} />
+            count={notificationCount}
+            icon={<Ionicons name="notifications-outline" size={20} color="white" />}
+            onPress={() => router.push({
+              pathname: '/notifications',
+              params: {
+                notifiable_id: store?.id,
+                notifiable_type: 'store'
+              }
+            })} />
+
+
+
+
+
           <ButtonIcon icon={<FontAwesome name="user-o" size={20} color="white" />} onPress={() => router.push('/account')} />
         </View>
       </View>
