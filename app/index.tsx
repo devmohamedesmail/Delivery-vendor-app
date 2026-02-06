@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
-import { Text, View } from "react-native";
-import { Link, Redirect, router } from "expo-router";
-import Loading from "@/components/ui/loading";
-import { useTranslation } from "react-i18next";
+import NoAuthorized from "@/components/screens/auth/no-authorized";
 import Layout from "@/components/ui/layout";
+import Loading from "@/components/ui/loading";
 import { useAuth } from "@/hooks/useAuth";
+import { Link, Redirect, router } from "expo-router";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Text, View } from "react-native";
 
 export default function Home() {
   const { auth, isLoading } = useAuth()
@@ -28,20 +29,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <View>
-        <Text className="text-lg text-center mb-4">
-          {t("auth.noauthvarified")}
-        </Text>
-        <Text className="text-lg text-center mb-4">
-          {auth.user?.email}
-        </Text>
-        <Link
-          href="/auth/login"
-          className="bg-primary text-white text-center px-10 py-3 rounded-full"
-        >
-          {t("auth.signIn")}
-        </Link>
-      </View>
+     <NoAuthorized />
     </Layout>
   );
 }

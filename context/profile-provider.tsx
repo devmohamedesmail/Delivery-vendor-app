@@ -18,6 +18,7 @@ export default function ProfileProvider({ children }: { children: React.ReactNod
 
   const { auth } = useAuth();
   const { data, loading, error, refetch } = useFetch(`/users/profile/${auth?.user?.id}`);
+  // const { data, loading, error, refetch } = useFetch(`/auth/get-profile`);
   const profile = data?.data || null;
 
   return (

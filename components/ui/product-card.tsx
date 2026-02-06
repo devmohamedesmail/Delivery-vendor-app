@@ -29,7 +29,7 @@ export default function ProductCard({
   return (
     <View
       key={product.id}
-      className="bg-white rounded-xl mb-3 shadow-sm border border-gray-100 w-[45%] mx-2"
+      className="bg-white dark:bg-card-dark rounded-xl mb-3 shadow-sm  w-[45%] mx-2"
     >
       {/* product Image */}
       <View className="relative">
@@ -70,8 +70,7 @@ export default function ProductCard({
       {/* Product Info */}
       <View className="p-3">
         <Text 
-          className="font-bold text-base text-gray-900 mb-2 text-center" 
-          style={{ fontFamily: "Cairo_600SemiBold" }}
+          className="font-bold text-base text-black dark:text-white mb-2 text-center" 
           numberOfLines={2}
         >
           {product?.name}
@@ -92,7 +91,7 @@ export default function ProductCard({
             <View className="bg-green-50 px-3 py-2 rounded-lg">
               <Text 
                 className="text-center font-bold text-green-700 text-base" 
-                style={{ fontFamily: "Cairo_700Bold" }}
+                
               >
                 {product.price} {config.CURRENCY}
               </Text>
@@ -102,8 +101,8 @@ export default function ProductCard({
               {product.attributes.map((attr: any) => (
                 <View key={attr.id} className="mb-2">
                   <Text 
-                    className="text-xs text-gray-600 mb-1.5 text-center font-semibold" 
-                    style={{ fontFamily: "Cairo_600SemiBold" }}
+                    className="text-xs text-black dark:text-white mb-1.5 text-center font-semibold" 
+                    
                   >
                     {attr.name}
                   </Text>

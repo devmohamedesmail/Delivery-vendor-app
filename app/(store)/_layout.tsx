@@ -17,9 +17,9 @@ export default function Layout() {
         borderTopWidth: 1,
         borderTopColor: colorScheme === "dark" ? '#000' : '#e5e7eb',
 
-        paddingTop: 8,
-        paddingBottom: 10,
-        height: 70,
+        // paddingTop: 8,
+        // paddingBottom: 10,
+        // height: 70,
       },
     }}>
 

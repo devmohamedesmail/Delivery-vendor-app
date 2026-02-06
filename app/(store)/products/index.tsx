@@ -94,7 +94,7 @@ export default function Products() {
       <Header title={t("products.products")} />
 
       <View className="flex flex-row justify-between items-center px-5 py-5">
-        <Text className="font-bold"> {t("products.products_count")} - {products?.length}</Text>
+        <Text className="font-bold text-black dark:text-white"> {t("products.products_count")} - {products?.length}</Text>
 
         <TouchableOpacity
           onPress={() => router.push("/products/add")}
