@@ -1,10 +1,17 @@
 import React from 'react'
-import { Pressable } from 'react-native'
+import { Pressable, View, Text } from 'react-native'
 
-export default function ButtonIcon({ icon, onPress }: { icon: React.ReactNode, onPress: () => void }) {
+
+export default function ButtonIcon({ icon, onPress, count , notificationIndicator }: { icon: React.ReactNode, onPress: () => void, count?: number , notificationIndicator?: boolean }) {
     return (
-        <Pressable onPress={onPress}>
+        <Pressable onPress={onPress} className='bg-gray-800 rounded-full p-2 relative w-12 h-12 flex items-center justify-center'>
             {icon}
+            {count ? <View className='absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center' >
+                <Text className='text-xs text-white font-bold'>{count}</Text>
+            </View> : null}
+            {notificationIndicator && <View className='absolute top-8 -right-0 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center' >
+                <Text className='text-xs text-white font-bold'></Text>
+            </View>}
         </Pressable>
     )
 }
