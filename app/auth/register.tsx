@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message'
 import AuthLayout from '@/components/screens/auth/auth-layout'
 import AuthHeader from '@/components/screens/auth/auth-header'
 import TabButton from '@/components/ui/tab-button'
+import SocialLoginSection from '@/components/screens/auth/social-login-section'
 
 
 
@@ -146,15 +147,7 @@ export default function Register() {
 
                 {/* Tabs for Email/Phone */}
                 <View className="flex-row mb-6 ">
-                    {/* <TouchableOpacity
-                        activeOpacity={1}
-                        className={`flex-1 pb-3 ${registerMethod === 'email' ? 'border-b-2 border-primary' : 'border-b-2 border-gray-200'}`}
-                        onPress={() => setRegisterMethod('email')}
-                    >
-                        <Text className={`text-center font-medium ${registerMethod === 'email' ? 'text-primary' : 'text-gray-500'}`}>
-                            {t('auth.email')}
-                        </Text>
-                    </TouchableOpacity> */}
+                   
                     <TabButton
                         label={t('auth.email')}
                         onPress={() => setRegisterMethod('email')}
@@ -165,15 +158,7 @@ export default function Register() {
                         onPress={() => setRegisterMethod('phone')}
                         active={registerMethod === 'phone'}
                     />
-                    {/* <TouchableOpacity
-                        activeOpacity={1}
-                        className={`flex-1 pb-3 ${registerMethod === 'phone' ? 'border-b-2 border-primary' : ''}`}
-                        onPress={() => setRegisterMethod('phone')}
-                    >
-                        <Text className={`text-center font-medium ${registerMethod === 'phone' ? 'text-primary' : 'text-gray-500'}`}>
-                            {t('auth.phone')}
-                        </Text>
-                    </TouchableOpacity> */}
+                    
                 </View>
 
                 {/* Name Input */}
@@ -243,6 +228,8 @@ export default function Register() {
                         </TouchableOpacity>
                     </View>
                 </View>
+
+                <SocialLoginSection />
             </View>
         </AuthLayout>
     )

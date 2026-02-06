@@ -124,7 +124,11 @@
     "step": "الخطوة",
     "of": "من",
     "email_invalid": "البريد الإلكتروني غير صحيح",
-    "phone_invalid": "رقم الهاتف غير صحيح"
+    "phone_invalid": "رقم الهاتف غير صحيح",
+    "or": "أو",
+    "continueWithGoogle": "المتابعة مع جوجل",
+    "continueWithFacebook": "المتابعة مع فيسبوك",
+    "socialLoginPrivacy": "بالمتابعة، فإنك توافق على شروط الخدمة وسياسة الخصوصية الخاصة بنا"
   },
   "orders": {
     "orders": "الطلبات",

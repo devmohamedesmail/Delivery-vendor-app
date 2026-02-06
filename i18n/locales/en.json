@@ -123,7 +123,11 @@
     "step": "Step",
     "of": "of",
     "email_invalid": "Invalid email address",
-    "phone_invalid": "Invalid phone number"
+    "phone_invalid": "Invalid phone number",
+    "or": "OR",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithFacebook": "Continue with Facebook",
+    "socialLoginPrivacy": "By continuing, you agree to our Terms of Service and Privacy Policy"
   },
   "orders": {
     "orders": "Orders",
