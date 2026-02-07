@@ -10,16 +10,13 @@ const useFetch = (url: string) => {
   const { auth } = useAuth();
 
   const fetchData = useCallback(async () => {
+
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`${config.URL}${url}`, {
-        headers: {
-          Authorization: `Bearer ${auth?.token}`
-        }
-      });
+      const response = await axios.get(`${config.URL}${url}`);
       setData(response.data);
-    } catch (err) {
+    } catch (err: any) {
       setError(err);
     } finally {
       setLoading(false);
