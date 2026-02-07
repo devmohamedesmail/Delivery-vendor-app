@@ -14,7 +14,7 @@ export default function Notifications() {
   const { t } = useTranslation();
   const { notifiable_id, notifiable_type } = useLocalSearchParams();
   const { data, loading } = useFetch(
-    `/notifications/?notifiable_id=${notifiable_id}&notifiable_type=${notifiable_type}`
+    `/notifications?target_type=store&target_id=${notifiable_id}`
   );
 
   const notifications = data?.data || [];

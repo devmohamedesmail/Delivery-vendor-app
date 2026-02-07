@@ -19,7 +19,11 @@ export default function Header({ title, backButton = true }: { title?: string, b
   const [socket, setSocket] = useState<Socket | null>(null);
   const router = useRouter()
   const { store } = useStore();
-  const { data, refetch } = useFetch(`/notifications/?notifiable_id=${store?.id}&notifiable_type=store`)
+  // const { data, refetch } = useFetch(`/notifications?target_type=store&target_id=${store?.id}`)
+
+  const { data, refetch } = useFetch(
+    store?.id ? `/notifications?target_type=store&target_id=${store.id}` : null
+  );
   const notificationCount = data?.data?.length || 0;
 
 
@@ -37,8 +41,8 @@ export default function Header({ title, backButton = true }: { title?: string, b
           // to send notification to all users in the store
           await Notifications.scheduleNotificationAsync({
           content: {
-            title: 'طلب جديد!',
-            body: `لديك طلب جديد برقم #${data.order_id}`,
+            title: t(data.notification.title),
+            body: t(data.notification.message, { order_id: data.order_id }),
             sound: 'default',
             data: { type: 'new_order', order: data },
           },

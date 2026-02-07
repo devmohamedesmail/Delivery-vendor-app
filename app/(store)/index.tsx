@@ -12,15 +12,59 @@ import { Button, Text, View } from 'react-native'
 
 export default function Home() {
   const { t } = useTranslation();
-  const { store, loading } = useStore();
+  const { store } = useStore();
   const { auth, isLoading: authLoading } = useAuth();
+
+
+  // const { expoPushToken, notification } = usePushNotifications();
+
+  // const sendPushNotification = async () => {
+  //   if (!expoPushToken) return;
+
+  //   const message = {
+  //     to: expoPushToken,
+  //     sound: 'default',
+  //     title: 'عنوان الإشعار',
+  //     body: 'هنا محتوى الإشعار!',
+  //     data: { info: 'بيانات إضافية' },
+  //   };
+
+  //   await fetch('https://exp.host/--/api/v2/push/send', {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Accept-encoding': 'gzip, deflate',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(message),
+  //   });
+  // };
 
 
   return (
     <Layout>
       <Header backButton={false} title={t('common.home')} />
+      {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
+        <Text>Token: {expoPushToken}</Text>
+        {notification && (
+          <View>
+            <Text>Title: {notification.request.content.title}</Text>
+            <Text>Body: {notification.request.content.body}</Text>
+            <Text>Data: {JSON.stringify(notification.request.content.data)}</Text>
+          </View>
+        )}
+        <Button title="إرسال إشعار" onPress={sendPushNotification} />
+      </View> */}
 
-      {loading || authLoading ? <Loading /> : (
+
+
+
+
+
+
+
+
+      {authLoading ? <Loading /> : (
         <>{!store ? (<NoStore />) : (
           <StoreInfo />
         )}</>

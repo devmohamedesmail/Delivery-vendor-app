@@ -336,6 +336,7 @@
     "order_cancelled_message": "An order has been cancelled",
     "system_update": "System Update",
     "system_update_message": "New features and improvements are available"
+    
   },
   "settings": {
     "title": "Settings",

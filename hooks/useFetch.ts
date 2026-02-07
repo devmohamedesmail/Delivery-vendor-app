@@ -3,14 +3,14 @@ import axios from "axios";
 import { config } from "@/constants/config";
 import { useAuth } from "./useAuth";
 
-const useFetch = (url: string) => {
+const useFetch = (url: string | null) => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
   const { auth } = useAuth();
 
   const fetchData = useCallback(async () => {
-
+if (!url) return;
     try {
       setLoading(true);
       setError(null);
