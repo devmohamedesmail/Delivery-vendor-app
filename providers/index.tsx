@@ -1,7 +1,8 @@
 import AuthProvider from '@/context/auth-provider';
 import { NetworkProvider } from '@/context/network-provider';
-import ProfileProvider from '@/context/profile-provider';
+
 import SettingProvider from '@/context/setting-provider';
+import StoreProvider from '@/context/store-provider';
 import { ThemeProvider } from '@/context/theme-provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
@@ -18,9 +19,11 @@ export default function AppProviders({ children }: { children: React.ReactNode }
                     <SettingProvider>
                         <NetworkProvider>
                             <AuthProvider>
-                                <ProfileProvider>
-                                    {children}
-                                </ProfileProvider>
+                            
+                                    <StoreProvider>
+                                        {children}
+                                    </StoreProvider>
+                                
                                 <Toast />
                             </AuthProvider>
                         </NetworkProvider>

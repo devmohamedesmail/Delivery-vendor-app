@@ -3,7 +3,27 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { config } from '@/constants/config';
 
+
+
+
+type AuthContextType = {
+  user: any;
+  login: (identifier: string, password: string, method: 'email' | 'phone') => Promise<any>;
+  register: (
+    name: string,
+    identifier: string,
+    password: string,
+    role_id: string,
+    method: 'email' | 'phone'
+  ) => Promise<any>;
+  logout: () => Promise<void>;
+  isAuthenticated: boolean;
+};
+
+
 export const AuthContext = createContext<any>(null);
+
+const STORAGE_KEY = 'user';
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [auth, setAuth] = useState<any>(null);
