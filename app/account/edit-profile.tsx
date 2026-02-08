@@ -2,6 +2,7 @@ import Button from '@/components/ui/button'
 import Header from '@/components/ui/header'
 import Input from '@/components/ui/input'
 import Layout from '@/components/ui/layout'
+import Loading from '@/components/ui/loading'
 import { config } from '@/constants/config'
 import { updateProfile } from '@/controllers/profile'
 import { useAuth } from '@/hooks/useAuth'
@@ -103,11 +104,6 @@ export default function EditProfile() {
                     // Refetch profile data to get updated information
                     await getProfile()
 
-
-                    // Navigate back
-                    setTimeout(() => {
-                        router.back()
-                    }, 1000)
                 }
             } catch (error: any) {
                 console.error('Update error:', error)
@@ -122,17 +118,7 @@ export default function EditProfile() {
         },
     })
 
-    // Load profile data into form
-    // useEffect(() => {
-    //     if (profile) {
-    //         formik.setValues({
-    //             name: profile.name || '',
-    //             email: profile.email || '',
-    //             phone: profile.phone || '',
-    //         })
-    //         setAvatar(profile.avatar || null)
-    //     }
-    // }, [profile])
+
 
     const pickImage = async () => {
         try {
@@ -211,12 +197,7 @@ export default function EditProfile() {
             <Header title={t('account.edit_profile')} />
 
             {fetchingProfile ? (
-                <View className="flex-1 items-center justify-center">
-                    <ActivityIndicator size="large" color="#007AFF" />
-                    <Text className="text-gray-600 dark:text-gray-400 mt-4">
-                        {t('common.loading') || 'Loading...'}
-                    </Text>
-                </View>
+                <Loading />
             ) : (
                 <ScrollView className="flex-1 px-5 py-6">
                     {/* Avatar Section */}

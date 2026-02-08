@@ -15,10 +15,11 @@ import Button from '@/components/ui/button'
 import CustomImagePicker from '@/components/ui/image-picker'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Ionicons } from '@expo/vector-icons'
-import { useProfile } from '@/hooks/useProfile'
 import Toast from 'react-native-toast-message'
 import Layout from '@/components/ui/layout'
 import Header from '@/components/ui/header'
+import { useStore } from '@/hooks/useStore'
+
 
 
 interface StoreType {
@@ -57,8 +58,6 @@ export default function Create() {
     const { data: placesData, loading: loadingPlaces, error: errorPlaces } = useFetch('/places')
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const isArabic = i18n.language === 'ar'
-    const { refetch } = useProfile();
-
 
     // Time picker states
     const [showStartTimePicker, setShowStartTimePicker] = useState(false)
@@ -129,7 +128,7 @@ export default function Create() {
                         visibilityTime: 1000,
                     })
                     formik.resetForm()
-                    await refetch()
+                    
                     setTimeout(() => { router.push('/') }, 1000)
 
                 } else {
