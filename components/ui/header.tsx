@@ -64,7 +64,7 @@ export default function Header({ title, backButton = true }: { title?: string, b
 
 
   return (
-    <View className="bg-black px-6 py-7 shadow-sm pt-18 ">
+    <View className="bg-black px-6 py-7 shadow-sm pt-20 ">
       <View className="flex-row justify-between items-center">
         {backButton && <BackButton />}
 
