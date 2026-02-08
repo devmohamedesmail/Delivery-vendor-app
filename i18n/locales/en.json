@@ -554,10 +554,16 @@
     "password_changed_success": "Password changed successfully",
     "password_changed_failed": "Failed to change password"
   },
+  "network": {
+    "noConnection": "No Internet Connection",
+    "pleaseConnect": "Please connect to WiFi or mobile data to continue",
+    "checkConnection": "Please check your internet connection"
+  },
   "profile": {
     "permissionDenied": "Permission to access gallery was denied",
     "tapToChangeAvatar": "Tap to change profile picture",
     "updateSuccess": "Profile updated successfully",
-    "updateFailed": "Failed to update profile"
+    "updateFailed": "Failed to update profile",
+    "fetchFailed": "Failed to fetch profile"
   }
 }
