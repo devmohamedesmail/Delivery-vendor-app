@@ -1,3 +1,4 @@
+import GoogleLogin from '@/components/ui/google-login'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
@@ -29,23 +30,10 @@ export default function SocialLoginSection() {
             {/* Social Login Buttons */}
             <View className="gap-3">
                 {/* Google Login Button */}
-                <TouchableOpacity
-                    onPress={handleGoogleLogin}
-                    activeOpacity={0.8}
-                    className="flex-row items-center justify-center bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl py-4 px-6 shadow-sm"
-                >
-                    <Image
-                        source={require('@/assets/icons/google.png')}
-                        className="w-6 h-6 mr-3"
-                        resizeMode="contain"
-                    />
-                    <Text className="text-gray-900 dark:text-white font-semibold text-base">
-                        {t('auth.continueWithGoogle')}
-                    </Text>
-                </TouchableOpacity>
+               <GoogleLogin />
 
                 {/* Facebook Login Button */}
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     onPress={handleFacebookLogin}
                     activeOpacity={0.8}
                     className="flex-row items-center justify-center bg-[#1877F2] border-2 border-[#1877F2] rounded-xl py-4 px-6 shadow-sm"
@@ -58,7 +46,7 @@ export default function SocialLoginSection() {
                     <Text className="text-white font-semibold text-base">
                         {t('auth.continueWithFacebook')}
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
 
             {/* Privacy Notice */}

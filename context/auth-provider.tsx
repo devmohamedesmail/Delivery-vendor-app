@@ -1,23 +1,30 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { config } from '@/constants/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import React, { createContext, useEffect, useState } from 'react';
 
 
 
 
 type AuthContextType = {
-  user: any;
-  login: (identifier: string, password: string, method: 'email' | 'phone') => Promise<any>;
-  register: (
-    name: string,
-    identifier: string,
-    password: string,
-    role_id: string,
-    method: 'email' | 'phone'
-  ) => Promise<any>;
-  logout: () => Promise<void>;
-  isAuthenticated: boolean;
+    user: any;
+    login: (identifier: string, password: string, method: 'email' | 'phone') => Promise<any>;
+    register: (
+        name: string,
+        identifier: string,
+        password: string,
+        role_id: string,
+        method: 'email' | 'phone'
+    ) => Promise<any>;
+    logout: () => Promise<void>;
+    isAuthenticated: boolean;
+    social_login: (
+        email: string,
+        name: string,
+        avatar: string,
+        provider: 'google' | 'facebook',
+        provider_id: string,
+    ) => Promise<any>;
 };
 
 
@@ -57,7 +64,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             } else {
                 payload.phone = identifier;
             }
-            const response = await axios.post(`${config.URL}/auth/login`,payload);
+            const response = await axios.post(`${config.URL}/auth/login`, payload);
             const user = response.data;
             await AsyncStorage.setItem('user', JSON.stringify(user));
             setAuth(user);
@@ -99,7 +106,62 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    // logout user
+    /*
+    * handle google sign in
+    */
+    const social_login = async ({
+        email,
+        name,
+        avatar,
+        provider,
+        provider_id,
+        role_id,
+    }: {
+        email: string;
+        name?: string;
+        avatar?: string;
+        provider: 'google' | 'facebook';
+        provider_id: string;
+        role_id: string;
+    }) => {
+        try {
+            const payload = {
+                email,
+                name,
+                avatar,
+                provider,
+                provider_id,
+                role_id,
+            };
+            
+
+            const response = await axios.post(
+                `${config.URL}/auth/social-login`,
+                payload
+            );
+
+            const data = response.data;
+
+            // save user + token
+            await AsyncStorage.setItem('user', JSON.stringify(data));
+            setAuth(data);
+
+            return {
+                success: true,
+                data,
+            };
+
+        } catch (error: any) {
+            return { success: false, message: error.response?.data?.message || 'Google sign in failed' };
+        }
+    };
+
+
+    /**
+     * handle logout user
+     * @returns 
+     * 
+     */
     const logout = async () => {
         try {
             await AsyncStorage.removeItem('user');
@@ -118,6 +180,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             logout,
             user: auth?.user || auth,
             isAuthenticated: !!auth,
+            social_login,
         }}>
             {children}
         </AuthContext.Provider>
