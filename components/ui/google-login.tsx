@@ -6,12 +6,12 @@ import {
 } from "@react-native-google-signin/google-signin";
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Image, Pressable, Text } from 'react-native';
+import { Alert, Animated, Easing, Image, Pressable, Text } from 'react-native';
 
-import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import Toast from 'react-native-toast-message';
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import Toast from 'react-native-toast-message';
 
 
 export default function GoogleLogin() {
@@ -20,6 +20,11 @@ export default function GoogleLogin() {
   const router = useRouter();
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const { social_login } = useAuth();
+
+  // Animation values
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const dotsAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const configureGoogle = async () => {
@@ -45,6 +50,59 @@ export default function GoogleLogin() {
     configureGoogle();
   }, []);
 
+  // Animation effect for loading state
+  useEffect(() => {
+    if (isGoogleLoading) {
+      // Rotation animation
+      Animated.loop(
+        Animated.timing(rotateAnim, {
+          toValue: 1,
+          duration: 1500,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        })
+      ).start();
+
+      // Pulse animation
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, {
+            toValue: 1.1,
+            duration: 600,
+            easing: Easing.ease,
+            useNativeDriver: true,
+          }),
+          Animated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 600,
+            easing: Easing.ease,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+
+      // Dots animation
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(dotsAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+          }),
+          Animated.timing(dotsAnim, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    } else {
+      rotateAnim.setValue(0);
+      pulseAnim.setValue(1);
+      dotsAnim.setValue(0);
+    }
+  }, [isGoogleLoading]);
+
   const signIn = async () => {
     try {
       setIsGoogleLoading(true);
@@ -59,12 +117,12 @@ export default function GoogleLogin() {
         const userData = response.data.user;
 
         const result = await social_login({
-            email: userData.email,
-            name: userData.name,
-            avatar: userData.photo,
-            provider: 'google',
-            provider_id: userData.id,
-            role_id: '3',
+          email: userData.email,
+          name: userData.name,
+          avatar: userData.photo,
+          provider: 'google',
+          provider_id: userData.id,
+          role_id: 3,
         });
 
         if (result.success) {
@@ -87,25 +145,6 @@ export default function GoogleLogin() {
           });
         }
 
-        // if (registerResult.success) {
-        //   Toast.show({
-        //     type: "success",
-        //     text1: t("auth.registration_success"),
-        //     position: "top",
-        //     visibilityTime: 1000,
-        //   });
-
-        //   setTimeout(() => {
-        //     router.push("/");
-        //   }, 3000);
-        // } else {
-        //   Toast.show({
-        //     type: "error",
-        //     text1: t("auth.registration_failed"),
-        //     position: "top",
-        //     visibilityTime: 3000,
-        //   });
-        // }
       } else {
         Toast.show({
           type: "info",
@@ -153,19 +192,74 @@ export default function GoogleLogin() {
   };
 
 
+
+  // Interpolate rotation value
+  const spin = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
+  // Interpolate dots opacity
+  const dotsOpacity = dotsAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.3, 1],
+  });
+
   return (
-    <Pressable
-      onPress={signIn}
-      className="flex-row items-center justify-center bg-black dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl py-4 px-6 shadow-sm"
+    <Animated.View
+      style={{
+        transform: [{ scale: isGoogleLoading ? pulseAnim : 1 }],
+      }}
     >
-      <Image
-        source={require('@/assets/icons/google.png')}
-        className="w-10 h-10 mr-3"
-        resizeMode="contain"
-      />
-      <Text className="text-white dark:text-white font-semibold text-base">
-        {t('auth.continueWithGoogle')}
-      </Text>
-    </Pressable>
+      <Pressable
+        onPress={signIn}
+        disabled={isGoogleLoading}
+        className={`flex-row items-center justify-center rounded-xl py-4 px-6 shadow-lg ${isGoogleLoading
+            ? 'bg-blue-500 dark:bg-blue-600'
+            : 'bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700'
+          }`}
+        style={{
+          opacity: isGoogleLoading ? 0.95 : 1,
+        }}
+      >
+        {isGoogleLoading ? (
+          <>
+            {/* Animated Google Icon with Rotation */}
+            <Animated.Image
+              source={require('@/assets/icons/google.png')}
+              className="w-8 h-8 mr-3"
+              resizeMode="contain"
+              style={{
+                transform: [{ rotate: spin }],
+              }}
+            />
+
+            {/* Loading Text */}
+            <Text className="text-white font-semibold text-base">
+              {t('auth.signingIn')}
+            </Text>
+
+            {/* Animated Dots */}
+            <Animated.Text
+              className="text-white font-bold text-base ml-1"
+              style={{ opacity: dotsOpacity }}
+            >
+              ...
+            </Animated.Text>
+          </>
+        ) : (
+          <>
+            <Image
+              source={require('@/assets/icons/google.png')}
+              className="w-10 h-10 mr-3"
+              resizeMode="contain"
+            />
+            <Text className="text-gray-800 dark:text-white font-semibold text-base">
+              {t('auth.continueWithGoogle')}
+            </Text>
+          </>
+        )}
+      </Pressable>
+    </Animated.View>
   )
 }

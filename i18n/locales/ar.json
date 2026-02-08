@@ -128,7 +128,10 @@
     "or": "أو",
     "continueWithGoogle": "المتابعة مع جوجل",
     "continueWithFacebook": "المتابعة مع فيسبوك",
-    "socialLoginPrivacy": "بالمتابعة، فإنك توافق على شروط الخدمة وسياسة الخصوصية الخاصة بنا"
+    "socialLoginPrivacy": "بالمتابعة، فإنك توافق على شروط الخدمة وسياسة الخصوصية الخاصة بنا",
+    "verifyAccountMessage": "يرجى التحقق من حسابك للمتابعة",
+    "accountEmail": "البريد الإلكتروني للحساب",
+    "needHelpContactSupport": "تحتاج مساعدة؟ اتصل بالدعم"
   },
   "orders": {
     "orders": "الطلبات",

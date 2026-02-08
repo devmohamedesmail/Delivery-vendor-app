@@ -12,6 +12,9 @@ export default function Home() {
   const { t } = useTranslation();
 
 
+  
+
+
   useEffect(() => {
     if (!auth) return;
     if (auth?.user?.role?.role === "store_owner") {

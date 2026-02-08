@@ -127,7 +127,10 @@
     "or": "OR",
     "continueWithGoogle": "Continue with Google",
     "continueWithFacebook": "Continue with Facebook",
-    "socialLoginPrivacy": "By continuing, you agree to our Terms of Service and Privacy Policy"
+    "socialLoginPrivacy": "By continuing, you agree to our Terms of Service and Privacy Policy",
+    "verifyAccountMessage": "Please verify your account to continue",
+    "accountEmail": "Account Email",
+    "needHelpContactSupport": "Need help? Contact support"
   },
   "orders": {
     "orders": "Orders",
