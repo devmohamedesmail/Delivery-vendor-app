@@ -220,7 +220,7 @@ export default function Register() {
 
 
                 {/* Terms and Sign In Link */}
-                <View className="mb-10 py-10">
+                <View className="mt-4">
                     <View className="flex-row justify-center items-center">
                         <Text className="text-gray-600 ">{t('auth.alreadyHaveAccount')} </Text>
                         <TouchableOpacity onPress={() => router.push('/auth/login')}>

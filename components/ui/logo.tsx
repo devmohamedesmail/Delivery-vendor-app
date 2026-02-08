@@ -1,13 +1,15 @@
 import React from 'react'
 import { Image, View } from 'react-native'
+import { useSetting } from '@/hooks/useSetting'
 
 export default function Logo() {
+  const { settings } = useSetting()
   return (
     <View>
-        <Image
-          source={require('../../assets/images/logo.png')}
-          style={{ width: 100, height: 100 }}
-        />
+      <Image
+        source={{ uri: settings?.logo || '' }}
+        style={{ width: 90, height: 90 }}
+      />
     </View>
   )
 }

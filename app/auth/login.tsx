@@ -16,6 +16,7 @@ import SocialLoginSection from '@/components/screens/auth/social-login-section'
 
 
 
+
 export default function Login() {
   const { t, i18n } = useTranslation()
   const router = useRouter()
@@ -26,12 +27,6 @@ export default function Login() {
 
 
   const validationSchema = Yup.object({
-    // email: loginMethod === 'email'
-    //   ? Yup.string().email(t('auth.email_invalid')).required(t('auth.email_required'))
-    //   : Yup.string().notRequired(),
-    // phone: loginMethod === 'phone'
-    //   ? Yup.string().matches(/^[0-9]{10,15}$/, t('auth.phone_invalid')).required(t('auth.phone_required'))
-    //   : Yup.string().notRequired(),
     email: Yup.string().when('loginMethod', {
       is: 'email',
       then: (schema) =>
@@ -110,37 +105,14 @@ export default function Login() {
 
         {/* Tabs for Email/Phone */}
         <View className="flex-row mb-6 border-b border-gray-200">
-          {/* <TouchableOpacity
-            activeOpacity={1}
-            className={`flex-1 flex-row items-center justify-center pb-3 ${loginMethod === 'email' ? 'border-b-2 border-primary' : ''}`}
-            onPress={() => setLoginMethod('email')}
-          >
-            <Fontisto name="email" size={20} color={`${loginMethod === 'email' ? colors.light.tabIconSelected : 'text-gray-500'}`} />
-            <Text className={`text-center mx-2 font-medium ${loginMethod === 'email' ? 'text-primary' : 'text-gray-500'}`}>
-              {t('auth.email')}  
-            </Text>
-
-          </TouchableOpacity> */}
-
-
+         
           <TabButton
             label={t('auth.email')}
             onPress={() => setLoginMethod('email')}
             active={loginMethod === 'email'}
           />
 
-          {/* <TouchableOpacity
-            activeOpacity={1}
-            className={`flex-1 flex-row items-center justify-center pb-3 ${loginMethod === 'phone' ? 'border-b-2 border-primary' : ''}`}
-            onPress={() => setLoginMethod('phone')}
-          >
-            <Entypo name="mobile" size={20} color={`${loginMethod === 'phone' ? colors.light.tabIconSelected : 'text-gray-500'}`} />
-            <Text className={`text-center mx-2 font-medium ${loginMethod === 'phone' ? 'text-primary' : 'text-gray-500'}`}>
-              {t('auth.phone')}
-            </Text>
-           
-          </TouchableOpacity> */}
-
+        
           <TabButton
             label={t('auth.phone')}
             onPress={() => setLoginMethod('phone')}
@@ -215,7 +187,7 @@ export default function Login() {
           </View>
 
           {/* Sign Up Link */}
-          <View className="flex-row justify-center items-center mt-8 mb-8">
+          <View className="flex-row justify-center items-center mt-8">
             <Text className="text-gray-600">
               {t('auth.dontHaveAccount')}
             </Text>

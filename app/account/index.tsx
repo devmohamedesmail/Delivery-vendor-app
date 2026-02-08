@@ -11,6 +11,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {Linking} from 'react-native';
 import AccountActionSection from '@/components/screens/account/account-action-section'
+import { useSetting } from '@/hooks/useSetting'
 
 
 export default function Account() {
@@ -18,6 +19,7 @@ export default function Account() {
     const { auth } = useAuth()
     const { colorScheme , toggleColorScheme } = useColorScheme()
     const router = useRouter()
+    const {settings}=useSetting();
 
  
     return (
@@ -66,13 +68,13 @@ export default function Account() {
 
                     <OptionButton
                         title={t('account.whatsup_support')}
-                        onPress={() => Linking.openURL('https://wa.me/+971589107126')}
+                        onPress={() => Linking.openURL(`https://wa.me/${settings?.whatsapp}`)}
                         icon={<AntDesign name="whats-app" size={20} color='red' />}
                     />
 
                     <OptionButton
                         title={t('account.phone_support')}
-                        onPress={() => Linking.openURL('tel:+971589107126')}
+                        onPress={() => Linking.openURL(`tel:${settings?.phone}`)}
                         icon={<AntDesign name="phone" size={20} color='red' />}
                     />
 
@@ -86,7 +88,6 @@ export default function Account() {
                 <View className="items-center py-8">
                     <Text
                         className="text-sm"
-                        style={{ fontFamily: 'Cairo_400Regular', color: colorScheme === 'dark' ? '#6b7280' : '#9ca3af' }}
                     >
                         {t('account.app_version')} 1.0.0
                     </Text>
