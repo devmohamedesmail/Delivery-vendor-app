@@ -489,7 +489,8 @@
     "storeId": "Store ID",
     "createdAt": "Created At",
     "lastUpdated": "Last Updated",
-    "reviews": "Reviews"
+    "reviews": "Reviews",
+    "edit": "Edit Store"
   },
   "account": {
     "theme": "Theme",

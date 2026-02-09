@@ -58,6 +58,7 @@ export default function Create() {
     const { data: placesData, loading: loadingPlaces, error: errorPlaces } = useFetch('/places')
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const isArabic = i18n.language === 'ar'
+    const {getStore}=useStore()
 
     // Time picker states
     const [showStartTimePicker, setShowStartTimePicker] = useState(false)
@@ -128,7 +129,7 @@ export default function Create() {
                         visibilityTime: 1000,
                     })
                     formik.resetForm()
-                    
+                    await getStore()
                     setTimeout(() => { router.push('/') }, 1000)
 
                 } else {

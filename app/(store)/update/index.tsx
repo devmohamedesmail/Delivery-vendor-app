@@ -16,6 +16,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { Ionicons } from '@expo/vector-icons'
 import Loading from '@/components/ui/loading'
 import Toast from 'react-native-toast-message'
+import KeyboardLayout from '@/components/ui/keyboard-layout'
 
 interface StoreFormValues {
   name: string
@@ -213,11 +214,8 @@ export default function Update() {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-gray-50"
-    >
-      <Layout>
+   <KeyboardLayout>
+    <Layout>
         <Header title={t("store.update_store")} />
 
         <ScrollView className="flex-1 px-6 pt-4" showsVerticalScrollIndicator={false}>
@@ -227,7 +225,7 @@ export default function Update() {
           </Text>
 
           {/* Form Card */}
-          <View className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+          <View className="bg-white dark:bg-card-dark rounded-2xl shadow-sm p-6 mb-6">
             {/* Section 1: Store Information */}
             <View className="mb-6">
               <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
@@ -384,6 +382,8 @@ export default function Update() {
           </View>
         </ScrollView>
       </Layout>
-    </KeyboardAvoidingView>
+   </KeyboardLayout>
+      
+ 
   )
 }
