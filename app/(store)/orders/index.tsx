@@ -17,7 +17,6 @@ export default function Orders() {
   const { t } = useTranslation();
   const { auth } = useAuth();
   const { store } = useStore();
-  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<OrderStatus>("all");
   const [refreshing, setRefreshing] = useState(false);
 
@@ -65,7 +64,7 @@ export default function Orders() {
 
       {/* Order count */}
       <View className="px-5 py-3">
-        <Text className="font-bold text-gray-700">
+        <Text className="font-bold text-black dark:text-white">
           {t("orders.ordersCount")} - {filteredOrders?.length}
         </Text>
       </View>

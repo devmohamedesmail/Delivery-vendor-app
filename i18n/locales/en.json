@@ -36,7 +36,8 @@
     "inactive": "Inactive",
     "uploading": "Uploading...",
     "downloading": "Downloading...",
-    "processing": "Processing..."
+    "processing": "Processing...",
+    "selectOption": "Select Option"
   },
   "auth": {
     "email": "Email",
@@ -165,7 +166,15 @@
     "areYouSureCancel": "Are you sure you want to cancel this order?",
     "acceptingOrder": "Accepting...",
     "trackOrder": "Track Order",
-    "orderAgain": "Order Again"
+    "orderAgain": "Order Again",
+    "orderStatusUpdated": "Order status updated successfully",
+    "failedToUpdateStatus": "Failed to update order status",
+    "updatingStatus": "Updating...",
+    "markAsPreparing": "Mark as Preparing",
+    "markAsOnTheWay": "Mark as On The Way",
+    "markAsDelivered": "Mark as Delivered",
+    "changeStatus": "Change Status",
+    "selectStatus": "Select Status"
   },
   "driver": {
     "homeTitle": "Driver Home",

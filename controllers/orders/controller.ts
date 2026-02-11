@@ -1,5 +1,5 @@
-import axios from "axios";
 import { config } from "@/constants/config";
+import axios from "axios";
 
 interface AcceptOrderParams {
     orderId: number;
@@ -8,6 +8,12 @@ interface AcceptOrderParams {
 
 interface CancelOrderParams {
     orderId: number;
+    token: string;
+}
+
+interface UpdateStatusParams {
+    orderId: number;
+    status: OrderStatus;
     token: string;
 }
 
@@ -85,8 +91,10 @@ export default class OrderController {
      */
     static async acceptOrder({ orderId, token }: AcceptOrderParams) {
         const response = await axios.patch(
-            `${config.URL}/orders/${orderId}/accept`,
-            {},
+            `${config.URL}/orders/${orderId}/status`,
+            {
+
+            },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -107,6 +115,27 @@ export default class OrderController {
         const response = await axios.patch(
             `${config.URL}/orders/${orderId}/cancel`,
             {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        return response.data;
+    }
+
+    /**
+     * Update order status
+     * @param orderId - The order ID
+     * @param status - The new status
+     * @param token - Authorization token
+     * @returns Response data
+     */
+    static async updateStatus({ orderId, status, token }: UpdateStatusParams) {
+        const response = await axios.patch(
+            `${config.URL}/orders/${orderId}/status`,
+            { status },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,

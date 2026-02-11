@@ -36,7 +36,8 @@
     "inactive": "غير نشط",
     "uploading": "جاري الرفع...",
     "downloading": "جاري التحميل...",
-    "processing": "جاري المعالجة..."
+    "processing": "جاري المعالجة...",
+    "selectOption": "اختر من القائمة"
   },
   "auth": {
     "email": "البريد الإلكتروني",
@@ -166,7 +167,15 @@
     "areYouSureCancel": "هل أنت متأكد من رغبتك في إلغاء هذا الطلب؟",
     "acceptingOrder": "جاري قبول الطلب...",
     "trackOrder": "تتبع الطلب",
-    "orderAgain": "اطلب مرة أخرى"
+    "orderAgain": "اطلب مرة أخرى",
+    "orderStatusUpdated": "تم تحديث حالة الطلب بنجاح",
+    "failedToUpdateStatus": "فشل في تحديث حالة الطلب",
+    "updatingStatus": "جاري التحديث...",
+    "markAsPreparing": "وضع علامة كـ قيد التحضير",
+    "markAsOnTheWay": "وضع علامة كـ في الطريق",
+    "markAsDelivered": "وضع علامة كـ تم التوصيل",
+    "changeStatus": "تغيير الحالة",
+    "selectStatus": "اختر الحالة"
   },
   "driver": {
     "homeTitle": "الصفحة الرئيسية للسائق",
