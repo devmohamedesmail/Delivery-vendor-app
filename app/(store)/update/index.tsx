@@ -310,51 +310,23 @@ export default function Update() {
 
 
 
-
+              {/* Start Time */}
               <TimePickerButton
-
                 label={t('store.startTime')}
-                value={formik.values.start_time}
+                value={formik.values.start_time || t('store.selectStartTime')}
                 onPress={() => setShowStartTimePicker(true)}
                 error={formik.touched.start_time && formik.errors.start_time ? formik.errors.start_time : undefined}
               />
-              {/* Start Time */}
-              <View className="mb-4">
-                <Text className="text-gray-700 font-medium mb-2" style={{ fontFamily: 'Cairo_500Medium' }}>
-                  {t('store.startTime')}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => setShowStartTimePicker(true)}
-                  className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex-row items-center justify-between"
-                >
-                  <Text className={formik.values.start_time ? 'text-gray-900' : 'text-gray-400'}>
-                    {formik.values.start_time || t('store.selectStartTime')}
-                  </Text>
-                  <Ionicons name="time" size={20} color="#fd4a12" />
-                </TouchableOpacity>
-                {formik.touched.start_time && formik.errors.start_time && (
-                  <Text className="text-red-500 text-sm mt-1">{formik.errors.start_time}</Text>
-                )}
-              </View>
+             
 
               {/* End Time */}
-              <View className="mb-4">
-                <Text className="text-gray-700 font-medium mb-2">
-                  {t('store.endTime')}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => setShowEndTimePicker(true)}
-                  className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex-row items-center justify-between"
-                >
-                  <Text className={formik.values.end_time ? 'text-gray-900' : 'text-gray-400'}>
-                    {formik.values.end_time || t('store.selectEndTime')}
-                  </Text>
-                  <Ionicons name="time" size={20} color="#fd4a12" />
-                </TouchableOpacity>
-                {formik.touched.end_time && formik.errors.end_time && (
-                  <Text className="text-red-500 text-sm mt-1">{formik.errors.end_time}</Text>
-                )}
-              </View>
+
+              <TimePickerButton
+                label={t('store.endTime')}
+                value={formik.values.end_time || t('store.selectEndTime')}
+                onPress={() => setShowEndTimePicker(true)}
+                error={formik.touched.end_time && formik.errors.end_time ? formik.errors.end_time : undefined}
+              />
 
               {/* Time Pickers */}
               {showStartTimePicker && (
@@ -380,14 +352,11 @@ export default function Update() {
 
             {/* Submit Button */}
             <View className="mt-4">
-              {isSubmitting ? (
-                <Loading />
-              ) : (
-                <Button
-                  title={t('store.updateStoreButton', { defaultValue: 'Update Store' })}
+              <Button
+                  disabled={isSubmitting}
+                  title={isSubmitting ? t('common.update') : t('common.updating')}
                   onPress={formik.handleSubmit}
                 />
-              )}
             </View>
           </View>
         </ScrollView>

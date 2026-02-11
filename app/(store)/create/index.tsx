@@ -20,6 +20,7 @@ import Layout from '@/components/ui/layout'
 import Header from '@/components/ui/header'
 import { useStore } from '@/hooks/useStore'
 import KeyboardLayout from '@/components/ui/keyboard-layout'
+import TimePickerButton from '@/components/ui/time-picker-button'
 
 
 
@@ -59,7 +60,7 @@ export default function Create() {
     const { data: placesData, loading: loadingPlaces, error: errorPlaces } = useFetch('/places')
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const isArabic = i18n.language === 'ar'
-    const {getStore}=useStore()
+    const { getStore } = useStore()
 
     // Time picker states
     const [showStartTimePicker, setShowStartTimePicker] = useState(false)
@@ -206,206 +207,188 @@ export default function Create() {
     }
 
     return (
-       <KeyboardLayout>
-        <Layout>
-            <Header title={t('store.createStore')} />
-            <ScrollView className="flex-1 px-6 pt-4" showsVerticalScrollIndicator={false}>
-                {/* Subtitle */}
-                <Text className={`text-black dark:text-white text-center mb-6 `} >
-                    {t('store.createStoreSubtitle')}
-                </Text>
+        <KeyboardLayout>
+            <Layout>
+                <Header title={t('store.createStore')} />
+                <ScrollView className="flex-1 px-6 pt-4" showsVerticalScrollIndicator={false}>
+                    {/* Subtitle */}
+                    <Text className={`text-black dark:text-white text-center mb-6 `} >
+                        {t('store.createStoreSubtitle')}
+                    </Text>
 
-                {/* Form Card */}
-                <View className="bg-white rounded-2xl shadow-sm p-6 mb-6">
-                    {/* Section 1: Location & Type */}
-                    <View className="mb-6">
-                        <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
-                            <Ionicons name="location-outline" size={24} color="#fd4a12" />
-                            <Text className="text-lg font-semibold text-gray-800 ml-2" >
-                                {t('store.locationAndType')}
-                            </Text>
-                        </View>
-                        <View className="h-1 w-20 bg-primary rounded mb-4" />
-
-                        {/* Place Selection */}
-                        <Select
-                            label={t('store.selectPlace') || 'Select Place'}
-                            placeholder={t('store.choosePlacePlaceholder') || 'Choose a place'}
-                            value={formik.values.place_id}
-                            onSelect={handlePlaceSelect}
-                            options={placeOptions}
-                            error={formik.touched.place_id && formik.errors.place_id ? formik.errors.place_id : undefined}
-                        />
-
-                        {/* Store Type Selection - Only show when place is selected */}
-                        {formik.values.place_id && (
-                            <Select
-                                label={t('store.selectStoreType') || 'Select Store Type'}
-                                placeholder={t('store.chooseStoreTypePlaceholder') || 'Choose a store type'}
-                                value={formik.values.store_type_id}
-                                onSelect={(value: string) => formik.setFieldValue('store_type_id', value)}
-                                options={storeTypeOptions}
-                                disabled={availableStoreTypes.length === 0}
-                                error={formik.touched.store_type_id && formik.errors.store_type_id ? formik.errors.store_type_id : undefined}
-                            />
-                        )}
-
-                        {/* Show message if no store types available */}
-                        {formik.values.place_id && availableStoreTypes.length === 0 && (
-                            <View className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mt-4">
-                                <Text className="text-yellow-800 text-center" style={{ fontFamily: 'Cairo_400Regular' }}>
-                                    {t('store.noStoreTypesAvailable') || 'No store types available for this place'}
+                    {/* Form Card */}
+                    <View className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+                        {/* Section 1: Location & Type */}
+                        <View className="mb-6">
+                            <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
+                                <Ionicons name="location-outline" size={24} color="#fd4a12" />
+                                <Text className="text-lg font-semibold text-gray-800 ml-2" >
+                                    {t('store.locationAndType')}
                                 </Text>
                             </View>
+                            <View className="h-1 w-20 bg-primary rounded mb-4" />
+
+                            {/* Place Selection */}
+                            <Select
+                                label={t('store.selectPlace') || 'Select Place'}
+                                placeholder={t('store.choosePlacePlaceholder') || 'Choose a place'}
+                                value={formik.values.place_id}
+                                onSelect={handlePlaceSelect}
+                                options={placeOptions}
+                                error={formik.touched.place_id && formik.errors.place_id ? formik.errors.place_id : undefined}
+                            />
+
+                            {/* Store Type Selection - Only show when place is selected */}
+                            {formik.values.place_id && (
+                                <Select
+                                    label={t('store.selectStoreType') || 'Select Store Type'}
+                                    placeholder={t('store.chooseStoreTypePlaceholder') || 'Choose a store type'}
+                                    value={formik.values.store_type_id}
+                                    onSelect={(value: string) => formik.setFieldValue('store_type_id', value)}
+                                    options={storeTypeOptions}
+                                    disabled={availableStoreTypes.length === 0}
+                                    error={formik.touched.store_type_id && formik.errors.store_type_id ? formik.errors.store_type_id : undefined}
+                                />
+                            )}
+
+                            {/* Show message if no store types available */}
+                            {formik.values.place_id && availableStoreTypes.length === 0 && (
+                                <View className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mt-4">
+                                    <Text className="text-yellow-800 text-center" style={{ fontFamily: 'Cairo_400Regular' }}>
+                                        {t('store.noStoreTypesAvailable') || 'No store types available for this place'}
+                                    </Text>
+                                </View>
+                            )}
+                        </View>
+
+                        {/* Show form fields only when store type is selected */}
+                        {formik.values.store_type_id && (
+                            <>
+                                {/* Section 2: Store Information */}
+                                <View className="mb-6">
+                                    <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
+                                        <Ionicons name="storefront-outline" size={24} color="#fd4a12" />
+                                        <Text className="text-lg font-semibold text-gray-800 ml-2" >
+                                            {t('store.storeInformation') || 'Store Information'}
+                                        </Text>
+                                    </View>
+                                    <View className="h-1 w-20 bg-primary rounded mb-4" />
+
+                                    {/* Store Name */}
+                                    <Input
+                                        label={t('store.storeName') || 'Store Name *'}
+                                        placeholder={t('store.enterStoreName') || 'Enter store name'}
+                                        value={formik.values.name}
+                                        onChangeText={formik.handleChange('name')}
+                                        keyboardType="default"
+                                        error={formik.touched.name && formik.errors.name ? formik.errors.name : undefined}
+                                    />
+
+                                    {/* Address */}
+
+
+                                    {/* Phone */}
+                                    <Input
+                                        label={t('store.storePhone') || 'Phone *'}
+                                        placeholder={t('store.enterPhone') || 'Enter phone number'}
+                                        value={formik.values.phone}
+                                        onChangeText={formik.handleChange('phone')}
+                                        keyboardType="phone-pad"
+                                        error={formik.touched.phone && formik.errors.phone ? formik.errors.phone : undefined}
+                                    />
+                                </View>
+
+                                {/* Section 3: Store Images */}
+                                <View className="mb-6">
+                                    <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
+                                        <Ionicons name="images-outline" size={24} color="#fd4a12" />
+                                        <Text className="text-lg font-semibold text-gray-800 ml-2">
+                                            {t('store.storeImages')}
+                                        </Text>
+                                    </View>
+                                    <View className="h-1 w-20 bg-primary rounded mb-4" />
+
+                                    {/* Logo Image */}
+                                    <CustomImagePicker
+                                        label={t('store.storeLogo') || 'Store Logo'}
+                                        placeholder={t('store.selectLogo') || 'Tap to select logo'}
+                                        value={formik.values.logo}
+                                        onImageSelect={(uri) => formik.setFieldValue('logo', uri)}
+                                        aspect={[1, 1]}
+                                        allowsEditing={true}
+                                    />
+
+                                    {/* Banner Image */}
+
+                                </View>
+
+                                {/* Section 4: Operating Hours */}
+                                <View className="mb-6">
+                                    <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
+                                        <Ionicons name="time-outline" size={24} color="#fd4a12" />
+                                        <Text className="text-lg font-semibold text-gray-800 ml-2" >
+                                            {t('store.operatingHours')}
+                                        </Text>
+                                    </View>
+                                    <View className="h-1 w-20 bg-primary rounded mb-4" />
+
+                                    {/* Start Time */}
+
+
+                                    <TimePickerButton
+                                        label={t('store.startTime')}
+                                        value={formik.values.start_time}
+                                        onPress={() => setShowStartTimePicker(true)}
+                                        error={formik.touched.start_time && formik.errors.start_time ? formik.errors.start_time : undefined}
+                                    />
+
+                                    {/* End Time */}
+
+
+                                    <TimePickerButton
+                                        label={t('store.endTime')}
+                                        value={formik.values.end_time}
+                                        onPress={() => setShowEndTimePicker(true)}
+                                        error={formik.touched.end_time && formik.errors.end_time ? formik.errors.end_time : undefined}
+                                    />
+
+                                    {/* Time Pickers */}
+                                    {showStartTimePicker && (
+                                        <DateTimePicker
+                                            value={startTimeDate}
+                                            mode="time"
+                                            is24Hour={false}
+                                            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                                            onChange={handleStartTimeChange}
+                                        />
+                                    )}
+
+                                    {showEndTimePicker && (
+                                        <DateTimePicker
+                                            value={endTimeDate}
+                                            mode="time"
+                                            is24Hour={false}
+                                            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                                            onChange={handleEndTimeChange}
+                                        />
+                                    )}
+                                </View>
+
+
+
+                                {/* Submit Button */}
+                                <View className="mt-4">
+                                    <Button
+                                        disabled={isSubmitting}
+                                        title={isSubmitting ? t('common.create') : t('common.creating')}
+                                        onPress={formik.handleSubmit}
+                                    />
+                                </View>
+                            </>
                         )}
                     </View>
-
-                    {/* Show form fields only when store type is selected */}
-                    {formik.values.store_type_id && (
-                        <>
-                            {/* Section 2: Store Information */}
-                            <View className="mb-6">
-                                <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
-                                    <Ionicons name="storefront-outline" size={24} color="#fd4a12" />
-                                    <Text className="text-lg font-semibold text-gray-800 ml-2" >
-                                        {t('store.storeInformation') || 'Store Information'}
-                                    </Text>
-                                </View>
-                                <View className="h-1 w-20 bg-primary rounded mb-4" />
-
-                                {/* Store Name */}
-                                <Input
-                                    label={t('store.storeName') || 'Store Name *'}
-                                    placeholder={t('store.enterStoreName') || 'Enter store name'}
-                                    value={formik.values.name}
-                                    onChangeText={formik.handleChange('name')}
-                                    keyboardType="default"
-                                    error={formik.touched.name && formik.errors.name ? formik.errors.name : undefined}
-                                />
-
-                                {/* Address */}
-                   
-
-                                {/* Phone */}
-                                <Input
-                                    label={t('store.storePhone') || 'Phone *'}
-                                    placeholder={t('store.enterPhone') || 'Enter phone number'}
-                                    value={formik.values.phone}
-                                    onChangeText={formik.handleChange('phone')}
-                                    keyboardType="phone-pad"
-                                    error={formik.touched.phone && formik.errors.phone ? formik.errors.phone : undefined}
-                                />
-                            </View>
-
-                            {/* Section 3: Store Images */}
-                            <View className="mb-6">
-                                <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
-                                    <Ionicons name="images-outline" size={24} color="#fd4a12" />
-                                    <Text className="text-lg font-semibold text-gray-800 ml-2">
-                                        {t('store.storeImages')}
-                                    </Text>
-                                </View>
-                                <View className="h-1 w-20 bg-primary rounded mb-4" />
-
-                                {/* Logo Image */}
-                                <CustomImagePicker
-                                    label={t('store.storeLogo') || 'Store Logo'}
-                                    placeholder={t('store.selectLogo') || 'Tap to select logo'}
-                                    value={formik.values.logo}
-                                    onImageSelect={(uri) => formik.setFieldValue('logo', uri)}
-                                    aspect={[1, 1]}
-                                    allowsEditing={true}
-                                />
-
-                                {/* Banner Image */}
-                       
-                            </View>
-
-                            {/* Section 4: Operating Hours */}
-                            <View className="mb-6">
-                                <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
-                                    <Ionicons name="time-outline" size={24} color="#fd4a12" />
-                                    <Text className="text-lg font-semibold text-gray-800 ml-2" >
-                                        {t('store.operatingHours')}
-                                    </Text>
-                                </View>
-                                <View className="h-1 w-20 bg-primary rounded mb-4" />
-
-                                {/* Start Time */}
-                                <View className="mb-4">
-                                    <Text className="text-gray-700 font-medium mb-2" style={{ fontFamily: 'Cairo_500Medium' }}>
-                                        {t('store.startTime')}
-                                    </Text>
-                                    <TouchableOpacity
-                                        onPress={() => setShowStartTimePicker(true)}
-                                        className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex-row items-center justify-between"
-                                    >
-                                        <Text className={formik.values.start_time ? 'text-gray-900' : 'text-gray-400'}>
-                                            {formik.values.start_time || t('store.selectStartTime')}
-                                        </Text>
-                                        <Ionicons name="time" size={20} color="#fd4a12" />
-                                    </TouchableOpacity>
-                                    {formik.touched.start_time && formik.errors.start_time && (
-                                        <Text className="text-red-500 text-sm mt-1">{formik.errors.start_time}</Text>
-                                    )}
-                                </View>
-
-                                {/* End Time */}
-                                <View className="mb-4">
-                                    <Text className="text-gray-700 font-medium mb-2">
-                                        {t('store.endTime')}
-                                    </Text>
-                                    <TouchableOpacity
-                                        onPress={() => setShowEndTimePicker(true)}
-                                        className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex-row items-center justify-between"
-                                    >
-                                        <Text className={formik.values.end_time ? 'text-gray-900' : 'text-gray-400'}>
-                                            {formik.values.end_time || t('store.selectEndTime')}
-                                        </Text>
-                                        <Ionicons name="time" size={20} color="#fd4a12" />
-                                    </TouchableOpacity>
-                                    {formik.touched.end_time && formik.errors.end_time && (
-                                        <Text className="text-red-500 text-sm mt-1">{formik.errors.end_time}</Text>
-                                    )}
-                                </View>
-
-                                {/* Time Pickers */}
-                                {showStartTimePicker && (
-                                    <DateTimePicker
-                                        value={startTimeDate}
-                                        mode="time"
-                                        is24Hour={false}
-                                        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                                        onChange={handleStartTimeChange}
-                                    />
-                                )}
-
-                                {showEndTimePicker && (
-                                    <DateTimePicker
-                                        value={endTimeDate}
-                                        mode="time"
-                                        is24Hour={false}
-                                        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                                        onChange={handleEndTimeChange}
-                                    />
-                                )}
-                            </View>
-
-
-
-                            {/* Submit Button */}
-                            <View className="mt-4">
-                                <Button
-                                    disabled={isSubmitting}
-                                    title={t('store.createStoreButton') || 'Create Store'}
-                                    onPress={formik.handleSubmit}
-                                />
-                            </View>
-                        </>
-                    )}
-                </View>
-            </ScrollView>
-        </Layout>
-       </KeyboardLayout>
+                </ScrollView>
+            </Layout>
+        </KeyboardLayout>
     )
 }
