@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 
+import { SettingContextType } from '@/@types'
 import { SettingContext } from '@/context/setting-provider'
-import { SettingContextType } from '@/types'
 
 export const useSetting = (): SettingContextType => {
   const context = useContext(SettingContext)

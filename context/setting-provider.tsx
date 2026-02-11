@@ -1,5 +1,5 @@
+import { Setting, SettingContextType } from '@/@types'
 import { config } from '@/constants/config'
-import { Setting, SettingContextType } from '@/types'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 

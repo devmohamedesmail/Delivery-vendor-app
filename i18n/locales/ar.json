@@ -491,7 +491,9 @@
     "createdAt": "تاريخ الانشاء",
     "lastUpdated": "تاريخ التحديث",
     "reviews": "التقييمات",
-    "edit": "  تعديل المتجر  "
+    "edit": "  تعديل المتجر  ",
+    "tapToChange": "اضغط للتغيير",
+    "selectTime": "اختر الوقت"
   },
   "account": {
     "theme": "المظهر",

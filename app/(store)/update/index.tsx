@@ -2,7 +2,7 @@ import Header from '@/components/ui/header'
 import Layout from '@/components/ui/layout'
 import React, { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, Text, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Platform, TouchableOpacity } from 'react-native'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -17,6 +17,9 @@ import { Ionicons } from '@expo/vector-icons'
 import Loading from '@/components/ui/loading'
 import Toast from 'react-native-toast-message'
 import KeyboardLayout from '@/components/ui/keyboard-layout'
+import { useStore } from '@/hooks/useStore'
+import TimePickerButton from '@/components/ui/time-picker-button'
+
 
 interface StoreFormValues {
   name: string
@@ -36,6 +39,7 @@ export default function Update() {
   const storeData = data ? JSON.parse(data as string) : null
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const isArabic = i18n.language === 'ar'
+  const { getStore } = useStore()
 
   // Initialize time dates from store data
   const parseTime = (timeString: string) => {
@@ -92,7 +96,7 @@ export default function Update() {
             position: 'bottom',
             visibilityTime: 2000,
           })
-          
+
           setIsSubmitting(false)
           return
         }
@@ -128,14 +132,7 @@ export default function Update() {
           formData.append('banner', bannerFile)
         }
 
-        console.log('Updating store with ID:', storeData?.id)
-        console.log('FormData values:', {
-          name: values.name,
-          address: values.address,
-          phone: values.phone,
-          start_time: values.start_time,
-          end_time: values.end_time,
-        })
+
 
         const { data } = await axios.put(
           `${config.URL}/stores/update/${storeData?.id}`,
@@ -152,23 +149,23 @@ export default function Update() {
           Toast.show({
             type: 'success',
             text1: t('store.storeUpdatedSuccess'),
-            position: 'bottom',
+            position: 'top',
             visibilityTime: 2000,
           })
-          router.back()
+          await getStore()
+          setTimeout(() => {
+            router.back()
+          }, 1000);
         } else {
           Toast.show({
             type: 'error',
             text1: t('store.storeUpdateFailed'),
-            position: 'bottom',
+            position: 'top',
             visibilityTime: 2000,
           })
         }
 
       } catch (error: any) {
-        console.error('Store update error:', error)
-        console.error('Error response:', error.response?.data)
-        console.error('Error status:', error.response?.status)
         Toast.show({
           type: 'error',
           text1: error.response?.data?.message || t('store.storeUpdateFailed'),
@@ -214,8 +211,8 @@ export default function Update() {
   }
 
   return (
-   <KeyboardLayout>
-    <Layout>
+    <KeyboardLayout>
+      <Layout>
         <Header title={t("store.update_store")} />
 
         <ScrollView className="flex-1 px-6 pt-4" showsVerticalScrollIndicator={false}>
@@ -308,6 +305,19 @@ export default function Update() {
               </View>
               <View className="h-1 w-20 bg-primary rounded mb-4" />
 
+
+
+
+
+
+
+              <TimePickerButton
+
+                label={t('store.startTime')}
+                value={formik.values.start_time}
+                onPress={() => setShowStartTimePicker(true)}
+                error={formik.touched.start_time && formik.errors.start_time ? formik.errors.start_time : undefined}
+              />
               {/* Start Time */}
               <View className="mb-4">
                 <Text className="text-gray-700 font-medium mb-2" style={{ fontFamily: 'Cairo_500Medium' }}>
@@ -351,7 +361,7 @@ export default function Update() {
                 <DateTimePicker
                   value={startTimeDate}
                   mode="time"
-                  is24Hour={true}
+                  is24Hour={false}
                   display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                   onChange={handleStartTimeChange}
                 />
@@ -361,7 +371,7 @@ export default function Update() {
                 <DateTimePicker
                   value={endTimeDate}
                   mode="time"
-                  is24Hour={true}
+                  is24Hour={false}
                   display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                   onChange={handleEndTimeChange}
                 />
@@ -382,8 +392,8 @@ export default function Update() {
           </View>
         </ScrollView>
       </Layout>
-   </KeyboardLayout>
-      
- 
+    </KeyboardLayout>
+
+
   )
 }

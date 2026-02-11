@@ -19,6 +19,7 @@ import Toast from 'react-native-toast-message'
 import Layout from '@/components/ui/layout'
 import Header from '@/components/ui/header'
 import { useStore } from '@/hooks/useStore'
+import KeyboardLayout from '@/components/ui/keyboard-layout'
 
 
 
@@ -73,6 +74,7 @@ export default function Create() {
         name: Yup.string().required(t('store.nameRequired')),
         phone: Yup.string().required(t('store.phoneRequired')),
         start_time: Yup.string().required(t('store.startTimeRequired')),
+        end_time: Yup.string().required(t('store.endTimeRequired')),
 
     })
 
@@ -143,7 +145,6 @@ export default function Create() {
                 }
 
             } catch (error: any) {
-                console.log("Error Creating Store", error)
                 Toast.show({
                     type: 'error',
                     text1: t('store.storeCreationFailed'),
@@ -176,7 +177,6 @@ export default function Create() {
 
     const handlePlaceSelect = (value: string) => {
         formik.setFieldValue('place_id', value)
-        // Reset store type when place changes
         formik.setFieldValue('store_type_id', '')
     }
 
@@ -206,6 +206,7 @@ export default function Create() {
     }
 
     return (
+       <KeyboardLayout>
         <Layout>
             <Header title={t('store.createStore')} />
             <ScrollView className="flex-1 px-6 pt-4" showsVerticalScrollIndicator={false}>
@@ -283,14 +284,7 @@ export default function Create() {
                                 />
 
                                 {/* Address */}
-                                {/* <Input
-                    label={t('store.storeAddress') || 'Address *'}
-                    placeholder={t('store.enterAddress') || 'Enter address'}
-                    value={formik.values.address}
-                    onChangeText={formik.handleChange('address')}
-                    keyboardType="default"
-                    error={formik.touched.address && formik.errors.address ? formik.errors.address : undefined}
-                  /> */}
+                   
 
                                 {/* Phone */}
                                 <Input
@@ -324,14 +318,7 @@ export default function Create() {
                                 />
 
                                 {/* Banner Image */}
-                                {/* <CustomImagePicker
-                    label={t('store.storeBanner') || 'Store Banner'}
-                    placeholder={t('store.selectBanner') || 'Tap to select banner'}
-                    value={formik.values.banner}
-                    onImageSelect={(uri) => formik.setFieldValue('banner', uri)}
-                    aspect={[16, 9]}
-                    allowsEditing={true}
-                  /> */}
+                       
                             </View>
 
                             {/* Section 4: Operating Hours */}
@@ -387,7 +374,7 @@ export default function Create() {
                                     <DateTimePicker
                                         value={startTimeDate}
                                         mode="time"
-                                        is24Hour={true}
+                                        is24Hour={false}
                                         display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                                         onChange={handleStartTimeChange}
                                     />
@@ -397,7 +384,7 @@ export default function Create() {
                                     <DateTimePicker
                                         value={endTimeDate}
                                         mode="time"
-                                        is24Hour={true}
+                                        is24Hour={false}
                                         display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                                         onChange={handleEndTimeChange}
                                     />
@@ -419,5 +406,6 @@ export default function Create() {
                 </View>
             </ScrollView>
         </Layout>
+       </KeyboardLayout>
     )
 }

@@ -490,7 +490,9 @@
     "createdAt": "Created At",
     "lastUpdated": "Last Updated",
     "reviews": "Reviews",
-    "edit": "Edit Store"
+    "edit": "Edit Store",
+    "tapToChange": "Tap to change",
+    "selectTime": "Select time"
   },
   "account": {
     "theme": "Theme",
