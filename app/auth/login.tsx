@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity,ScrollView, Pressable } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -100,8 +100,8 @@ export default function Login() {
 
   return (
     <AuthLayout>
-      <AuthHeader title={t('auth.signIn')} description={t('auth.loginDescription')} />
-      <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white pt-10">
+      <AuthHeader title={t('auth.signIn')} />
+      <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white dark:bg-card-dark pt-10">
 
         {/* Tabs for Email/Phone */}
         <View className="flex-row mb-6 border-b border-gray-200">
@@ -156,20 +156,20 @@ export default function Login() {
 
           {/* Remember Me & Forgot Password */}
           <View className={`flex-row justify-between items-center mt-4 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
-            <TouchableOpacity
+            <Pressable
               onPress={() => setRememberMe(!rememberMe)}
               className="flex-row items-center"
             >
               <View className={`w-5 h-5 border-2 border-gray-300 rounded mr-2 items-center justify-center ${rememberMe ? ' border-primary' : ''}`}>
                 {rememberMe && <Ionicons name="checkmark" size={12} color="white" />}
               </View>
-              <Text className="text-black">
+              <Text className="text-black dark:text-white">
                 {t('auth.rememberMe')}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
 
             <Link href="/auth/forget-password" >
-              <Text className="text-primary font-medium">
+              <Text className="text-primary dark:text-white font-medium">
                 {t('auth.forgotPassword')}
               </Text>
             </Link>
@@ -188,11 +188,11 @@ export default function Login() {
 
           {/* Sign Up Link */}
           <View className="flex-row justify-center items-center mt-8">
-            <Text className="text-gray-600">
+            <Text className="text-gray-600 dark:text-white">
               {t('auth.dontHaveAccount')}
             </Text>
             <TouchableOpacity onPress={() => router.push('/auth/register')}>
-              <Text className="text-primary font-semibold ml-1">
+              <Text className="text-primary dark:text-white font-semibold ml-1">
                 {t('auth.signUp')}
               </Text>
             </TouchableOpacity>

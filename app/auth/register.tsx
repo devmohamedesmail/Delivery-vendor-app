@@ -141,9 +141,9 @@ export default function Register() {
     return (
 
         <AuthLayout>
-            <AuthHeader title={t('auth.createAccount')} description={t('auth.registerDescription')} />
+            <AuthHeader title={t('auth.createAccount')}  />
 
-            <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white pt-10">
+            <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white dark:bg-card-dark pt-10">
 
                 {/* Tabs for Email/Phone */}
                 <View className="flex-row mb-6 ">

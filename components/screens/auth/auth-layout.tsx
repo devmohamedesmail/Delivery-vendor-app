@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ScrollView, KeyboardAvoidingView, Platform, StatusBar } from 'react-native'
+import { ScrollView, KeyboardAvoidingView, Platform, StatusBar, View } from 'react-native'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -17,6 +17,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 >
                     {children}
                 </ScrollView>
+               
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
