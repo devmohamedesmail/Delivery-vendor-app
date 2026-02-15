@@ -10,7 +10,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
-import Select from './select';
+import Select from '@/components/ui/select';
 
 const statusConfig = {
     pending: {

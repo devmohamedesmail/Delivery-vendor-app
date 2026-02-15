@@ -5,7 +5,8 @@ import { View, Text, FlatList } from "react-native";
 import Header from "@/components/ui/header";
 import { useTranslation } from "react-i18next";
 import Layout from "@/components/ui/layout";
-import ProductCard from "@/components/ui/product-card";
+import ProductCard from "@/components/screens/products/product-card";
+
 
 interface Product {
   id: number;

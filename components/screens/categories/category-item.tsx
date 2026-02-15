@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import Button from './button';
+import Button from '@/components/ui/button';
 
 
 export default function CategoryItem({ category, handleDelete }: any) {

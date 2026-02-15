@@ -12,11 +12,11 @@ import Toast from "react-native-toast-message";
 import { useStore } from '@/hooks/useStore';
 import { useAuth } from '@/hooks/useAuth';
 import CategoryController from '@/controllers/categories/contoller';
-import CategoryItem from '@/components/ui/category-item';
 import Loading from '@/components/ui/loading';
 import NoCategories from '@/components/screens/categories/no-categories';
 import FloatButton from '@/components/ui/float-button';
 import { AntDesign } from '@expo/vector-icons';
+import CategoryItem from '@/components/screens/categories/category-item';
 
 export default function Categories() {
   const { t } = useTranslation();
@@ -104,9 +104,7 @@ export default function Categories() {
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         renderItem={({ item: category }) => (
-          <CategoryItem category={category} handleDelete={handleDelete} />
-        
-        )}
+          <CategoryItem category={category} handleDelete={handleDelete} />)}
         contentContainerStyle={{ padding: 16 }}
         refreshControl={
           <RefreshControl

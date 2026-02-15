@@ -6,10 +6,12 @@ export default function Logo() {
   const { settings } = useSetting()
   return (
     <View>
-      <Image
-        source={{ uri: settings?.logo || '' }}
-        style={{ width: 90, height: 90 }}
-      />
+      {settings?.logo && (
+        <Image
+          source={{ uri: settings?.logo }}
+          style={{ width: 90, height: 90 }}
+        />
+      )}
     </View>
   )
 }

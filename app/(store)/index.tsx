@@ -12,7 +12,7 @@ import { Button, Text, View } from 'react-native'
 
 export default function Home() {
   const { t } = useTranslation();
-  const { store } = useStore();
+  const { store, isLoading } = useStore();
   const { auth, isLoading: authLoading } = useAuth();
 
 
@@ -64,12 +64,21 @@ export default function Home() {
 
 
 
-      {authLoading ? <Loading /> : (
+      {/* {authLoading ? <Loading /> : (
         <>{!store ? (<NoStore />) : (
           <StoreInfo />
         )}</>
 
 
+      )} */}
+
+
+      {isLoading ? (
+        <Loading />
+      ) : store ? (
+        <StoreInfo />
+      ) : (
+        <NoStore />
       )}
     </Layout>
   )

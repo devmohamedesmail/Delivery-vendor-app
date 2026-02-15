@@ -1,38 +1,47 @@
-import NoAuthorized from "@/components/screens/auth/no-authorized";
 import Layout from "@/components/ui/layout";
-import Loading from "@/components/ui/loading";
+import Splash from "@/components/ui/splash";
 import { useAuth } from "@/hooks/useAuth";
-import { Link, Redirect, router } from "expo-router";
-import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { router } from "expo-router";
+import React, { useEffect,useRef, useState } from "react";
 
 export default function Home() {
-  const { auth, isLoading } = useAuth()
-  const { t } = useTranslation();
+  const { auth, isLoading } = useAuth();
+  const hasRedirected = useRef(false);
+   const [minTimePassed, setMinTimePassed] = useState(false);
 
+
+    useEffect(() => {
+    const timer = setTimeout(() => {
+      setMinTimePassed(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   
-
-
   useEffect(() => {
-    if (!auth) return;
+    if (isLoading) return;
+    if (!minTimePassed) return;
+    if (hasRedirected.current) return;
+
+    hasRedirected.current = true;
+
+    if (!auth) {
+      router.replace("/auth/login");
+      return;
+    }
+
     if (auth?.user?.role?.role === "store_owner") {
       router.replace("/(store)");
+      return;
     }
-  }, [auth]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (!auth) {
-    return <Redirect href="/auth/login" />;
-  }
+    router.replace("/auth/no-authorized");
+  }, [auth, isLoading,minTimePassed]);
 
   return (
     <Layout>
-     <NoAuthorized />
+      <Splash />
     </Layout>
   );
 }

@@ -4,6 +4,7 @@ import AppProviders from '@/providers'
 import '../i18n/i18n'
 import '../global.css'
 import { initI18n } from '@/i18n/i18n';
+
 export default function RootLayout() {
     const [ready, setReady] = useState(false);
 
@@ -15,10 +16,11 @@ export default function RootLayout() {
     return (
 
         <AppProviders>
-            <Stack initialRouteName="index" screenOptions={{ headerShown: false }}>
+            {/* <Stack initialRouteName="index" screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name="(store)" />
-            </Stack>
+            </Stack> */}
+             <Stack screenOptions={{ headerShown: false }} />
         </AppProviders>
     )
 }

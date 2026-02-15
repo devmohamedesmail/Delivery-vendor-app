@@ -7,10 +7,12 @@ import Header from "@/components/ui/header";
 import { useStore } from "@/hooks/useStore";
 import OrderController, { Order, OrderStatus } from "@/controllers/orders/controller";
 import { useAuth } from "@/hooks/useAuth";
-import OrderCard from "@/components/ui/order-card";
+
 import NoOrders from "@/components/screens/orders/no-orders";
 import OrdersFilterSection from "@/components/screens/orders/orders-filter-section";
-import OrderSkeleton from "@/components/ui/order-skeleton";
+import OrderSkeleton from "@/components/screens/orders/order-skeleton";
+import OrderCard from "@/components/screens/orders/order-card";
+
 
 
 export default function Orders() {

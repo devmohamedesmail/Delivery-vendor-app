@@ -579,5 +579,9 @@
     "updateSuccess": "Profile updated successfully",
     "updateFailed": "Failed to update profile",
     "fetchFailed": "Failed to fetch profile"
+  },
+  "splash": {
+    "welcome_message": "Riva Delivery",
+    "loading_app": "Loading your experience..."
   }
 }

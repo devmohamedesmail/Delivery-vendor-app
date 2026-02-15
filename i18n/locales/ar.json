@@ -580,5 +580,9 @@
     "updateSuccess": "تم تحديث الملف الشخصي بنجاح",
     "updateFailed": "فشل تحديث الملف الشخصي",
     "fetchFailed": "فشل في جلب الملف الشخصي"
+  },
+  "splash": {
+    "welcome_message": "Riva Delivery",
+    "loading_app": "جاري تحميل التجربة..."
   }
 }

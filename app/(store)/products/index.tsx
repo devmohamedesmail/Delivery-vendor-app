@@ -20,8 +20,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import Toast from "react-native-toast-message";
-import ProductCard from "@/components/ui/product-card";
 import NoProducts from "@/components/screens/products/no-products";
+import ProductCard from "@/components/screens/products/product-card";
 
 
 
@@ -29,7 +29,7 @@ export default function Products() {
   const { t } = useTranslation();
   const { auth } = useAuth();
   const router = useRouter();
-  const { store, loading } = useStore();
+  const { store } = useStore();
   const queryClient = useQueryClient();
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ["products", store.id],
@@ -103,7 +103,7 @@ export default function Products() {
         </TouchableOpacity>
       </View>
 
-      {loading ? <Loading /> : null}
+      {/* {loading ? <Loading /> : null} */}
 
       {isLoading ? (
         <View className="mt-10 flex gap-4 px-3">
