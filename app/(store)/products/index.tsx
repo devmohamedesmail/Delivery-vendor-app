@@ -21,7 +21,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import Toast from "react-native-toast-message";
 import ProductCard from "@/components/ui/product-card";
-import NoProducts from "@/components/ui/no-products";
+import NoProducts from "@/components/screens/products/no-products";
 
 
 

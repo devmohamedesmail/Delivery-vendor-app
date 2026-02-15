@@ -14,7 +14,7 @@ import { useAuth } from '@/hooks/useAuth';
 import CategoryController from '@/controllers/categories/contoller';
 import CategoryItem from '@/components/ui/category-item';
 import Loading from '@/components/ui/loading';
-import NoCategories from '@/components/ui/no-categories';
+import NoCategories from '@/components/screens/categories/no-categories';
 import FloatButton from '@/components/ui/float-button';
 import { AntDesign } from '@expo/vector-icons';
 

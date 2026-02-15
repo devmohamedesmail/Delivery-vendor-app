@@ -8,8 +8,8 @@ import { useStore } from "@/hooks/useStore";
 import OrderController, { Order, OrderStatus } from "@/controllers/orders/controller";
 import { useAuth } from "@/hooks/useAuth";
 import OrderCard from "@/components/ui/order-card";
-import NoOrders from "@/components/ui/no-orders";
-import OrdersFilterSection from "@/components/ui/orders-filter-section";
+import NoOrders from "@/components/screens/orders/no-orders";
+import OrdersFilterSection from "@/components/screens/orders/orders-filter-section";
 import OrderSkeleton from "@/components/ui/order-skeleton";
 
 
