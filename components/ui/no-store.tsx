@@ -14,7 +14,7 @@ export default function NoStore() {
             <Text className="text-xl font-bold text-gray-900 dark:text-gray-100 text-center mt-4">
                 {t('store.noStoreTitle')}
             </Text>
-            <Text className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">
+            <Text className="text-sm mb-4 text-gray-500 dark:text-gray-400 text-center mt-2">
                 {t('store.noStoreMessage')}
             </Text>
             <Button title={t('store.createStore')} onPress={() => router.push('/(store)/create')} />

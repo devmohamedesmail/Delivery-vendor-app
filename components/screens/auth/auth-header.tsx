@@ -1,3 +1,4 @@
+import LanguageToggle from '@/components/ui/language-toggle'
 import Logo from '@/components/ui/logo'
 import ThemeToggle from '@/components/ui/theme-toggle'
 import { useSetting } from '@/hooks/useSetting'
@@ -77,73 +78,86 @@ export default function AuthHeader({ title }: { title?: string }) {
                     transform: [{ translateY: slideAnim }]
                 }}
             >
+                <View className="flex-row justify-between items-center w-full mb-4 px-2">
+                    <LanguageToggle />
+                    <ThemeToggle />
+                </View>
                 {/* Logo Section */}
-                <View className="items-center mb-6">
-                    <Animated.View
-                        className="relative"
-                        style={{
-                            transform: [{ scale: pulseAnim }]
-                        }}
-                    >
-                        {/* Glow effect behind logo */}
-                        <View className="absolute inset-0 bg-primary/20 rounded-full blur-xl scale-110" />
+                <View className='flex flex-row items-center justify-between'>
 
-                        {/* Logo container with glassmorphism */}
-                        <View className="bg-white/95 p-5 rounded-3xl shadow-2xl border border-white/20">
-                            <Logo />
-                        </View>
+                    <View>
+                        {/* Brand Name */}
+                        <Animated.View
+                            className="items-center mb-3"
+                            style={{
+                                transform: [{ scale: scaleAnim }]
+                            }}
+                        >
+                            <Text
+                                className="text-5xl text-white font-black tracking-tight text-center"
+                                style={{
+                                    textShadowColor: 'rgba(253, 74, 18, 0.3)',
+                                    textShadowOffset: { width: 0, height: 4 },
+                                    textShadowRadius: 12,
+                                }}
+                            >
+                                {i18n.language === 'ar' ? settings?.name_ar : settings?.name_en}
+                            </Text>
 
-                        {/* Decorative corner accents */}
-                        <View className="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full" />
-                        <View className="absolute -bottom-1 -left-1 w-3 h-3 bg-primary/70 rounded-full" />
-                    </Animated.View>
+                            {/* Underline decoration */}
+                            <View className="flex-row items-center mt-3 gap-2">
+                                <View className="h-0.5 w-12 bg-primary/50" />
+                                <View className="w-2 h-2 bg-primary rounded-full" />
+                                <View className="h-0.5 w-12 bg-primary/50" />
+                            </View>
+                        </Animated.View>
+
+                        {/* Title Section */}
+                        {title && (
+                            <Animated.View
+                                className="items-center mt-4"
+                                style={{
+                                    opacity: fadeAnim,
+                                }}
+                            >
+                                <View className="bg-white/5 backdrop-blur-xl px-6 py-3 rounded-2xl border border-white/10">
+                                    <View className="flex-row items-center gap-2">
+                                        <Ionicons name="shield-checkmark" size={20} color="#fd4a12" />
+                                        <Text className="text-xl text-white/90 font-semibold tracking-wide">
+                                            {title}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </Animated.View>
+                        )}
+                    </View>
+                    <View className="items-center mb-6">
+                        <Animated.View
+                            className="relative"
+                            style={{
+                                transform: [{ scale: pulseAnim }]
+                            }}
+                        >
+                            {/* Glow effect behind logo */}
+                            <View className="absolute inset-0 bg-primary/20 rounded-full blur-xl scale-110" />
+
+                            {/* Logo container with glassmorphism */}
+                            <View className="bg-white p-5 rounded-3xl shadow-2xl border border-white/20">
+                                <Logo />
+                            </View>
+
+                            {/* Decorative corner accents */}
+                            <View className="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full" />
+                            <View className="absolute -bottom-1 -left-1 w-3 h-3 bg-primary/70 rounded-full" />
+                        </Animated.View>
+                    </View>
+
+
                 </View>
 
-                {/* Brand Name */}
-                <Animated.View
-                    className="items-center mb-3"
-                    style={{
-                        transform: [{ scale: scaleAnim }]
-                    }}
-                >
-                    <Text
-                        className="text-5xl text-white font-black tracking-tight text-center"
-                        style={{
-                            textShadowColor: 'rgba(253, 74, 18, 0.3)',
-                            textShadowOffset: { width: 0, height: 4 },
-                            textShadowRadius: 12,
-                        }}
-                    >
-                        {i18n.language === 'ar' ? settings?.name_ar : settings?.name_en}
-                    </Text>
 
-                    {/* Underline decoration */}
-                    <View className="flex-row items-center mt-3 gap-2">
-                        <View className="h-0.5 w-12 bg-primary/50" />
-                        <View className="w-2 h-2 bg-primary rounded-full" />
-                        <View className="h-0.5 w-12 bg-primary/50" />
-                    </View>
-                </Animated.View>
 
-                {/* Title Section */}
-                {title && (
-                    <Animated.View
-                        className="items-center mt-4"
-                        style={{
-                            opacity: fadeAnim,
-                        }}
-                    >
-                        <View className="bg-white/5 backdrop-blur-xl px-6 py-3 rounded-2xl border border-white/10">
-                            <View className="flex-row items-center gap-2">
-                                <Ionicons name="shield-checkmark" size={20} color="#fd4a12" />
-                                <Text className="text-xl text-white/90 font-semibold tracking-wide">
-                                    {title}
-                                </Text>
-                            </View>
-                        </View>
-                    </Animated.View>
-                )}
-                
+
 
                 {/* Bottom decorative line */}
                 <View className="mt-8 items-center">
