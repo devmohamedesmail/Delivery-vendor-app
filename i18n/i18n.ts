@@ -1,52 +1,43 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getLocales } from 'expo-localization';
 
-// Import translation files
 import en from './locales/en.json';
 import ar from './locales/ar.json';
 
 const resources = {
-  en: {
-    translation: en,
-  },
-  ar: {
-    translation: ar,
-  },
+  en: { translation: en },
+  ar: { translation: ar },
 };
 
-// Get device language safely
-let deviceLanguage = 'en';
-try {
-  const locales = getLocales();
-  deviceLanguage = locales[0]?.languageCode || 'en';
-} catch (error) {
-  deviceLanguage = 'en';
-}
+const LANGUAGE_KEY = 'APP_LANGUAGE';
 
-const supportedLanguages = ['en', 'ar'];
-const fallbackLanguage = 'ar';
+const getInitialLanguage = async () => {
+  const storedLang = await AsyncStorage.getItem(LANGUAGE_KEY);
+  if (storedLang) return storedLang;
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: "ar",
-    fallbackLng: 'en',
-    debug: false,
-    interpolation: {
-      escapeValue: false,
-    },
-    react: {
-      useSuspense: false,
-    },
-    compatibilityJSON: 'v4',
-    // Remove any persistence configuration that might cause issues
-    saveMissing: false,
-    updateMissing: false,
-  })
-  .catch((error: any) => {
-    console.log('i18n initialization error:', error);
-  });
+  const deviceLang = getLocales()[0]?.languageCode;
+  return deviceLang === 'ar' ? 'ar' : 'en';
+};
+
+export const initI18n = async () => {
+  const lng = await getInitialLanguage();
+
+  await i18n
+    .use(initReactI18next)
+    .init({
+      resources,
+      lng,
+      fallbackLng: 'en',
+      interpolation: { escapeValue: false },
+      react: { useSuspense: false },
+      compatibilityJSON: 'v4',
+    });
+};
+
+export const saveLanguage = async (lang: string) => {
+  await AsyncStorage.setItem(LANGUAGE_KEY, lang);
+};
 
 export default i18n;

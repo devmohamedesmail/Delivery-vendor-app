@@ -1,3 +1,4 @@
+// import * as Updates from 'expo-updates';
 import colors from '@/constants/colors';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +8,7 @@ import Animated, {
     useSharedValue,
     withSpring
 } from 'react-native-reanimated';
+import { saveLanguage } from '@/i18n/i18n';
 
 export default function LanguageToggle() {
     const { i18n } = useTranslation();
@@ -26,19 +28,15 @@ export default function LanguageToggle() {
         const newLang = isArabic ? 'en' : 'ar';
         const isRTL = newLang === 'ar';
 
-        // Animate first
-        translateX.value = withSpring(isRTL ? 1 : 0);
-
-        // Change language
         i18n.changeLanguage(newLang);
+        await saveLanguage(newLang);
 
-        // handle RTL layout changes if needed
         if (I18nManager.isRTL !== isRTL) {
             I18nManager.allowRTL(isRTL);
             I18nManager.forceRTL(isRTL);
-            // Optional: Updates.reloadAsync() if the app needs a full restart for RTL
-            // For now we just change language
         }
+
+        //  await Updates.reloadAsync();
     };
 
     const animatedStyle = useAnimatedStyle(() => {

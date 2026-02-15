@@ -19,16 +19,13 @@ export default function AppProviders({ children }: { children: React.ReactNode }
                     <SettingProvider>
                         <NetworkProvider>
                             <AuthProvider>
-                            
                                     <StoreProvider>
                                         {children}
                                     </StoreProvider>
-                                
                                 <Toast />
                             </AuthProvider>
                         </NetworkProvider>
                     </SettingProvider>
-
                 </ThemeProvider>
             </QueryClientProvider>
         </GestureHandlerRootView>

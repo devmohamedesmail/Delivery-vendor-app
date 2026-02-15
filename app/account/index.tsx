@@ -1,7 +1,8 @@
+// import * as Updates from 'expo-updates';
 import Header from '@/components/ui/header'
 import Layout from '@/components/ui/layout'
 import React from 'react'
-import { View, ScrollView, Text } from 'react-native'
+import { View, ScrollView, Text, I18nManager } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'expo-router'
@@ -9,19 +10,34 @@ import OptionButton from '@/components/screens/account/option-button'
 import { useColorScheme } from 'nativewind'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {Linking} from 'react-native';
+import { Linking } from 'react-native';
 import AccountActionSection from '@/components/screens/account/account-action-section'
 import { useSetting } from '@/hooks/useSetting'
-
+import { saveLanguage } from '@/i18n/i18n';
 
 export default function Account() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { auth } = useAuth()
-    const { colorScheme , toggleColorScheme } = useColorScheme()
+    const { colorScheme, toggleColorScheme } = useColorScheme()
     const router = useRouter()
-    const {settings}=useSetting();
+    const { settings } = useSetting();
+    const isArabic = i18n.language === 'ar';
 
- 
+
+
+    const toggleLanguage = async () => {
+        const newLang = isArabic ? 'en' : 'ar';
+        const isRTL = newLang === 'ar';
+
+        i18n.changeLanguage(newLang);
+        await saveLanguage(newLang);
+
+        if (I18nManager.isRTL !== isRTL) {
+            I18nManager.allowRTL(isRTL);
+            I18nManager.forceRTL(isRTL);
+        }
+        // await Updates.reloadAsync();
+    };
     return (
         <Layout>
             <Header title={t('account.account')} />
@@ -65,6 +81,12 @@ export default function Account() {
                         icon={<Ionicons name={colorScheme === 'dark' ? "moon" : "sunny"} size={20} color='red' />}
                     />
 
+                    <OptionButton
+                        title={t('account.language')}
+                        onPress={toggleLanguage}
+                        icon={<Ionicons name="language" size={20} color='red' />}
+                    />
+
 
                     <OptionButton
                         title={t('account.whatsup_support')}
@@ -78,8 +100,8 @@ export default function Account() {
                         icon={<AntDesign name="phone" size={20} color='red' />}
                     />
 
-            
-                 <AccountActionSection />
+
+                    <AccountActionSection />
 
 
 
