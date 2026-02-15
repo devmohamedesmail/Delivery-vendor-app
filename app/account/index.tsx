@@ -13,31 +13,31 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Linking } from 'react-native';
 import AccountActionSection from '@/components/screens/account/account-action-section'
 import { useSetting } from '@/hooks/useSetting'
-import { saveLanguage } from '@/i18n/i18n';
+import { useLanguage } from '@/hooks/useLangauge'
 
 export default function Account() {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const { auth } = useAuth()
     const { colorScheme, toggleColorScheme } = useColorScheme()
     const router = useRouter()
     const { settings } = useSetting();
-    const isArabic = i18n.language === 'ar';
+    const { toggleLanguage } = useLanguage();
 
 
 
-    const toggleLanguage = async () => {
-        const newLang = isArabic ? 'en' : 'ar';
-        const isRTL = newLang === 'ar';
+    // const toggleLanguage = async () => {
+    //     const newLang = isArabic ? 'en' : 'ar';
+    //     const isRTL = newLang === 'ar';
 
-        i18n.changeLanguage(newLang);
-        await saveLanguage(newLang);
+    //     i18n.changeLanguage(newLang);
+    //     await saveLanguage(newLang);
 
-        if (I18nManager.isRTL !== isRTL) {
-            I18nManager.allowRTL(isRTL);
-            I18nManager.forceRTL(isRTL);
-        }
-        // await Updates.reloadAsync();
-    };
+    //     if (I18nManager.isRTL !== isRTL) {
+    //         I18nManager.allowRTL(isRTL);
+    //         I18nManager.forceRTL(isRTL);
+    //     }
+    //     // await Updates.reloadAsync();
+    // };
     return (
         <Layout>
             <Header title={t('account.account')} />

@@ -3,16 +3,17 @@ import colors from '@/constants/colors';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { I18nManager, Pressable, Text, View } from 'react-native';
-import Animated, {
-    useAnimatedStyle,
+import Animated, { useAnimatedStyle,
     useSharedValue,
     withSpring
 } from 'react-native-reanimated';
 import { saveLanguage } from '@/i18n/i18n';
+import { useLanguage } from '@/hooks/useLangauge';
 
 export default function LanguageToggle() {
     const { i18n } = useTranslation();
     const isArabic = i18n.language === 'ar';
+    const { toggleLanguage } = useLanguage();
 
     // Animation value: 0 for English (left), 1 for Arabic (right)
     const translateX = useSharedValue(isArabic ? 1 : 0);
@@ -24,20 +25,20 @@ export default function LanguageToggle() {
         });
     }, [isArabic]);
 
-    const toggleLanguage = async () => {
-        const newLang = isArabic ? 'en' : 'ar';
-        const isRTL = newLang === 'ar';
+    // const toggleLanguage = async () => {
+    //     const newLang = isArabic ? 'en' : 'ar';
+    //     const isRTL = newLang === 'ar';
 
-        i18n.changeLanguage(newLang);
-        await saveLanguage(newLang);
+    //     i18n.changeLanguage(newLang);
+    //     await saveLanguage(newLang);
 
-        if (I18nManager.isRTL !== isRTL) {
-            I18nManager.allowRTL(isRTL);
-            I18nManager.forceRTL(isRTL);
-        }
+    //     if (I18nManager.isRTL !== isRTL) {
+    //         I18nManager.allowRTL(isRTL);
+    //         I18nManager.forceRTL(isRTL);
+    //     }
 
-        //  await Updates.reloadAsync();
-    };
+    //     //  await Updates.reloadAsync();
+    // };
 
     const animatedStyle = useAnimatedStyle(() => {
         return {

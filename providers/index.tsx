@@ -1,4 +1,5 @@
 import AuthProvider from '@/context/auth-provider';
+import { LanguageProvider } from '@/context/language-context';
 import { NetworkProvider } from '@/context/network-provider';
 
 import SettingProvider from '@/context/setting-provider';
@@ -20,7 +21,9 @@ export default function AppProviders({ children }: { children: React.ReactNode }
                         <NetworkProvider>
                             <AuthProvider>
                                     <StoreProvider>
+                                        <LanguageProvider>
                                         {children}
+                                        </LanguageProvider>
                                     </StoreProvider>
                                 <Toast />
                             </AuthProvider>
