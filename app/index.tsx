@@ -2,15 +2,16 @@ import Layout from "@/components/ui/layout";
 import Splash from "@/components/ui/splash";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
-import React, { useEffect,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const { auth, isLoading } = useAuth();
   const hasRedirected = useRef(false);
-   const [minTimePassed, setMinTimePassed] = useState(false);
+  const [minTimePassed, setMinTimePassed] = useState(false);
 
 
-    useEffect(() => {
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setMinTimePassed(true);
     }, 1000);
@@ -18,7 +19,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  
+
   useEffect(() => {
     if (isLoading) return;
     if (!minTimePassed) return;
@@ -31,13 +32,13 @@ export default function Home() {
       return;
     }
 
-    if (auth?.user?.role?.role === "store_owner") {
+    if (auth?.user?.role?.role === "store_owner" || auth?.user?.role?.role === "admin") {
       router.replace("/(store)");
       return;
     }
 
     router.replace("/auth/no-authorized");
-  }, [auth, isLoading,minTimePassed]);
+  }, [auth, isLoading, minTimePassed]);
 
   return (
     <Layout>

@@ -33,7 +33,7 @@ export default function Login() {
         schema
           .email(t('auth.email_invalid'))
           .required(t('auth.email_required')),
-      otherwise: (schema) => schema.notRequired().nullable(),
+          otherwise: (schema) => schema.notRequired().nullable(),
     }),
 
     phone: Yup.string().when('loginMethod', {
@@ -71,7 +71,6 @@ export default function Login() {
 
 
         const role = result.data.user.role.role;
-
         if (role === 'store_owner') {
           router.replace('/(store)')
         } else if (role === 'driver') {

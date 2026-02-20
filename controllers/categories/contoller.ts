@@ -115,8 +115,8 @@ export default class CategoryController {
         return axios.delete(`${config.URL}/categories/${id}`, {
             headers: token
                 ? {
-                      Authorization: `Bearer ${token}`,
-                  }
+                    Authorization: `Bearer ${token}`,
+                }
                 : undefined,
         });
     }
@@ -157,5 +157,52 @@ export default class CategoryController {
     }
 
 
+
+    /**
+     * Fetch categories by store type ID
+     * @param storeTypeId - The store type ID
+     * @param token - Authorization token
+     */
+    static async fetchCategoriesByStoreType(storeTypeId: number, token: string) {
+        const response = await axios.get(
+            `${config.URL}/categories/store-type/${storeTypeId}`,
+            {
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        );
+        return response.data.data as Array<{ id: number; name: string; description?: string; image?: string }>;
+    }
+
+    /**
+     * Fetch categories already assigned to a store (GET)
+     * @param storeId - The store ID
+     * @param token - Authorization token
+     */
+    static async fetchAssignedCategories(storeId: number, token: string) {
+        const response = await axios.get(
+            `${config.URL}/stores/${storeId}/categories`,
+            {
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        );
+        return response.data.data as Array<{ id: number; name: string; description?: string; image?: string }>;
+    }
+
+    /**
+     * Assign categories to a store (POST)
+     * @param storeId - The store ID
+     * @param categoryIds - Array of category IDs
+     * @param token - Authorization token
+     */
+    static async assignCategoriesToStore(storeId: number, categoryIds: number[], token: string) {
+        const response = await axios.post(
+            `${config.URL}/stores/${storeId}/categories`,
+            { category_ids: categoryIds },
+            {
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        );
+        return response.data;
+    }
 
 }
