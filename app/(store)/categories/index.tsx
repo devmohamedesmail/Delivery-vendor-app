@@ -1,3 +1,5 @@
+import AssignedCategoryCard from "@/components/screens/categories/assigned-category-card";
+import CategoryEmptyState from "@/components/screens/categories/empty-state";
 import BottomPaper from "@/components/ui/bottom-paper";
 import FloatButton from "@/components/ui/float-button";
 import Header from "@/components/ui/header";
@@ -17,7 +19,6 @@ import {
   FlatList,
   Image,
   RefreshControl,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -25,7 +26,6 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
 type Category = {
   id: number;
   name: string;
@@ -33,52 +33,6 @@ type Category = {
   image?: string;
 };
 
-// ─── Assigned Category Card ───────────────────────────────────────────────────
-function AssignedCategoryCard({ category }: { category: Category }) {
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === "dark";
-
-  return (
-    <View
-      style={[
-        styles.assignedCard,
-        { backgroundColor: isDark ? "#1a1a1a" : "#fff", borderColor: isDark ? "#2a2a2a" : "#f0f0f0" },
-      ]}
-    >
-      {category.image ? (
-        <Image source={{ uri: category.image }} style={styles.assignedCardImage} />
-      ) : (
-        <View style={[styles.assignedCardPlaceholder, { backgroundColor: isDark ? "#333" : "#f5f5f5" }]}>
-          <Ionicons name="grid-outline" size={24} color="#fd4a12" />
-        </View>
-      )}
-      <Text
-        style={[styles.assignedCardName, { color: isDark ? "#fff" : "#111" }]}
-        numberOfLines={2}
-      >
-        {category.name}
-      </Text>
-    </View>
-  );
-}
-
-// ─── Empty State ──────────────────────────────────────────────────────────────
-function EmptyState({ onPress, isDark }: { onPress: () => void; isDark: boolean }) {
-  return (
-    <View style={styles.emptyContainer}>
-      <Ionicons name="grid-outline" size={60} color="#fd4a12" style={{ opacity: 0.4 }} />
-      <Text style={[styles.emptyTitle, { color: isDark ? "#ccc" : "#555" }]}>No categories assigned</Text>
-      <Text style={[styles.emptySubtitle, { color: isDark ? "#888" : "#999" }]}>
-        Tap the button below to pick categories for your store
-      </Text>
-      <TouchableOpacity style={styles.emptyButton} onPress={onPress}>
-        <Text style={styles.emptyButtonText}>Assign Categories</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-// ─── Main Screen ──────────────────────────────────────────────────────────────
 export default function Categories() {
   const { t } = useTranslation();
   const { auth } = useAuth();
@@ -104,10 +58,7 @@ export default function Categories() {
   });
 
   // ── 2. Fetch all categories for this store type ─────────────────────────────
-  const {
-    data: allCategories = [],
-    isLoading: isLoadingAll,
-  } = useQuery<Category[]>({
+  const { data: allCategories = [], isLoading: isLoadingAll } = useQuery<Category[]>({
     queryKey: ["categories-by-type", store?.store_type_id],
     queryFn: () => CategoryController.fetchCategoriesByStoreType(store.store_type_id, auth.token),
     enabled: !!store?.store_type_id && !!auth?.token,
@@ -118,36 +69,32 @@ export default function Categories() {
     mutationFn: (ids: number[]) =>
       CategoryController.assignCategoriesToStore(store.id, ids, auth.token),
     onSuccess: () => {
-      Toast.show({ type: "success", text1: "Categories saved successfully" });
+      Toast.show({ type: "success", text1: t("categories.categories_saved") });
       queryClient.invalidateQueries({ queryKey: ["store-categories", store?.id] });
       bottomSheetRef.current?.close();
     },
     onError: () => {
-      Toast.show({ type: "error", text1: "Failed to save categories" });
+      Toast.show({ type: "error", text1: t("categories.failed_to_save_categories") });
     },
   });
 
-  // ── Filtered categories for search ─────────────────────────────────────────
+  // ── Filtered categories ────────────────────────────────────────────────────
   const filteredCategories = useMemo(
-    () =>
-      allCategories.filter((c) =>
-        c.name.toLowerCase().includes(search.toLowerCase())
-      ),
+    () => allCategories.filter((c) => c.name.toLowerCase().includes(search.toLowerCase())),
     [allCategories, search]
   );
 
-  // ── Open sheet & pre-select already-assigned ids ────────────────────────────
+  // ── Sheet helpers ──────────────────────────────────────────────────────────
   const openSheet = () => {
     setSearch("");
     setSelectedIds(assignedCategories.map((c) => c.id));
     bottomSheetRef.current?.expand();
   };
 
-  const toggleSelect = (id: number) => {
+  const toggleSelect = (id: number) =>
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
-  };
 
   const onRefresh = async () => {
     try {
@@ -160,17 +107,20 @@ export default function Categories() {
     }
   };
 
-  // ─── Render ─────────────────────────────────────────────────────────────────
   return (
     <>
       <Layout>
         <Header title={t("categories.categories")} />
 
         {/* Count badge */}
-        <View style={styles.topBar}>
-          <View style={[styles.countBadge, { backgroundColor: isDark ? "#1a1a1a" : "#fff4f0" }]}>
-            <Text style={styles.countText}>{assignedCategories.length}</Text>
-            <Text style={[styles.countLabel, { color: isDark ? "#aaa" : "#888" }]}>assigned</Text>
+        <View className="flex-row items-center px-4 py-2">
+          <View className="flex-row items-baseline gap-1.5 px-4 py-2 rounded-xl bg-orange-50 dark:bg-gray-900 shadow-sm">
+            <Text className="text-2xl font-bold text-primary">
+              {assignedCategories.length}
+            </Text>
+            <Text className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              {t("categories.categories")}
+            </Text>
           </View>
         </View>
 
@@ -182,7 +132,7 @@ export default function Categories() {
             data={assignedCategories}
             keyExtractor={(item) => item.id.toString()}
             numColumns={2}
-            contentContainerStyle={styles.grid}
+            contentContainerStyle={{ padding: 8, paddingBottom: 100 }}
             renderItem={({ item }) => <AssignedCategoryCard category={item} />}
             refreshControl={
               <RefreshControl
@@ -191,22 +141,21 @@ export default function Categories() {
                 colors={["#fd4a12"]}
               />
             }
-            ListEmptyComponent={
-              <EmptyState onPress={openSheet} isDark={isDark} />
-            }
+            ListEmptyComponent={<CategoryEmptyState onPress={openSheet} />}
           />
         )}
 
         <FloatButton onPress={openSheet} />
       </Layout>
 
-      {/* ── Bottom Sheet: pick categories ─────────────────────────────────── */}
+      {/* ── Bottom Sheet: pick categories ──────────────────────────────────── */}
       <BottomPaper ref={bottomSheetRef} snapPoints={["70%"]}>
-        <View style={styles.sheetContainer}>
-          {/* Sheet header */}
-          <View style={styles.sheetHeader}>
-            <Text style={[styles.sheetTitle, { color: isDark ? "#fff" : "#111" }]}>
-              Assign Categories
+        <View className="flex-1 px-4 pt-2">
+
+          {/* Header */}
+          <View className="flex-row items-center justify-between mb-3">
+            <Text className="text-lg font-bold text-gray-900 dark:text-white">
+              {t("categories.assign_categories")}
             </Text>
             <TouchableOpacity onPress={() => bottomSheetRef.current?.close()}>
               <AntDesign name="close" size={22} color={isDark ? "#ccc" : "#555"} />
@@ -214,14 +163,14 @@ export default function Categories() {
           </View>
 
           {/* Search */}
-          <View style={[styles.searchBar, { backgroundColor: isDark ? "#1a1a1a" : "#f5f5f5" }]}>
+          <View className="flex-row items-center rounded-xl px-3 py-2.5 mb-2 bg-gray-100 dark:bg-gray-800">
             <Ionicons name="search" size={18} color="#fd4a12" style={{ marginRight: 8 }} />
             <TextInput
               value={search}
               onChangeText={setSearch}
-              placeholder="Search categories..."
+              placeholder={t("categories.search_categories")}
               placeholderTextColor={isDark ? "#666" : "#aaa"}
-              style={[styles.searchInput, { color: isDark ? "#fff" : "#111" }]}
+              className="flex-1 text-sm text-gray-900 dark:text-white"
             />
             {search.length > 0 && (
               <TouchableOpacity onPress={() => setSearch("")}>
@@ -232,12 +181,12 @@ export default function Categories() {
 
           {/* Selection count */}
           {selectedIds.length > 0 && (
-            <Text style={styles.selectionCount}>
-              {selectedIds.length} selected
+            <Text className="text-xs font-semibold text-primary mb-1.5 ml-1">
+              {selectedIds.length} {t("categories.selected")}
             </Text>
           )}
 
-          {/* Categories list */}
+          {/* List */}
           {isLoadingAll ? (
             <ActivityIndicator color="#fd4a12" style={{ marginTop: 20 }} />
           ) : (
@@ -245,10 +194,10 @@ export default function Categories() {
               data={filteredCategories}
               keyExtractor={(item) => item.id.toString()}
               style={{ flex: 1 }}
-              contentContainerStyle={styles.sheetList}
+              contentContainerStyle={{ paddingBottom: 12 }}
               ListEmptyComponent={
-                <Text style={{ textAlign: "center", color: "#aaa", marginTop: 24 }}>
-                  No categories found
+                <Text className="text-center text-sm text-gray-400 mt-6">
+                  {t("categories.no_categories_found")}
                 </Text>
               }
               renderItem={({ item }) => {
@@ -256,51 +205,60 @@ export default function Categories() {
                 return (
                   <TouchableOpacity
                     onPress={() => toggleSelect(item.id)}
-                    style={[
-                      styles.categoryRow,
-                      {
-                        backgroundColor: isSelected
-                          ? isDark ? "#2a1a15" : "#fff4f0"
-                          : isDark ? "#111" : "#fff",
-                        borderColor: isSelected ? "#fd4a12" : isDark ? "#222" : "#eee",
-                      },
-                    ]}
+                    className="flex-row items-center p-2.5 rounded-xl mb-2 gap-2.5 border"
+                    style={{
+                      backgroundColor: isSelected
+                        ? isDark ? "#2a1a15" : "#fff4f0"
+                        : isDark ? "#111" : "#fff",
+                      borderColor: isSelected ? "#fd4a12" : isDark ? "#222" : "#eee",
+                      borderWidth: 1.5,
+                    }}
                   >
+                    {/* Thumbnail */}
                     {item.image ? (
-                      <Image source={{ uri: item.image }} style={styles.categoryRowImage} />
+                      <Image
+                        source={{ uri: item.image }}
+                        className="w-12 h-12 rounded-xl"
+                        resizeMode="cover"
+                      />
                     ) : (
-                      <View style={[styles.categoryRowPlaceholder, { backgroundColor: isDark ? "#333" : "#f0f0f0" }]}>
+                      <View
+                        className="w-12 h-12 rounded-xl items-center justify-center"
+                        style={{ backgroundColor: isDark ? "#333" : "#f0f0f0" }}
+                      >
                         <Ionicons name="grid-outline" size={20} color="#fd4a12" />
                       </View>
                     )}
-                    <View style={{ flex: 1 }}>
+
+                    {/* Info */}
+                    <View className="flex-1">
                       <Text
-                        style={[styles.categoryRowName, { color: isDark ? "#fff" : "#111" }]}
+                        className="text-sm font-semibold"
+                        style={{ color: isDark ? "#fff" : "#111" }}
                         numberOfLines={1}
                       >
                         {item.name}
                       </Text>
                       {item.description ? (
                         <Text
-                          style={[styles.categoryRowDesc, { color: isDark ? "#888" : "#aaa" }]}
+                          className="text-xs mt-0.5"
+                          style={{ color: isDark ? "#888" : "#aaa" }}
                           numberOfLines={1}
                         >
                           {item.description}
                         </Text>
                       ) : null}
                     </View>
+
+                    {/* Checkbox */}
                     <View
-                      style={[
-                        styles.checkbox,
-                        {
-                          backgroundColor: isSelected ? "#fd4a12" : "transparent",
-                          borderColor: isSelected ? "#fd4a12" : isDark ? "#444" : "#ccc",
-                        },
-                      ]}
+                      className="w-6 h-6 rounded-md border-2 items-center justify-center"
+                      style={{
+                        backgroundColor: isSelected ? "#fd4a12" : "transparent",
+                        borderColor: isSelected ? "#fd4a12" : isDark ? "#444" : "#ccc",
+                      }}
                     >
-                      {isSelected && (
-                        <AntDesign name="check" size={14} color="#fff" />
-                      )}
+                      {isSelected && <AntDesign name="check" size={14} color="#fff" />}
                     </View>
                   </TouchableOpacity>
                 );
@@ -308,20 +266,18 @@ export default function Categories() {
             />
           )}
 
-          {/* Save button */}
+          {/* Save */}
           <TouchableOpacity
-            style={[
-              styles.saveButton,
-              assignMutation.isPending && { opacity: 0.7 },
-            ]}
             onPress={() => assignMutation.mutate(selectedIds)}
             disabled={assignMutation.isPending}
+            className="bg-primary rounded-xl py-3.5 items-center mt-2 mb-3"
+            style={assignMutation.isPending ? { opacity: 0.7 } : undefined}
           >
             {assignMutation.isPending ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text style={styles.saveButtonText}>
-                Save ({selectedIds.length})
+              <Text className="text-white text-base font-bold">
+                {t("categories.save")} ({selectedIds.length})
               </Text>
             )}
           </TouchableOpacity>
@@ -330,194 +286,3 @@ export default function Categories() {
     </>
   );
 }
-
-// ─── Styles ────────────────────────────────────────────────────────────────────
-const styles = StyleSheet.create({
-  topBar: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  countBadge: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    gap: 4,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  countText: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#fd4a12",
-  },
-  countLabel: {
-    fontSize: 13,
-    fontWeight: "500",
-  },
-  grid: {
-    padding: 12,
-    paddingBottom: 100,
-  },
-  // Assigned card
-  assignedCard: {
-    flex: 1,
-    margin: 6,
-    borderRadius: 14,
-    overflow: "hidden",
-    borderWidth: 1,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-  assignedCardImage: {
-    width: "100%",
-    height: 110,
-    resizeMode: "cover",
-  },
-  assignedCardPlaceholder: {
-    width: "100%",
-    height: 110,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  assignedCardName: {
-    fontSize: 13,
-    fontWeight: "600",
-    padding: 10,
-    textAlign: "center",
-  },
-  // Empty state
-  emptyContainer: {
-    flex: 1,
-    alignItems: "center",
-    paddingTop: 80,
-    paddingHorizontal: 32,
-  },
-  emptyTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    marginTop: 16,
-    textAlign: "center",
-  },
-  emptySubtitle: {
-    fontSize: 14,
-    marginTop: 8,
-    textAlign: "center",
-    lineHeight: 20,
-  },
-  emptyButton: {
-    marginTop: 24,
-    backgroundColor: "#fd4a12",
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 12,
-  },
-  emptyButtonText: {
-    color: "#fff",
-    fontWeight: "700",
-    fontSize: 15,
-  },
-  // Sheet
-  sheetContainer: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 4,
-  },
-  sheetHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 12,
-  },
-  sheetTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-  },
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginBottom: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 14,
-  },
-  selectionCount: {
-    fontSize: 12,
-    color: "#fd4a12",
-    fontWeight: "600",
-    marginBottom: 6,
-    marginLeft: 4,
-  },
-  sheetList: {
-    paddingBottom: 16,
-  },
-  categoryRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 12,
-    borderWidth: 1.5,
-    marginBottom: 8,
-    gap: 10,
-  },
-  categoryRowImage: {
-    width: 48,
-    height: 48,
-    borderRadius: 10,
-    resizeMode: "cover",
-  },
-  categoryRowPlaceholder: {
-    width: 48,
-    height: 48,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  categoryRowName: {
-    fontSize: 14,
-    fontWeight: "600",
-  },
-  categoryRowDesc: {
-    fontSize: 12,
-    marginTop: 2,
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 2,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  saveButton: {
-    backgroundColor: "#fd4a12",
-    borderRadius: 14,
-    paddingVertical: 14,
-    alignItems: "center",
-    marginTop: 10,
-    marginBottom: 12,
-    shadowColor: "#fd4a12",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  saveButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "700",
-  },
-});

@@ -263,7 +263,16 @@
     "failed_to_fetch_categories": "Failed to fetch categories",
     "name_required": "Name is required",
     "description_required": "Description is required",
-    "show_products": "Show Products"
+    "show_products": "Show Products",
+    "assigned": "Assigned",
+    "assign_categories": "Assign Categories",
+    "assign_categories_hint": "Tap the button below to pick categories for your store",
+    "search_categories": "Search categories...",
+    "selected": "selected",
+    "no_categories_found": "No categories found",
+    "categories_saved": "Categories saved successfully",
+    "failed_to_save_categories": "Failed to save categories",
+    "save": "Save"
   },
   "products": {
     "products": "Products",

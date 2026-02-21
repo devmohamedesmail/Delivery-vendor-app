@@ -264,7 +264,16 @@
     "failed_to_fetch_categories": "فشل في جلب الأقسام",
     "name_required": "الاسم مطلوب",
     "description_required": "الوصف مطلوب",
-    "show_products": "عرض المنتجات"
+    "show_products": "عرض المنتجات",
+    "assigned": "مخصص",
+    "assign_categories": "تخصيص الأقسام",
+    "assign_categories_hint": "اضغط على الزر أدناه لاختيار أقسام متجرك",
+    "search_categories": "البحث في الأقسام...",
+    "selected": "محدد",
+    "no_categories_found": "لا توجد أقسام",
+    "categories_saved": "تم حفظ الأقسام بنجاح",
+    "failed_to_save_categories": "فشل في حفظ الأقسام",
+    "save": "حفظ"
   },
   "products": {
     "products": "المنتجات",
