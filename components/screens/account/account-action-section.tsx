@@ -48,9 +48,7 @@ export default function AccountActionSection() {
         }),
         onSubmit: async (values) => {
             try {
-                console.log(values.password)
                 const response = await axios.post(`${config.URL}/auth/delete-account`, values, {
-
                     headers: {
                         'Authorization': `Bearer ${auth?.token}`,
                     }

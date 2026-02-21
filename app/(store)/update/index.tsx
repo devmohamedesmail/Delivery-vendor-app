@@ -353,8 +353,10 @@ export default function Update() {
             {/* Submit Button */}
             <View className="mt-4">
               <Button
+                  loading={isSubmitting}
                   disabled={isSubmitting}
-                  title={isSubmitting ? t('common.update') : t('common.updating')}
+                  size="lg"
+                  title={t('common.update')}
                   onPress={formik.handleSubmit}
                 />
             </View>

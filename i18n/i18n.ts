@@ -29,7 +29,7 @@ export const initI18n = async () => {
     .init({
       resources,
       lng,
-      fallbackLng: 'en',
+      fallbackLng: 'ar',
       interpolation: { escapeValue: false },
       react: { useSuspense: false },
       compatibilityJSON: 'v4',
