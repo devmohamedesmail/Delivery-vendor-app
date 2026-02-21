@@ -1,22 +1,22 @@
-import React, { useContext, useState } from "react";
-import { View, Text, ScrollView } from "react-native";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useTranslation } from "react-i18next";
-import { AuthContext } from "@/context/auth-provider";
-import useFetch from "@/hooks/useFetch";
-import Header from "@/components/ui/header";
-import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
-import Select from "@/components/ui/select";
+import Header from "@/components/ui/header";
 import CustomImagePicker from "@/components/ui/image-picker";
-import { useLocalSearchParams } from "expo-router";
+import Input from "@/components/ui/input";
 import Layout from "@/components/ui/layout";
-import { useRouter } from "expo-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Select from "@/components/ui/select";
+import { config } from "@/constants/config";
+import { AuthContext } from "@/context/auth-provider";
 import ProductController from "@/controllers/products/controller";
+import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/hooks/useStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useFormik } from "formik";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ScrollView, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
+import * as Yup from "yup";
 
 interface Category {
   id: number;
@@ -25,12 +25,18 @@ interface Category {
 }
 
 export default function Update() {
-  const data = useLocalSearchParams();
-  const product = data.data ? JSON.parse(data.data as string) : null;
+  const params = useLocalSearchParams();
+
+  // Re-derive product whenever the params change (fixes "always shows last product" bug)
+  const product = useMemo(
+    () => (params.data ? JSON.parse(params.data as string) : null),
+    [params.data]
+  );
+
   const { t } = useTranslation();
   const { auth } = useContext(AuthContext);
 
-  // Initialize with existing product attributes if available
+  // Initialize attribute state from product
   const [attributeValues, setAttributeValues] = useState<Array<{ attribute_id: string; value: string; price: string }>>(() => {
     if (product?.attributes && product.attributes.length > 0) {
       const firstAttr = product.attributes[0];
@@ -47,14 +53,39 @@ export default function Update() {
     return product?.attributes?.[0]?.id?.toString() || "";
   });
 
-  const router = useRouter();
-  // const {
-  //   data: profileData,
-  //   loading: profileLoading,
-  //   refetch: refetchProfile,
-  // } = useFetch(auth?.user?.id ? `/users/profile/${auth.user.id}` : "");
-  const { store } = useStore()
+  // ── Re-sync formik + local state when product changes ──────────────────────
+  useEffect(() => {
+    if (!product) return;
+    formik.resetForm({
+      values: {
+        name: product.name || "",
+        description: product.description || "",
+        price: product.price?.toString() || "",
+        sale_price: product.sale_price?.toString() || "",
+        category_id: product.category_id?.toString() || "",
+        image: product.image || "",
+        attribute_value: "",
+        attribute_price: "",
+      },
+    });
+    if (product.attributes && product.attributes.length > 0) {
+      const firstAttr = product.attributes[0];
+      setSelectedAttributeId(firstAttr.id.toString());
+      setAttributeValues(
+        firstAttr.values?.map((v: any) => ({
+          attribute_id: firstAttr.id.toString(),
+          value: v.value,
+          price: v.price?.toString() || "0",
+        })) || []
+      );
+    } else {
+      setSelectedAttributeId("");
+      setAttributeValues([]);
+    }
+  }, [product?.id]); // keyed on product.id — fires only when a different product is opened
 
+  const router = useRouter();
+  const { store } = useStore()
   const { data: attributesData } = useFetch('/attributes');
 
 
@@ -197,23 +228,23 @@ export default function Update() {
           {/* Display Existing Product Attributes */}
           {product?.attributes && product.attributes.length > 0 && (
             <View className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <Text className="text-lg font-bold text-blue-900 mb-3" style={{ fontFamily: "Cairo_700Bold" }}>
-                {t("products.existing_attributes", { defaultValue: "Existing Product Attributes" })}
+              <Text className="text-lg font-bold text-blue-900 mb-3" >
+                {t("products.existing_attributes")}
               </Text>
               {product.attributes.map((attr: any) => (
                 <View key={attr.id} className="mb-3 p-3 bg-white rounded-lg">
-                  <Text className="text-sm font-semibold text-gray-800 mb-2" style={{ fontFamily: "Cairo_600SemiBold" }}>
+                  <Text className="text-sm font-semibold text-gray-800 mb-2" >
                     {attr.name}
                   </Text>
                   {attr.values && attr.values.length > 0 ? (
                     <View className="space-y-1">
                       {attr.values.map((val: any, idx: number) => (
                         <View key={idx} className="flex-row justify-between items-center py-2 px-3 bg-gray-50 rounded-md">
-                          <Text className="text-sm text-gray-700" style={{ fontFamily: "Cairo_400Regular" }}>
+                          <Text className="text-sm text-gray-700" >
                             {val.value}
                           </Text>
-                          <Text className="text-sm font-medium text-green-600" style={{ fontFamily: "Cairo_500Medium" }}>
-                            {val.price ? `+${val.price}` : t("products.no_extra_price", { defaultValue: "No extra" })}
+                          <Text className="text-sm font-medium text-green-600" >
+                            {val.price ? `${val.price} ${config.CURRENCY}` : t("products.no_extra_price")}
                           </Text>
                         </View>
                       ))}

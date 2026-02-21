@@ -1,11 +1,10 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useTranslation } from "react-i18next";
-import { useRouter } from "expo-router";
 import { config } from "@/constants/config";
-import Button from "../ui/button";
+import { Ionicons } from "@expo/vector-icons";
 import Entypo from '@expo/vector-icons/Entypo';
+import { useRouter } from "expo-router";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 interface Category {
   id: number;
@@ -57,7 +56,7 @@ export default function ProductCard({
             onPress={() =>
               router.push({
                 pathname: "/products/update",
-                params: { data: JSON.stringify(product) },
+                params: { data: JSON.stringify(product), id: product.id },
               })
             }
             className="bg-primary w-9 h-9 items-center justify-center rounded-full shadow-md"
@@ -69,16 +68,16 @@ export default function ProductCard({
 
       {/* Product Info */}
       <View className="p-3">
-        <Text 
-          className="font-bold text-base text-black dark:text-white mb-2 text-center" 
+        <Text
+          className="font-bold text-base text-black dark:text-white mb-2 text-center"
           numberOfLines={2}
         >
           {product?.name}
         </Text>
 
         {product?.category?.name && (
-          <Text 
-            className="text-xs text-primary text-center mb-2" 
+          <Text
+            className="text-xs text-primary text-center mb-2"
             style={{ fontFamily: "Cairo_400Regular" }}
           >
             {product?.category?.name}
@@ -89,9 +88,9 @@ export default function ProductCard({
         <View className="mt-1">
           {!product?.attributes || product?.attributes?.length === 0 ? (
             <View className="bg-green-50 px-3 py-2 rounded-lg">
-              <Text 
-                className="text-center font-bold text-green-700 text-base" 
-                
+              <Text
+                className="text-center font-bold text-green-700 text-base"
+
               >
                 {product.price} {config.CURRENCY}
               </Text>
@@ -100,27 +99,27 @@ export default function ProductCard({
             <View className="mt-1">
               {product.attributes.map((attr: any) => (
                 <View key={attr.id} className="mb-2">
-                  <Text 
-                    className="text-xs text-black dark:text-white mb-1.5 text-center font-semibold" 
-                    
+                  <Text
+                    className="text-xs text-black dark:text-white mb-1.5 text-center font-semibold"
+
                   >
                     {attr.name}
                   </Text>
                   {attr.values && attr.values.length > 0 && (
                     <View className="flex-row flex-wrap justify-center gap-1">
                       {attr.values.map((val: any, index: number) => (
-                        <View 
-                          key={index} 
+                        <View
+                          key={index}
                           className="bg-primary/90 px-2.5 py-1.5 rounded-lg border flex items-center border-primary/70"
                         >
-                          <Text 
-                            className="text-xs text-white font-medium mb-2"  
+                          <Text
+                            className="text-xs text-white font-medium mb-2"
                           >
                             {val.value}
                           </Text>
-                          <Text 
-                            className="text-xs text-white font-bold" 
-                            
+                          <Text
+                            className="text-xs text-white font-bold"
+
                           >
                             {val.price} {config.CURRENCY}
                           </Text>

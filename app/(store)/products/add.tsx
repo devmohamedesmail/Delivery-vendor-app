@@ -239,10 +239,10 @@ export default function AddProduct() {
                   <TouchableOpacity
                     onPress={openCategorySheet}
                     className={`flex-row items-center justify-between px-4 py-3 rounded-xl border ${hasError("category_id")
-                        ? "border-red-400"
-                        : isDark
-                          ? "border-gray-700"
-                          : "border-gray-200"
+                      ? "border-red-400"
+                      : isDark
+                        ? "border-gray-700"
+                        : "border-gray-200"
                       }`}
                     style={{
                       backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -354,6 +354,19 @@ export default function AddProduct() {
                       error={
                         formik.touched.price && formik.errors.price
                           ? formik.errors.price
+                          : ""
+                      }
+                    />
+
+                     <Input
+                      label={t("products.sale_price")}
+                      placeholder={t("products.enter_sale_price")}
+                      value={formik.values.sale_price}
+                      onChangeText={formik.handleChange("sale_price")}
+                      keyboardType="numeric"
+                      error={
+                        formik.touched.sale_price && formik.errors.sale_price
+                          ? formik.errors.sale_price
                           : ""
                       }
                     />
@@ -494,15 +507,21 @@ export default function AddProduct() {
                 )}
 
                 {/* Submit */}
+                {/* <Button
+                  size="lg"
+                  title={formik.isSubmitting ? t("products.saving") : t("products.save")}
+                  onPress={formik.handleSubmit}
+                  disabled={formik.isSubmitting}
+                /> */}
                 <Button
                   size="lg"
                   title={
-                    formik.isSubmitting
+                    createMutation.isPending
                       ? t("products.saving")
                       : t("products.save")
                   }
                   onPress={formik.handleSubmit}
-                  disabled={formik.isSubmitting}
+                  disabled={createMutation.isPending}
                 />
               </View>
             </ScrollView>
