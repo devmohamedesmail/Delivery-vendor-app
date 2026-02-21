@@ -1,26 +1,28 @@
-import useFetch from '@/hooks/useFetch'
-import React, { useState, useContext } from 'react'
-import { Text, View, ScrollView, Platform, TouchableOpacity } from 'react-native'
-import { useTranslation } from 'react-i18next'
-import { useRouter } from 'expo-router'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import axios from 'axios'
+import BottomPaper from '@/components/ui/bottom-paper'
+import Button from '@/components/ui/button'
+import Header from '@/components/ui/header'
+import CustomImagePicker from '@/components/ui/image-picker'
+import Input from '@/components/ui/input'
+import Layout from '@/components/ui/layout'
+import Loading from '@/components/ui/loading'
+import Select from '@/components/ui/select'
+import TimePickerButton from '@/components/ui/time-picker-button'
 import { config } from '@/constants/config'
 import { AuthContext } from '@/context/auth-provider'
-import Select from '@/components/ui/select'
-import Loading from '@/components/ui/loading'
-import Input from '@/components/ui/input'
-import Button from '@/components/ui/button'
-import CustomImagePicker from '@/components/ui/image-picker'
-import DateTimePicker from '@react-native-community/datetimepicker'
-import { Ionicons } from '@expo/vector-icons'
-import Toast from 'react-native-toast-message'
-import Layout from '@/components/ui/layout'
-import Header from '@/components/ui/header'
+import useFetch from '@/hooks/useFetch'
 import { useStore } from '@/hooks/useStore'
-import KeyboardLayout from '@/components/ui/keyboard-layout'
-import TimePickerButton from '@/components/ui/time-picker-button'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
+import BottomSheet from '@gorhom/bottom-sheet'
+import DateTimePicker from '@react-native-community/datetimepicker'
+import axios from 'axios'
+import { useRouter } from 'expo-router'
+import { useFormik } from 'formik'
+import { useColorScheme } from 'nativewind'
+import React, { useContext, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FlatList, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import Toast from 'react-native-toast-message'
+import * as Yup from 'yup'
 
 
 
@@ -57,10 +59,16 @@ export default function Create() {
     const { t, i18n } = useTranslation()
     const router = useRouter()
     const { auth } = useContext(AuthContext)
+    const { colorScheme } = useColorScheme()
+    const isDark = colorScheme === 'dark'
     const { data: placesData, loading: loadingPlaces, error: errorPlaces } = useFetch('/places')
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const isArabic = i18n.language === 'ar'
     const { getStore } = useStore()
+
+    // Place sheet
+    const placeSheetRef = useRef<BottomSheet>(null)
+    const [placeSearch, setPlaceSearch] = useState('')
 
     // Time picker states
     const [showStartTimePicker, setShowStartTimePicker] = useState(false)
@@ -158,19 +166,19 @@ export default function Create() {
         },
     })
 
-    // Get the selected place object
-    const selectedPlace = placesData?.data?.find((place: Place) => place.id.toString() === formik.values.place_id)
+    // Filtered places for bottom sheet search
+    const allPlaces: Place[] = placesData?.data || []
+    const filteredPlaces = useMemo(
+        () => allPlaces.filter((p) => p.name.toLowerCase().includes(placeSearch.toLowerCase())),
+        [allPlaces, placeSearch]
+    )
 
-    // Get store types for the selected place
+    const selectedPlace = allPlaces.find((p) => p.id.toString() === formik.values.place_id)
+
+    // Derive available store types from selected place
     const availableStoreTypes = selectedPlace?.storeTypes || []
 
-    // Format places for dropdown
-    const placeOptions = placesData?.data?.map((place: Place) => ({
-        label: place.name,
-        value: place.id.toString()
-    })) || []
-
-    // Format store types for dropdown - Use store types from selected place
+    // Format store types for dropdown
     const storeTypeOptions = availableStoreTypes.map((item: any) => ({
         label: i18n.language === 'ar' ? item.storeType.name_ar : item.storeType.name_en,
         value: item.storeType.id.toString(),
@@ -207,7 +215,7 @@ export default function Create() {
     }
 
     return (
-        <KeyboardLayout>
+        <>
             <Layout>
                 <Header title={t('store.createStore')} />
                 <ScrollView className="flex-1 px-6 pt-4" showsVerticalScrollIndicator={false}>
@@ -217,26 +225,45 @@ export default function Create() {
                     </Text>
 
                     {/* Form Card */}
-                    <View className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+                    <View className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-6 mb-6">
                         {/* Section 1: Location & Type */}
                         <View className="mb-6">
-                            <View className={`flex-row items-center mb-4 ${isArabic ? 'flex-row-reverse' : 'text-left'}`}>
+                            <View className="flex-row items-center mb-4">
                                 <Ionicons name="location-outline" size={24} color="#fd4a12" />
-                                <Text className="text-lg font-semibold text-gray-800 ml-2" >
+                                <Text className="text-lg font-semibold text-gray-800 dark:text-white ml-2">
                                     {t('store.locationAndType')}
                                 </Text>
                             </View>
                             <View className="h-1 w-20 bg-primary rounded mb-4" />
 
-                            {/* Place Selection */}
-                            <Select
-                                label={t('store.selectPlace') || 'Select Place'}
-                                placeholder={t('store.choosePlacePlaceholder') || 'Choose a place'}
-                                value={formik.values.place_id}
-                                onSelect={handlePlaceSelect}
-                                options={placeOptions}
-                                error={formik.touched.place_id && formik.errors.place_id ? formik.errors.place_id : undefined}
-                            />
+                            {/* Place Picker — opens BottomSheet */}
+                            <Text className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                {t('store.selectPlace') || 'Select Place'}
+                            </Text>
+                            <TouchableOpacity
+                                onPress={() => { setPlaceSearch(''); placeSheetRef.current?.expand() }}
+                                className={`flex-row items-center justify-between px-4 py-3 rounded-xl border ${formik.touched.place_id && formik.errors.place_id
+                                    ? 'border-red-400'
+                                    : 'border-gray-200 dark:border-gray-700'
+                                    } bg-white dark:bg-gray-800`}
+                            >
+                                <View className="flex-row items-center gap-2 flex-1">
+                                    <View className="w-8 h-8 rounded-lg items-center justify-center bg-orange-50 dark:bg-gray-700">
+                                        <Ionicons name="location-outline" size={16} color="#fd4a12" />
+                                    </View>
+                                    <Text
+                                        className="text-sm flex-1"
+                                        style={{ color: selectedPlace ? (isDark ? '#fff' : '#111') : (isDark ? '#666' : '#aaa') }}
+                                        numberOfLines={1}
+                                    >
+                                        {selectedPlace ? selectedPlace.name : (t('store.choosePlacePlaceholder') || 'Choose a place')}
+                                    </Text>
+                                </View>
+                                <Ionicons name="chevron-down" size={18} color={isDark ? '#666' : '#aaa'} />
+                            </TouchableOpacity>
+                            {formik.touched.place_id && formik.errors.place_id && (
+                                <Text className="text-red-500 text-xs mt-1">{formik.errors.place_id}</Text>
+                            )}
 
                             {/* Store Type Selection - Only show when place is selected */}
                             {formik.values.place_id && (
@@ -379,8 +406,9 @@ export default function Create() {
                                 {/* Submit Button */}
                                 <View className="mt-4">
                                     <Button
+                                        size='lg'
                                         disabled={isSubmitting}
-                                        title={isSubmitting ? t('common.create') : t('common.creating')}
+                                        title={t('common.create')}
                                         onPress={formik.handleSubmit}
                                     />
                                 </View>
@@ -389,6 +417,104 @@ export default function Create() {
                     </View>
                 </ScrollView>
             </Layout>
-        </KeyboardLayout>
+
+            {/* ── Place Picker BottomSheet ───────────────────────────────── */}
+            <BottomPaper ref={placeSheetRef} snapPoints={['60%']}>
+                <View className="flex-1 px-4 pt-2">
+                    {/* Header */}
+                    <View className="flex-row items-center justify-between mb-3">
+                        <Text className="text-lg font-bold text-gray-900 dark:text-white">
+                            {t('store.selectPlace') || 'Select Place'}
+                        </Text>
+                        <TouchableOpacity onPress={() => placeSheetRef.current?.close()}>
+                            <AntDesign name="close" size={22} color={isDark ? '#ccc' : '#555'} />
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* Search */}
+                    <View className="flex-row items-center rounded-xl px-3 py-2 mb-3 bg-gray-100 dark:bg-gray-800">
+                        <Ionicons name="search" size={18} color="#fd4a12" style={{ marginRight: 8 }} />
+                        <TextInput
+                            value={placeSearch}
+                            onChangeText={setPlaceSearch}
+                            placeholder="Search places..."
+                            placeholderTextColor={isDark ? '#666' : '#aaa'}
+                            className="flex-1 text-sm text-gray-900 dark:text-white"
+                        />
+                        {placeSearch.length > 0 && (
+                            <TouchableOpacity onPress={() => setPlaceSearch('')}>
+                                <AntDesign name="close" size={16} color="#aaa" />
+                            </TouchableOpacity>
+                        )}
+                    </View>
+
+                    {/* Places list */}
+                    <FlatList
+                        data={filteredPlaces}
+                        keyExtractor={(item) => item.id.toString()}
+                        style={{ flex: 1 }}
+                        contentContainerStyle={{ paddingBottom: 16 }}
+                        ListEmptyComponent={
+                            <Text className="text-center text-sm text-gray-400 mt-6">
+                                No places found
+                            </Text>
+                        }
+                        renderItem={({ item }) => {
+                            const isSelected = formik.values.place_id === item.id.toString()
+                            return (
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        handlePlaceSelect(item.id.toString())
+                                        placeSheetRef.current?.close()
+                                    }}
+                                    className="flex-row items-center p-3 rounded-xl mb-2 border"
+                                    style={{
+                                        backgroundColor: isSelected
+                                            ? isDark ? '#2a1a15' : '#fff4f0'
+                                            : isDark ? '#111' : '#fff',
+                                        borderColor: isSelected ? '#fd4a12' : isDark ? '#222' : '#eee',
+                                        borderWidth: 1.5,
+                                    }}
+                                >
+                                    <View
+                                        className="w-10 h-10 rounded-xl items-center justify-center mr-3"
+                                        style={{ backgroundColor: isSelected ? '#fd4a12' : isDark ? '#333' : '#f0f0f0' }}
+                                    >
+                                        <Ionicons
+                                            name="location-outline"
+                                            size={18}
+                                            color={isSelected ? '#fff' : '#fd4a12'}
+                                        />
+                                    </View>
+                                    <View className="flex-1">
+                                        <Text
+                                            className="text-sm font-semibold"
+                                            style={{ color: isDark ? '#fff' : '#111' }}
+                                            numberOfLines={1}
+                                        >
+                                            {item.name}
+                                        </Text>
+                                        {item.address ? (
+                                            <Text
+                                                className="text-xs mt-0.5"
+                                                style={{ color: isDark ? '#888' : '#aaa' }}
+                                                numberOfLines={1}
+                                            >
+                                                {item.address}
+                                            </Text>
+                                        ) : null}
+                                    </View>
+                                    {isSelected && (
+                                        <View className="w-6 h-6 rounded-full items-center justify-center bg-primary">
+                                            <AntDesign name="check" size={13} color="#fff" />
+                                        </View>
+                                    )}
+                                </TouchableOpacity>
+                            )
+                        }}
+                    />
+                </View>
+            </BottomPaper>
+        </>
     )
 }
