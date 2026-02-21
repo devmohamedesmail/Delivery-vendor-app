@@ -44,7 +44,7 @@ export default function Input({
     <View className="mb-4">
       {/* Label */}
       {label && (
-        <Text className={`mb-2 mx-1 text-base font-medium text-black dark:text-white ${i18n.language === "ar" ? 'text-right' : 'text-left'}`}>
+        <Text className={`mb-2 mx-1 text-base block font-medium text-black dark:text-white `}>
           {label}
         </Text>
       )}

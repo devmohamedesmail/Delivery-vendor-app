@@ -60,7 +60,6 @@ export default function AccountActionSection() {
                 await logout()
                 router.replace('/auth/login')
             } catch (error) {
-                console.log(error)
                 Toast.show({
                     type: 'error',
                     text1: t('account.delete_account_error'),
