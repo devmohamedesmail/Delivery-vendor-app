@@ -52,9 +52,7 @@ export default function AddProduct() {
   const queryClient = useQueryClient();
 
   const { data: attributesData } = useFetch("/attributes");
-  const [attributeValues, setAttributeValues] = useState<
-    Array<{ attribute_id: string; value: string; price: string }>
-  >([]);
+  const [attributeValues, setAttributeValues] = useState<Array<{ attribute_id: string; value: string; price: string }>>([]);
   const [selectedAttributeId, setSelectedAttributeId] = useState<string>("");
 
   // ── Category sheet state ────────────────────────────────────────────────────
@@ -87,6 +85,7 @@ export default function AddProduct() {
       Toast.show({ type: "success", text1: t("products.product_added_successfully") });
       queryClient.invalidateQueries({ queryKey: ["products", store.id] });
       formik.resetForm();
+      formik.setFieldValue("image", "");
       setSelectedCategory(null);
     },
     onError: (error) => {
@@ -129,7 +128,9 @@ export default function AddProduct() {
       const formData = new FormData();
       formData.append("store_id", store.id.toString());
       formData.append("name", values.name);
-      formData.append("description", values.description);
+      if (values.description) {
+        formData.append("description", values.description);
+      }
       if (values.is_simple) {
         formData.append("price", values.price || "0");
         if (values.sale_price) formData.append("sale_price", values.sale_price);
@@ -293,7 +294,7 @@ export default function AddProduct() {
                 <View className="mb-6">
                   <CustomImagePicker
                     label={t("products.product_image")}
-                    value={formik.values.image}
+                    value={formik.values.image }
                     onImageSelect={(uri: string) =>
                       formik.setFieldValue("image", uri)
                     }
@@ -358,7 +359,7 @@ export default function AddProduct() {
                       }
                     />
 
-                     <Input
+                    <Input
                       label={t("products.sale_price")}
                       placeholder={t("products.enter_sale_price")}
                       value={formik.values.sale_price}

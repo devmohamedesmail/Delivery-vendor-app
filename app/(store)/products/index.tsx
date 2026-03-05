@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   TouchableOpacity,
@@ -9,7 +9,6 @@ import {
 import { useTranslation } from "react-i18next";
 import useFetch from "@/hooks/useFetch";
 import { useRouter } from "expo-router";
-import Loading from "@/components/ui/loading";
 import Skeleton from "@/components/ui/skeleton";
 import Header from "@/components/ui/header";
 import { useStore } from "@/hooks/useStore";
@@ -31,6 +30,7 @@ export default function Products() {
   const router = useRouter();
   const { store } = useStore();
   const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ["products", store.id],
     queryFn: () => ProductController.fetchProductsByStore(store.id, auth.token),
@@ -39,7 +39,9 @@ export default function Products() {
 
 
 
-
+  const onRefresh = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
   // Fetch categories for dropdown
   const { data: categoriesData } = useFetch(
@@ -115,13 +117,16 @@ export default function Products() {
 
       {!isLoading && products?.length === 0 ? <NoProducts /> : null}
 
-      <View className="mb-10 pb-28">
+      <View className="mb-10 pb-44">
         <FlatList
+
           key={"2-columns"}
           data={products}
           numColumns={2}
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={{ padding: 16 }}
+          refreshing={isLoading}
+          onRefresh={onRefresh}
           renderItem={({ item: product }) => (
             <ProductCard
               product={product}

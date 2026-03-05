@@ -1,7 +1,6 @@
 import AuthProvider from '@/context/auth-provider';
 import { LanguageProvider } from '@/context/language-context';
 import { NetworkProvider } from '@/context/network-provider';
-
 import SettingProvider from '@/context/setting-provider';
 import StoreProvider from '@/context/store-provider';
 import { ThemeProvider } from '@/context/theme-provider';

@@ -1,17 +1,28 @@
+import { useCallback, useState } from 'react'
 import { useStore } from '@/hooks/useStore'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, Pressable, ScrollView, Text, View } from 'react-native'
+import { Image, Pressable, RefreshControl, ScrollView, Text, View } from 'react-native'
 
 
 export default function StoreInfo() {
   const { t } = useTranslation()
-  const { store } = useStore();
+  const { store, getStore } = useStore();
   const router = useRouter();
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await getStore();
+    setRefreshing(false);
+  }, []);
   return (
-    <ScrollView className="flex-1 bg-gray-50 dark:bg-gray-900 ">
+    <ScrollView className="flex-1 bg-gray-50 dark:bg-gray-900 "
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       {/* Store Banner */}
       {store.banner && (
         <View className="relative">
