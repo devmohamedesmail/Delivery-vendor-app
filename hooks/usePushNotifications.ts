@@ -7,6 +7,7 @@ import Constants from 'expo-constants';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
+    shouldShowAlert: true,
     shouldShowBanner: true, // بدل shouldShowAlert
     shouldShowList: true,   // جديد لإظهار الإشعار في قائمة الإشعارات
     shouldPlaySound: true,
@@ -27,6 +28,7 @@ export default function usePushNotifications() {
           importance: Notifications.AndroidImportance.MAX,
           vibrationPattern: [0, 250, 250, 250],
           lightColor: '#FF231F7C',
+          sound: 'default',
         });
       }
 

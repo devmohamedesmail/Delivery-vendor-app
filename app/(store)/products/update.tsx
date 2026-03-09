@@ -90,8 +90,7 @@ export default function Update() {
 
 
 
-  // Check if store exists
-  // const storeId = profileData?.data?.store?.id || "";
+
 
   const { data: categoriesData } = useFetch(
     store?.id ? `/categories/store/${store.id}` : ""
@@ -211,7 +210,6 @@ export default function Update() {
 
 
       } catch (error) {
-        console.log("Error saving product:", error);
         Toast.show({
           type: "error",
           text1: t("products.failed_to_save_product"),
@@ -443,11 +441,18 @@ export default function Update() {
 
           {/* Submit Button */}
           <Button
+            // title={
+            //   formik.isSubmitting ? t("products.saving") : t("products.save")
+            // }
+            // onPress={formik.handleSubmit}
+            // disabled={formik.isSubmitting}
             title={
-              formik.isSubmitting ? t("products.saving") : t("products.save")
-            }
-            onPress={formik.handleSubmit}
-            disabled={formik.isSubmitting}
+    updateMutation.isPending
+      ? t("products.saving")
+      : t("products.save")
+  }
+  onPress={formik.handleSubmit}
+  disabled={updateMutation.isPending}
           />
         </View>
       </ScrollView>
