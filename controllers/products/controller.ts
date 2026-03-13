@@ -12,7 +12,7 @@ interface DeleteProductParams {
 }
 
 export default class ProductController {
-    
+    // 🔹 Fetch products by store
     static async fetchProductsByStore(storeId: number, token: string) {
         const response = await axios.get(
             `${config.URL}/stores/${storeId}/products`,
@@ -56,7 +56,8 @@ export default class ProductController {
         return response.data;
     }
 
-    static updateProduct({
+    // 🔹 Update product
+    static async updateProduct({
         productID,
         formData,
         token,
@@ -65,7 +66,7 @@ export default class ProductController {
         formData: FormData;
         token: string;
     }) {
-        return axios.put(
+        const response = await axios.put(
             `${config.URL}/products/update/${productID}`,
             formData,
             {
@@ -75,5 +76,7 @@ export default class ProductController {
                 },
             }
         );
+
+        return response.data;
     }
 }
