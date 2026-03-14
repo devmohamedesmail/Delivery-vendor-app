@@ -512,7 +512,10 @@
     "reviews": "Reviews",
     "edit": "Edit Store",
     "tapToChange": "Tap to change",
-    "selectTime": "Select time"
+    "selectTime": "Select time",
+    "location": "Location",
+    "latitude": "Latitude",
+    "longitude": "Longitude"
   },
   "account": {
     "theme": "Theme",

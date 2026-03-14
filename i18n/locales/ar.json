@@ -513,7 +513,10 @@
     "reviews": "التقييمات",
     "edit": "  تعديل المتجر  ",
     "tapToChange": "اضغط للتغيير",
-    "selectTime": "اختر الوقت"
+    "selectTime": "اختر الوقت",
+    "location": "الموقع",
+    "latitude": "خط العرض",
+    "longitude": "خط الطول"
   },
   "account": {
     "theme": "المظهر",

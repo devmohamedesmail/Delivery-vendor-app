@@ -9,6 +9,8 @@ import Select from '@/components/ui/select'
 import TimePickerButton from '@/components/ui/time-picker-button'
 import { config } from '@/constants/config'
 import { AuthContext } from '@/context/auth-provider'
+
+import useCreateStore from '@/hooks/store/useCreateStore'
 import useFetch from '@/hooks/useFetch'
 import { useStore } from '@/hooks/useStore'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
@@ -56,160 +58,40 @@ interface StoreFormValues {
 }
 
 export default function Create() {
-    const { t, i18n } = useTranslation()
-    const router = useRouter()
-    const { auth } = useContext(AuthContext)
-    const { colorScheme } = useColorScheme()
-    const isDark = colorScheme === 'dark'
-    const { data: placesData, loading: loadingPlaces, error: errorPlaces } = useFetch('/places')
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-    const isArabic = i18n.language === 'ar'
-    const { getStore } = useStore()
-
-    // Place sheet
-    const placeSheetRef = useRef<BottomSheet>(null)
-    const [placeSearch, setPlaceSearch] = useState('')
-
-    // Time picker states
-    const [showStartTimePicker, setShowStartTimePicker] = useState(false)
-    const [showEndTimePicker, setShowEndTimePicker] = useState(false)
-    const [startTimeDate, setStartTimeDate] = useState(new Date())
-    const [endTimeDate, setEndTimeDate] = useState(new Date())
-
-    // Validation schema
-    const validationSchema = Yup.object().shape({
-        place_id: Yup.string().required(t('store.placeRequired')),
-        store_type_id: Yup.string().required(t('store.storeTypeRequired')),
-        name: Yup.string().required(t('store.nameRequired')),
-        phone: Yup.string().required(t('store.phoneRequired')),
-        start_time: Yup.string().required(t('store.startTimeRequired')),
-        end_time: Yup.string().required(t('store.endTimeRequired')),
-
-    })
-
-    // Formik setup
-    const formik = useFormik<StoreFormValues>({
-        initialValues: {
-            place_id: '',
-            store_type_id: '',
-            name: '',
-            logo: '',
-            phone: '',
-            start_time: '',
-            end_time: '',
-
-        },
-        validationSchema,
-        onSubmit: async (values) => {
-            setIsSubmitting(true)
-
-            try {
-                const formData = new FormData()
-                formData.append('place_id', values.place_id)
-                formData.append('store_type_id', values.store_type_id)
-                formData.append('name', values.name)
-                formData.append('phone', values.phone)
-                formData.append('start_time', values.start_time)
-                formData.append('end_time', values.end_time)
-
-
-                // Add images if selected
-                if (values.logo) {
-                    const logoFile = {
-                        uri: values.logo,
-                        type: 'image/jpeg',
-                        name: 'logo.jpg',
-                    } as any
-                    formData.append('logo', logoFile)
-                }
+    const {
+        loadingPlaces,
+        t,
+        setPlaceSearch,
+        placeSheetRef,
+        selectedPlace,
+        formik,
+        storeTypeOptions,
+        isDark,
+        availableStoreTypes,
+        isArabic,
+        setShowStartTimePicker,
+        setShowEndTimePicker,
+        showStartTimePicker,
+        startTimeDate,
+        showEndTimePicker,
+        handleStartTimeChange,
+        handleEndTimeChange,
+        endTimeDate,
+        isSubmitting,
+        placeSearch,
+        filteredPlaces,
+        handlePlaceSelect
 
 
 
-                const { data } = await axios.post(`${config.URL}/stores/create`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `Bearer ${auth.token}`
-                    }
-                })
 
-                if (data?.success) {
-                    Toast.show({
-                        type: 'success',
-                        text1: t('store.storeCreatedSuccess'),
-                        position: 'top',
-                        visibilityTime: 1000,
-                    })
-                    formik.resetForm()
-                    await getStore()
-                    setTimeout(() => { router.push('/') }, 1000)
 
-                } else {
-                    1
-                    Toast.show({
-                        type: 'error',
-                        text1: t('store.storeCreationFailed'),
-                        position: 'top',
-                        visibilityTime: 1000,
-                    })
-                }
 
-            } catch (error: any) {
-                Toast.show({
-                    type: 'error',
-                    text1: t('store.storeCreationFailed'),
-                    position: 'bottom',
-                    visibilityTime: 2000,
-                })
-            } finally {
-                setIsSubmitting(false)
-            }
-        },
-    })
 
-    // Filtered places for bottom sheet search
-    const allPlaces: Place[] = placesData?.data || []
-    const filteredPlaces = useMemo(
-        () => allPlaces.filter((p) => p.name.toLowerCase().includes(placeSearch.toLowerCase())),
-        [allPlaces, placeSearch]
-    )
 
-    const selectedPlace = allPlaces.find((p) => p.id.toString() === formik.values.place_id)
 
-    // Derive available store types from selected place
-    const availableStoreTypes = selectedPlace?.storeTypes || []
-
-    // Format store types for dropdown
-    const storeTypeOptions = availableStoreTypes.map((item: any) => ({
-        label: i18n.language === 'ar' ? item.storeType.name_ar : item.storeType.name_en,
-        value: item.storeType.id.toString(),
-    }))
-
-    const handlePlaceSelect = (value: string) => {
-        formik.setFieldValue('place_id', value)
-        formik.setFieldValue('store_type_id', '')
-    }
-
-    // Time picker handlers
-    const handleStartTimeChange = (event: any, selectedDate?: Date) => {
-        setShowStartTimePicker(Platform.OS === 'ios')
-        if (selectedDate) {
-            setStartTimeDate(selectedDate)
-            const hours = selectedDate.getHours().toString().padStart(2, '0')
-            const minutes = selectedDate.getMinutes().toString().padStart(2, '0')
-            formik.setFieldValue('start_time', `${hours}:${minutes}`)
-        }
-    }
-
-    const handleEndTimeChange = (event: any, selectedDate?: Date) => {
-        setShowEndTimePicker(Platform.OS === 'ios')
-        if (selectedDate) {
-            setEndTimeDate(selectedDate)
-            const hours = selectedDate.getHours().toString().padStart(2, '0')
-            const minutes = selectedDate.getMinutes().toString().padStart(2, '0')
-            formik.setFieldValue('end_time', `${hours}:${minutes}`)
-        }
-    }
-
+    
+    }= useCreateStore()
     if (loadingPlaces) {
         return <Loading />
     }
