@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import { useRouter } from 'expo-router'
 import { AuthContext } from '@/context/auth-provider'
 import Toast from 'react-native-toast-message'
+import { Alert } from 'react-native'
 
 
 
@@ -59,17 +60,50 @@ export default function useLogin() {
                     text1: t('auth.login_success'),
                     text2: t('auth.welcomeBack'),
                     type: 'success',
+                    onHide: () => {
+                        const role = result.data.user.role.role;
+
+                        switch (role) {
+                            case 'admin':
+                                router.replace('/(admin)')
+                                break;
+                            case 'store_owner':
+                                router.replace('/(store)')
+                                break;
+
+                            case 'delivery':
+                                router.replace('/(delivery)')
+                                break;
+                            default:
+                                router.replace('/')
+                                break;
+                        }
+                    }
                 })
 
 
-                const role = result.data.user.role.role;
-                if (role === 'store_owner') {
-                    router.replace('/(store)')
-                } else if (role === 'driver') {
-                    //   router.replace('/driver/dashboard')
-                } else {
-                    router.replace('/')
-                }
+
+                
+
+                // const role = result.data.user.role.role;
+
+                // switch (role) {
+                //     case 'admin':
+                //         router.replace('/(admin)')
+                //         break;
+                //     case 'store_owner':
+                //         router.replace('/(store)')
+                //         break;
+
+                //     case 'delivery':
+                //         router.replace('/(delivery)')
+                //         break;
+                //     default:
+                //         router.replace('/')
+                //         break;
+                // }
+
+
                 setIsLoading(false)
             } catch (error: any) {
                 setIsLoading(false)
@@ -90,14 +124,14 @@ export default function useLogin() {
     }, [loginMethod]);
 
     return {
-        t, 
-        i18n, 
-        router, 
-        formik, 
-        isLoading, 
-        rememberMe, 
-        setRememberMe, 
-        loginMethod, 
+        t,
+        i18n,
+        router,
+        formik,
+        isLoading,
+        rememberMe,
+        setRememberMe,
+        loginMethod,
         setLoginMethod
     }
 }

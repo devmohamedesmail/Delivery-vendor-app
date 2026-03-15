@@ -37,7 +37,8 @@
     "uploading": "Uploading...",
     "downloading": "Downloading...",
     "processing": "Processing...",
-    "selectOption": "Select Option"
+    "selectOption": "Select Option",
+    "refresh": "Refresh"
   },
   "auth": {
     "email": "Email",
@@ -578,7 +579,8 @@
     "password_required": "Password is required",
     "password_mismatch": "Passwords do not match",
     "password_changed_success": "Password changed successfully",
-    "password_changed_failed": "Failed to change password"
+    "password_changed_failed": "Failed to change password",
+    "admin": " (Admin)"
   },
   "network": {
     "noConnection": "No Internet Connection",

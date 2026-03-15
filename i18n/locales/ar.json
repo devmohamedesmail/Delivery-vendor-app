@@ -37,7 +37,8 @@
     "uploading": "جاري الرفع...",
     "downloading": "جاري التحميل...",
     "processing": "جاري المعالجة...",
-    "selectOption": "اختر من القائمة"
+    "selectOption": "اختر من القائمة",
+     "refresh": " اعاده التحميل "
   },
   "auth": {
     "email": "البريد الإلكتروني",
@@ -579,7 +580,8 @@
     "password_required": "كلمة المرور مطلوبة",
     "password_mismatch": "كلمات المرور غير متطابقة",
     "password_changed_success": "تم تغيير كلمة المرور بنجاح",
-    "password_changed_failed": "فشل تغيير كلمة المرور"
+    "password_changed_failed": "فشل تغيير كلمة المرور",
+    "admin": " ( مدير )"
   },
   "network": {
     "noConnection": "لا يوجد اتصال بالإنترنت",

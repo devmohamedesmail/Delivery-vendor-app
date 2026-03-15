@@ -44,6 +44,8 @@ export default function Home() {
   return (
     <Layout>
       <Header backButton={false} title={t('common.home')} />
+
+
       {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
         <Text>Token: {expoPushToken}</Text>
         {notification && (
@@ -58,19 +60,6 @@ export default function Home() {
 
 
 
-
-
-
-
-
-
-      {/* {authLoading ? <Loading /> : (
-        <>{!store ? (<NoStore />) : (
-          <StoreInfo />
-        )}</>
-
-
-      )} */}
 
 
       {isLoading ? (

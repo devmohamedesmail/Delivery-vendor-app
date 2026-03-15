@@ -44,6 +44,7 @@ export default function Account() {
                             <Text className="text-white text-sm font-medium">
                                 {auth?.user?.role?.role === "store_owner" ? t('account.store_owner') : ''}
                                 {auth?.user?.role?.role === "driver" ? t('account.driver') : ''}
+                                {auth?.user?.role?.role === "admin" ? t('account.admin') : ''}
                             </Text>
                         </View>
                     </View>
