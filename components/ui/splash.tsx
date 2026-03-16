@@ -82,7 +82,7 @@ export default function Splash() {
     <View className="flex-1 bg-white items-center justify-center overflow-hidden">
       {/* Background Decorative Circle */}
       <Animated.View
-        className="absolute items-center justify-center bg-orange-600 rounded-full"
+        className="absolute items-center justify-center bg-white rounded-full"
         style={[
           {
             width: width * 2,

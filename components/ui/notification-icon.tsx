@@ -22,33 +22,58 @@ export default function NotificationIcon() {
     const notificationCount = data?.data?.length || 0;
 
 
+    // useEffect(() => {
+    //     const s = io("https://tawsila-app.onrender.com");
+
+    //     setSocket(s);
+
+    //     s.on("connect", () => {
+    //         setIsConnected(true);
+    //         if (store?.id) {
+    //             s.emit("join_store", store.id);
+    //             s.on("new_order", async (data) => {
+    //                 refetch();
+
+    //                 await Notifications.scheduleNotificationAsync({
+    //                     content: {
+    //                         title: t(data.notification.title),
+    //                         body: t(data.notification.message, { order_id: data.order_id }),
+    //                         sound: 'default',
+    //                         data: { type: 'new_order', order: data },
+    //                     },
+    //                     trigger: null, 
+    //                 });
+    //             });
+    //         }
+    //     });
+
+    //     s.on("disconnect", () => {
+    //         setIsConnected(false);
+    //     });
+
+    //     return () => {
+    //         s.disconnect();
+    //     };
+    // }, [store?.id]);
+
     useEffect(() => {
         const s = io("https://tawsila-app.onrender.com");
 
-        setSocket(s);
+        if (store?.id) {
+            s.emit("join_store", store.id);
+        }
 
-        s.on("connect", () => {
-            setIsConnected(true);
-            if (store?.id) {
-                s.emit("join_store", store.id);
-                s.on("new_order", async (data) => {
-                    refetch();
-                    // to send notification to all users in the store
-                    await Notifications.scheduleNotificationAsync({
-                        content: {
-                            title: t(data.notification.title),
-                            body: t(data.notification.message, { order_id: data.order_id }),
-                            sound: 'default',
-                            data: { type: 'new_order', order: data },
-                        },
-                        trigger: null, // فوراً بدون تأخير
-                    });
-                });
-            }
-        });
+        s.on("new_order", async (data) => {
+            refetch();
 
-        s.on("disconnect", () => {
-            setIsConnected(false);
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: "New Order",
+                    body: `Order #${data.order_id}`,
+                    sound: true,
+                },
+                trigger: null,
+            });
         });
 
         return () => {

@@ -12,7 +12,7 @@ import AuthLayout from '@/components/screens/auth/auth-layout'
 import AuthHeader from '@/components/screens/auth/auth-header'
 import Toast from 'react-native-toast-message'
 import TabButton from '@/components/ui/tab-button'
-import SocialLoginSection from '@/components/screens/auth/social-login-section'
+// import SocialLoginSection from '@/components/screens/auth/social-login-section'
 import useLogin from '@/hooks/auth/useLogin'
 
 
@@ -128,7 +128,7 @@ export default function Login() {
             </TouchableOpacity>
           </View>
 
-          <SocialLoginSection />
+          {/* <SocialLoginSection /> */}
         </View>
       </View>
     </AuthLayout>

@@ -1,11 +1,12 @@
-import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
-import Input from '@/components/ui/input'
-import Button from '@/components/ui/button'
-import AuthLayout from '@/components/screens/auth/auth-layout'
 import AuthHeader from '@/components/screens/auth/auth-header'
+import AuthLayout from '@/components/screens/auth/auth-layout'
+import Button from '@/components/ui/button'
+import Input from '@/components/ui/input'
 import TabButton from '@/components/ui/tab-button'
-import SocialLoginSection from '@/components/screens/auth/social-login-section'
+import React from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
+// import SocialLoginSection from '@/components/screens/auth/social-login-section'
+import RoleSelection from '@/components/screens/auth/role-selection'
 import useRegister from '@/hooks/auth/useRegister'
 
 
@@ -13,17 +14,17 @@ import useRegister from '@/hooks/auth/useRegister'
 
 
 export default function Register() {
-    const {t,router,formik,registerMethod,setRegisterMethod,isLoading} = useRegister()
+    const { t, router, formik, registerMethod, setRegisterMethod, isLoading } = useRegister()
     return (
 
         <AuthLayout>
-            <AuthHeader title={t('auth.createAccount')}  />
+            <AuthHeader title={t('auth.createAccount')} />
 
-            <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white dark:bg-card-dark pt-10">
+            <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white dark:bg-card-dark pt-10 pb-10">
 
                 {/* Tabs for Email/Phone */}
                 <View className="flex-row mb-6 ">
-                   
+
                     <TabButton
                         label={t('auth.email')}
                         onPress={() => setRegisterMethod('email')}
@@ -34,7 +35,7 @@ export default function Register() {
                         onPress={() => setRegisterMethod('phone')}
                         active={registerMethod === 'phone'}
                     />
-                    
+
                 </View>
 
                 {/* Name Input */}
@@ -82,6 +83,12 @@ export default function Register() {
 
                 {/* Role Selection */}
                 {/* <RoleOptions formik={formik} /> */}
+                <RoleSelection
+                    formik={formik}
+                    // value={formik.values.role_id}
+                    // onChange={(val) => formik.setFieldValue('role_id', val)}
+                    // error={formik.touched.role_id && formik.errors.role_id ? String(formik.errors.role_id) : undefined}
+                />
 
 
                 <View className='mt-10'>
@@ -105,7 +112,7 @@ export default function Register() {
                     </View>
                 </View>
 
-                <SocialLoginSection />
+                {/* <SocialLoginSection /> */}
             </View>
         </AuthLayout>
     )

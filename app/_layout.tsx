@@ -4,8 +4,10 @@ import AppProviders from '@/providers'
 import '../i18n/i18n'
 import '../global.css'
 import { initI18n } from '@/i18n/i18n';
+import usePushNotifications from '@/hooks/usePushNotifications';
 
 export default function RootLayout() {
+    const { expoPushToken } = usePushNotifications();
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
