@@ -67,6 +67,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const response = await axios.post(`${config.URL}/auth/login`, payload);
             const user = response.data;
             await AsyncStorage.setItem('user', JSON.stringify(user));
+            await AsyncStorage.setItem('token', JSON.stringify(user.token));
             setAuth(user);
             return {
                 success: true,
@@ -100,6 +101,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
             const user = response.data;
             await AsyncStorage.setItem('user', JSON.stringify(user));
+            await AsyncStorage.setItem('token', JSON.stringify(user.token));
             setAuth(user);
             return { success: true, data: user };
         } catch (error: any) {

@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import Button from '@/components/ui/button'
 import colors from '@/constants/colors'
 import Loading from '@/components/ui/loading';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const InfoRow = ({ icon, label, value }: { icon: any, label: string, value: string }) => (
