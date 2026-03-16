@@ -38,7 +38,9 @@
     "downloading": "جاري التحميل...",
     "processing": "جاري المعالجة...",
     "selectOption": "اختر من القائمة",
-     "refresh": " اعاده التحميل "
+    "refresh": " اعاده التحميل ",
+    "verified": "موثق",
+    "unverified": "غير موثق"
   },
   "auth": {
     "email": "البريد الإلكتروني",
@@ -598,5 +600,26 @@
   "splash": {
     "welcome_message": "Riva Delivery",
     "loading_app": "جاري تحميل التجربة..."
+  },
+  "vehicle": {
+    "noVehicleTitle": "لا توجد مركبة",
+    "noVehicleMessage": "ليس لديك مركبة حتى الآن. يرجى إضافة مركبة للبدء.",
+    "create": "إضافة مركبة",
+    "createSubtitle": "أضف مركبة جديدة إلى ملفك الشخصي",
+    "information": "معلومات المركبة",
+    "plateNumber": "رقم اللوحة",
+    "type": "النوع",
+    "model": "الموديل",
+    "capacity": "السعة",
+    "color": "اللون",
+    "licenseAndInsurance": "الرخصة والتأمين",
+    "license": "رقم الرخصة",
+    "insurance": "رقم التأمين",
+    "insuranceDate": "تاريخ التأمين",
+    "image": "صورة المركبة",
+    "uploadImage": "رفع صورة المركبة",
+    "tapToUpload": "اضغط لاختيار صورة",
+    "createdSuccessfully": "تم إنشاء المركبة بنجاح",
+    "creationFailed": "فشل إنشاء المركبة"
   }
 }

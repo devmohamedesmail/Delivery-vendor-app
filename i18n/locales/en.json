@@ -38,7 +38,9 @@
     "downloading": "Downloading...",
     "processing": "Processing...",
     "selectOption": "Select Option",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "verified": "Verified",
+    "unverified": "Unverified"
   },
   "auth": {
     "email": "Email",
@@ -176,52 +178,6 @@
     "markAsDelivered": "Mark as Delivered",
     "changeStatus": "Change Status",
     "selectStatus": "Select Status"
-  },
-  "driver": {
-    "homeTitle": "Driver Home",
-    "vehicleRegistration": "Vehicle Registration",
-    "vehicleInfo": "Vehicle Information",
-    "carImage": "Vehicle Image",
-    "tapToSelectCarImage": "Tap to select vehicle image",
-    "tapToChangeCarImage": "Tap to change vehicle image",
-    "vehicle_license_plate": "License Plate Number",
-    "enter_license_plate": "Enter license plate number",
-    "vehicle_color": "Vehicle Color",
-    "select_vehicle_color": "Select vehicle color",
-    "vehicle_type": "Vehicle Type",
-    "select_vehicle_type": "Select vehicle type",
-    "registeringVehicle": "Registering Vehicle...",
-    "registerVehicle": "Register Vehicle",
-    "createProfile": "Create Driver Profile",
-    "createYourProfile": "Create your driver profile to start accepting orders",
-    "loading_vehicles": "Loading vehicle types...",
-    "failed_to_load_vehicles": "Failed to load vehicle types",
-    "profile_created_successfully": "Driver profile created successfully!",
-    "failed_to_create_profile": "Failed to create driver profile",
-    "fill_all_required_fields": "Please fill all required fields",
-    "license_plate_required": "License plate is required",
-    "vehicle_type_required": "Vehicle type is required",
-    "vehicle_color_required": "Vehicle color is required",
-    "vehicle_image_required": "Vehicle image is required",
-    "viewOrders": "View Orders",
-    "available": "Available",
-    "unavailable": "Unavailable",
-    "toggleAvailability": "Toggle Availability",
-    "goOnline": "Go Online",
-    "goOffline": "Go Offline",
-    "youAreOnline": "You are now online and can receive orders",
-    "youAreOffline": "You are now offline and will not receive orders",
-    "failedToUpdateStatus": "Failed to update availability status",
-    "noTrips": "No trips yet",
-    "noTripsDescription": "When you complete trips, they will appear here"
-  },
-  "driverOrders": {
-    "title": "Driver Orders",
-    "from": "From",
-    "to": "To",
-    "fare": "Fare",
-    "payment": "Payment",
-    "rider": "Rider"
   },
   "colors": {
     "black": "Black",
@@ -597,5 +553,26 @@
   "splash": {
     "welcome_message": "Riva Delivery",
     "loading_app": "Loading your experience..."
+  },
+  "vehicle": {
+    "noVehicleTitle": "No Vehicle",
+    "noVehicleMessage": "You don't have a vehicle yet. Please add a vehicle to get started.",
+    "create": "Create Vehicle",
+    "createSubtitle": "Add a new vehicle to your profile",
+    "information": "Vehicle Information",
+    "plateNumber": "Plate Number",
+    "type": "Type",
+    "model": "Model",
+    "capacity": "Capacity",
+    "color": "Color",
+    "licenseAndInsurance": "License & Insurance",
+    "license": "License Number",
+    "insurance": "Insurance Number",
+    "insuranceDate": "Insurance Date",
+    "image": "Vehicle Image",
+    "uploadImage": "Upload Vehicle Image",
+    "tapToUpload": "Tap to select an image",
+    "createdSuccessfully": "Vehicle created successfully",
+    "creationFailed": "Failed to create vehicle"
   }
 }
