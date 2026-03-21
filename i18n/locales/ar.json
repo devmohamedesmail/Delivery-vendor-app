@@ -141,6 +141,7 @@
   },
   "orders": {
     "orders": "الطلبات",
+    "dailyOrders": "الطلبات اليومية",
     "manage_incoming_orders": "إدارة الطلبات الواردة",
     "all": " الكل ",
     "pending": "قيد الانتظار",

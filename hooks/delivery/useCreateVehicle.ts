@@ -17,15 +17,15 @@ export default function useCreateVehicle() {
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     const validationSchema = Yup.object().shape({
-        plateNumber: Yup.string().required(t('validation.required') || 'Required'),
-        type: Yup.string().required(t('validation.required') || 'Required'),
-        model: Yup.string().required(t('validation.required') || 'Required'),
-        capacity: Yup.number().required(t('validation.required') || 'Required').positive(),
-        color: Yup.string().required(t('validation.required') || 'Required'),
-        license: Yup.string().required(t('validation.required') || 'Required'),
-        insurance: Yup.string().required(t('validation.required') || 'Required'),
-        insurance_date: Yup.date().required(t('validation.required') || 'Required'),
-        image: Yup.string().required(t('validation.required') || 'Required'),
+        plateNumber: Yup.string().required(t('validation.required')),
+        type: Yup.string().required(t('validation.required')),
+        model: Yup.string().required(t('validation.required')),
+        capacity: Yup.number().required(t('validation.required')).positive(),
+        color: Yup.string().required(t('validation.required')),
+        license: Yup.string().required(t('validation.required')),
+        insurance: Yup.string().required(t('validation.required')),
+        insurance_date: Yup.date().required(t('validation.required')),
+        image: Yup.string().required(t('validation.required')),
     });
 
     const formik = useFormik({

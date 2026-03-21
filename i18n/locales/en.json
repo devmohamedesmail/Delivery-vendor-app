@@ -140,6 +140,7 @@
   },
   "orders": {
     "orders": "Orders",
+    "dailyOrders": "Daily Orders",
     "manage_incoming_orders": "Manage incoming orders",
     "all": "All",
     "pending": "Pending",

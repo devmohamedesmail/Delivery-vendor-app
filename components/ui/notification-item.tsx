@@ -17,21 +17,21 @@ const getTimeAgo = (dateString: string) => {
 };
 
 export default function NotificationItem({ item }: any) {
-     const getIconColor = (title: string) => {
+  const getIconColor = (title: string) => {
     const lowerTitle = title.toLowerCase();
     if (lowerTitle.includes('order')) return '#10b981';
     if (lowerTitle.includes('system')) return '#3b82f6';
     return '#6b7280';
   };
 
-   const getIconName = (title: string) => {
+  const getIconName = (title: string) => {
     const lowerTitle = title.toLowerCase();
     if (lowerTitle.includes('order')) return 'receipt';
     if (lowerTitle.includes('system')) return 'information-circle';
     return 'notifications';
   };
   return (
-     <View
+    <View
       className={`mb-3 p-4 rounded-xl border ${item.is_read ? 'bg-white border-gray-200' : 'bg-primary-50 border-primary-200'
         }`}
     >

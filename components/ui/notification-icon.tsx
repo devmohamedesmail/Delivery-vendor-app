@@ -7,18 +7,47 @@ import useFetch from '@/hooks/useFetch'
 import { io, Socket } from "socket.io-client"
 import * as Notifications from 'expo-notifications'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
+import useVehicle from '@/hooks/delivery/useVehicle'
+import { useAuth } from '@/hooks/useAuth'
+import { config } from '@/constants/config'
 
 
 export default function NotificationIcon() {
     const router = useRouter()
     const { store } = useStore()
+    const { auth } = useAuth();
+    const { vehicle } = useVehicle();
     const [isConnected, setIsConnected] = useState(false);
     const [socket, setSocket] = useState<Socket | null>(null);
-    const { t } = useTranslation();
 
-    const { data, refetch } = useFetch(
-        store?.id ? `/notifications?target_type=store&target_id=${store.id}` : null
-    );
+    const target_type =
+    auth?.user?.role?.role === "store_owner"
+        ? "store"
+        : auth?.user?.role?.role === "delivery_man"
+        ? "delivery_man"
+        : null;
+
+const target_id = auth?.user?.id;
+
+
+    // console.log("target_type",target_type)
+    // console.log("target_id",target_id)
+   
+
+    // const { data, refetch } = useFetch(
+    //     store?.id ? `/notifications?target_type=store&target_id=${store.id}` : null
+    // );
+
+
+
+    const { data, isLoading, error, refetch } = useQuery({
+        queryKey: ["notifications"],
+        queryFn: () => axios.get(`${config.URL}/notifications?target_type=${target_type}&target_id=${target_id}`).then(res => res.data),
+    })
+
+
     const notificationCount = data?.data?.length || 0;
 
 

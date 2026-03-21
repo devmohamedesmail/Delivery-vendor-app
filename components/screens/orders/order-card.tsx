@@ -1,3 +1,4 @@
+import Select from '@/components/ui/select';
 import colors from '@/constants/colors';
 import { config } from '@/constants/config';
 import OrderController, { Order, OrderStatus } from '@/controllers/orders/controller';
@@ -10,7 +11,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
-import Select from '@/components/ui/select';
 
 const statusConfig = {
     pending: {

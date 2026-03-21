@@ -1,8 +1,7 @@
-import Button from "@/components/ui/button";
 import Layout from "@/components/ui/layout";
 import Splash from "@/components/ui/splash";
 import { useAuth } from "@/hooks/useAuth";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function Home() {
@@ -33,34 +32,31 @@ export default function Home() {
       return;
     }
 
-    if (auth?.user?.role?.role === "store_owner" || auth?.user?.role?.role === "admin") {
-      router.replace("/(store)");
-      return;
-    }
-    if (auth?.user?.role?.role === "delivery_man" || auth?.user?.role?.role === "delivery_man") {
-      router.replace("/(delivery)");
-      return;
-    }
-    if (auth?.user?.role?.role === "user" || auth?.user?.role?.role === "user") {
-      router.replace("/account");
-      return;
+
+    const role = auth?.user?.role?.role;
+
+    switch (role) {
+      case "store_owner":
+        router.replace("/(store)");
+        return;
+      case "admin":
+        router.replace("/(admin)");
+        return;
+      case "delivery_man":
+        router.replace("/(delivery)");
+        return;
+      case "user":
+        router.replace("/account");
+        return;
+      default:
+        router.replace("/auth/login");
+        return;
     }
 
-    router.replace("/auth/no-authorized");
   }, [auth, isLoading, minTimePassed]);
-
   return (
     <Layout>
-      {/* <Splash /> */}
-      
-    
-      <Button
-        variant="primary"
-        size='lg'
-        title="account"
-        onPress={() => router.push('/account')}
-      />
-      <Link href="/account">account fgfsgfdg</Link>
+      <Splash />
     </Layout>
   );
 }
